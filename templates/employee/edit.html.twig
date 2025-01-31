@@ -1,0 +1,58 @@
+{% extends 'main.html.twig' %}
+
+{% block title %}Dodaj / edytuj pracownika
+{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-12"></div<>
+	</div>
+	<div class="col-12">
+		<nav class="navbar navbar-light ">
+			<div class="container-fluid">
+				<div class="me-auto">
+					<span>Edycja danych pracownika</span>
+				</div>
+
+				<span class="navbar-brand mb-0 h1">
+					<img src="{{ asset('images/logo2.png')}}" width="175px" height="75px">
+				</span>
+				<div
+					class="ms-auto">
+					<!-- Tu możesz dodać dowolną treść po prawej stronie -->
+					<span>
+						<form action="{{ path('app_employee_delete', {'id': employee.id}) }}" method="POST">
+							<input type="hidden" name="_method" value="DELETE">
+							<button type="submit" class="btn btn-danger">Usuń pracownika</button>
+						</form>
+					</span>
+				</div>
+			</div>
+		</nav>
+
+	</div>
+
+	{{ form_start(form) }}
+	<div class="mb-3">
+		<label>Imię</label>
+		{{ form_widget(form.first_name, { 'attr': {'class': 'form-control'} }) }}
+		{{ form_errors(form.first_name) }}
+	</div>
+	<div class="mb-3">
+		<label>Nazwisko</label>
+		{{ form_widget(form.last_name, { 'attr': {'class': 'form-control'} }) }}
+		{{ form_errors(form.last_name) }}
+	</div>
+	<div class="mb-3">
+		<label>Data urodzin</label>
+		{{ form_widget(form.birthday_date, { 'attr': {'class': 'form-control', 'type': 'date'} }) }}
+		{{ form_errors(form.birthday_date) }}
+	</div>
+	<div class="mb-3">
+		<label>PESEL</label>
+		{{ form_widget(form.pesel, { 'attr': {'class': 'form-control'} }) }}
+		{{ form_errors(form.pesel) }}
+	</div>
+	<button type="submit" class="btn btn-primary">Submit</button>
+	{{ form_end(form) }}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'main.html.twig' %}
+
+{% block title %}Dodaj / edytuj pracownika{% endblock %}
+
+
+{% block content %}
+   <a class="btn btn-primary" href="{{ path('app_employee_new') }}" role="button">Dodaj pracownika</a>
+
+    {{ include('employee/_form.html.twig') }}
+
+    <a href="">back to list</a>
+{% endblock %}
