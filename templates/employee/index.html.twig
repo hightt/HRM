@@ -14,9 +14,9 @@
 	<table id="main-table" class="table text-left">
 		<thead>
 			<tr>
-				<th>Imię</th>
-				<th>Nazwisko</th>
+				<th>Imię i nazwisko</th>
 				<th>Stanowisko</th>
+				<th>Dział</th>
 				<th></th>
 			</tr>
 		</thead>
@@ -29,9 +29,9 @@ $(document).ready(function () {
         serverSide: true,
         ajax: '{{ path("app_employee_list") }}',
         columns: [
-            { data: 'firstName' },
-            { data: 'lastName' },
+            { data: 'name' },
             { data: 'position' },
+            { data: 'department' },
             {
                 data: 'editUrl',
                 render: function (data, type, row) {

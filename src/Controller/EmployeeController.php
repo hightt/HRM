@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 namespace App\Controller;
 
@@ -65,8 +66,8 @@ final class EmployeeController extends AbstractController
         }
 
         return $this->render('employee/edit.html.twig', [
-            'employee' => $employee,
-            'form' => $form,
+            'employee'  => $employee,
+            'form'      => $form,
         ]);
     }
 
@@ -76,6 +77,7 @@ final class EmployeeController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $employee->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($employee);
             $entityManager->flush();
+            $this->addFlash('success', 'Pomyślnie usunięto pracownika');
         }
 
         return $this->redirectToRoute('app_employee_index', [], Response::HTTP_SEE_OTHER);
@@ -91,42 +93,36 @@ final class EmployeeController extends AbstractController
         $length = $request->query->getInt('length', 10);
         $search = $request->query->all('search'); 
         $searchValue = isset($search['value']) ? $search['value'] : ''; 
-
         $queryBuilder = $employeeRepository->createQueryBuilder('e');
 
-        // Total records
         $totalRecords = $queryBuilder
             ->select('COUNT(e.id)')
             ->getQuery()
             ->getSingleScalarResult();
 
-        // Apply search filter
         if (!empty($search)) {
             $queryBuilder
-                ->where('e.firstName LIKE :search OR e.lastName LIKE :search')
+                ->where('e.firstName LIKE :search OR e.lastName LIKE :search OR e.position LIKE :search')
                 ->setParameter('search', '%' . $searchValue . '%');
         }
-
-        // Filtered records count
         $recordsFiltered = $queryBuilder
             ->select('COUNT(e.id)')
             ->getQuery()
             ->getSingleScalarResult();
 
-        // Paginated data
         $employees = $queryBuilder
             ->select('e')
-            ->setFirstResult($start) // Set offset
-            ->setMaxResults($length) // Set limit
+            ->setFirstResult($start) 
+            ->setMaxResults($length) 
             ->getQuery()
             ->getResult();
 
         $data = array_map(function ($employee) {
             return [
                 'id'            => $employee->getId(),
-                'firstName'     => $employee->getFirstName(),
-                'lastName'      => $employee->getLastName(),
+                'name'     =>   sprintf('%s %s', $employee->getFirstName(), $employee->getLastName()),
                 'position'      => $employee->getPosition(),
+                'department'    => $employee->getDepartment()?->getName(),
                 'editUrl'       => $this->generateUrl('app_employee_edit', ['id' => $employee->getId()])
             ];
         }, $employees);
