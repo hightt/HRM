@@ -1,0 +1,23 @@
+.message-box
+{
+    position: absolute;
+    top: 10px;
+    left: 75%;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 1s ease, visibility 1s ease; 
+    animation: fadeOut 4s forwards; 
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1; 
+    }
+    90% {
+        opacity: 1; 
+    }
+    100% {
+        opacity: 0; 
+        visibility: hidden;
+    }
+}
