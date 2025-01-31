@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 namespace App\DataFixtures;
 
@@ -26,7 +27,7 @@ class EmployeeFixtures extends Fixture
                 ->setFirstName($generator->firstName())
                 ->setLastName($generator->lastName())
                 ->setBirthdayDate($generator->dateTimeBetween('-60 years', '-18 years'))
-                ->setPesel(rand(10000000000, 99999999999))
+                ->setPesel((string)rand(10000000000, 99999999999))
                 ->setEmploymentDate($generator->dateTimeBetween('-10 years'))
                 ->setPosition($faker->position())
                 ->setEmail($generator->email())
