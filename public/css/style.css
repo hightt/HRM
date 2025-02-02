@@ -1,3 +1,6 @@
+body {
+    font-family: "Noto Sans", serif;
+}
 .message-box
 {
     position: absolute;
@@ -7,6 +10,25 @@
     visibility: visible;
     transition: opacity 1s ease, visibility 1s ease; 
     animation: fadeOut 4s forwards; 
+}
+
+
+.dashboard-statistics-box {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Upewnia się, że box ma pełną wysokość */
+    border: 1px solid #ededed;
+    border-radius: 7px;
+    min-height: 200px;
+}
+
+.dashboard-box-footer {
+    margin-top: auto; /* Wypycha stopkę na dół */
+    background-color: #353b47;
+    color: white;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    font-size: 15px;
 }
 
 @keyframes fadeOut {
