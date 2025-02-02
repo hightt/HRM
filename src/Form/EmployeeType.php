@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace App\Form;
 
@@ -11,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Repository\DepartmentRepository;
 use App\Entity\Department;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class EmployeeType extends AbstractType
 {
@@ -19,8 +21,11 @@ class EmployeeType extends AbstractType
         $builder
             ->add('firstName')
             ->add('lastName')
-            ->add('birthdayDate', null, [
+            ->add('birthdayDate', DateType::class, [
                 'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd',
+                'input' => 'datetime', 
+                'html5' => false,
             ])
             ->add('pesel')
             ->add('position')
@@ -47,6 +52,12 @@ class EmployeeType extends AbstractType
                         ->distinct();
                 },
                 'choice_label' => 'name',
+            ])
+            ->add('employmentDate', DateType::class, [
+                'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd',
+                'input' => 'datetime',
+                'html5' => false,
             ])
         ;
     }

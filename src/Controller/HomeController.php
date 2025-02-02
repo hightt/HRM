@@ -18,7 +18,7 @@ class HomeController extends AbstractController
         EntityManagerInterface $entityManagerInterface,
     ): Response
 {   
-       return $this->render('main.html.twig', [
+       return $this->render('dashboard.html.twig', [
        ]);
     }
 }

@@ -35,6 +35,7 @@ final class EmployeeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($employee);
             $entityManager->flush();
+            $this->addFlash('success', sprintf('Pomyślnie dodano pracownika: %s %s', $employee->getFirstName(), $employee->getLastName()));
 
             return $this->redirectToRoute('app_employee_index', [], Response::HTTP_SEE_OTHER);
         }
