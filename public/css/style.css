@@ -31,6 +31,13 @@ body {
     font-size: 15px;
 }
 
+.dashboard-employee {
+    padding: 10px;
+    border-radius: 7px;
+    margin: 5px 10px;
+    border: 1px solid #ededed;
+}
+
 @keyframes fadeOut {
     0% {
         opacity: 1; 
