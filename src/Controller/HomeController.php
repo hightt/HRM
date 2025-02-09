@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Repository\DepartmentRepository;
 use App\Repository\EmployeeRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -15,11 +14,26 @@ class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_homecontroller')]
     public function index(
-        Request $request,
-        EntityManagerInterface $entityManagerInterface,
         EmployeeRepository $employeeRepository,
+        DepartmentRepository $departmentRepository,
     ): Response {
+        $numOfEmployees = count($employeeRepository->findBy(['status' => 1]));
+        $labels = [];
+        $employeeNumbers = [];
 
-        return $this->render('dashboard.html.twig', []);
+        foreach ($departmentRepository->findAll() as $department) {
+            $activeEmployees = array_filter($department->getEmployees()->toArray(), function ($employee) {
+                return true === $employee->isStatus();
+            });
+
+            $labels[] = $department->getName();
+            $employeeNumbers[] = count($activeEmployees);
+        }
+
+        return $this->render('dashboard.html.twig', [
+            'numOfEmployees'        => $numOfEmployees,
+            'departmentChartData'   => ['labels' => $labels, 'employeeNumbers' => $employeeNumbers],
+            'lastJoinedEmployees'   => $employeeRepository->getRecentlyJoinedEmployees(30),
+        ]);
     }
 }

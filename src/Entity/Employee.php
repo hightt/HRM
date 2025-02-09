@@ -52,8 +52,8 @@ class Employee
     #[ORM\Column(length: 1)]
     private ?string $gender = null;
 
-    #[ORM\ManyToOne(inversedBy: 'employees')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: Department::class, inversedBy: 'employees')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Department $department = null;
 
     public function getId(): ?int
