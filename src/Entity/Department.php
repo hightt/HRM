@@ -56,6 +56,15 @@ class Department
         return $this->manager;
     }
 
+    public function getManagerName(): ?string
+    {
+        if(is_null($this->manager)) {
+            return null;
+        }
+
+        return sprintf('%s %s', $this->manager->getFirstName(), $this->manager->getLastName());
+    }
+
     public function setManager(Employee $manager): static
     {
         $this->manager = $manager;
