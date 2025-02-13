@@ -14,8 +14,8 @@ class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_homecontroller')]
     public function index(
-        EmployeeRepository $employeeRepository,
-        DepartmentRepository $departmentRepository,
+        EmployeeRepository      $employeeRepository,
+        DepartmentRepository    $departmentRepository,
     ): Response {
         $numOfEmployees = count($employeeRepository->findBy(['status' => 1]));
         $labels = [];

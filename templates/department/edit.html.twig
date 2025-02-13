@@ -1,0 +1,53 @@
+{% extends 'index.html.twig' %}
+
+{% block title %}Edytuj dział{% endblock %}
+
+
+{% block content %}
+	<div class="row">
+		<div class="col-12">
+			<nav class="navbar navbar-light ">
+				<div class="container-fluid">
+					<div class="me-auto">
+						<span>Edytuj dział</span>
+					</div>
+					<span class="navbar-brand mb-0 h1">
+						<img src="{{ asset('images/logo2.png')}}" width="175px" height="75px">
+					</span>
+					<div class="ms-auto"></div>
+				</div>
+			</nav>
+		</div>
+	</div>
+	{{ form_start(form) }}
+
+	<div class="row">
+		<div class="col-6">
+			<div class="mb-3">
+				<label>Nazwa działu</label>
+				{{ form_widget(form.name, { 'attr': {'class': 'form-control'} }) }}
+				{{ form_errors(form.name) }}
+			</div>
+			<div class="mb-3">
+				<label>Manager / Kierownik</label>
+				{{ form_widget(form.manager, { 'attr': {'class': 'form-control'} }) }}
+				{{ form_errors(form.manager) }}
+
+			</div>
+		</div>
+		<div class="col-6">
+			<div class="mb-3">
+				<label>Lokalizacja</label>
+				{{ form_widget(form.location, { 'attr': {'class': 'form-control'} }) }}
+				{{ form_errors(form.location) }}
+			</div>
+			<div class="mb-3"></div>
+		</div>
+
+
+		<div class="text-center">
+			<button type="submit" class="btn btn-success">Edytuj dane</button>
+		</div>
+		{{ form_end(form) }}
+
+	{% endblock %}
