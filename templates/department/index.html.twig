@@ -14,7 +14,6 @@
                 </div>
 
                 <span class="navbar-brand mb-0 h1">
-                    <img src="{{ asset('images/logo2.png')}}" width="175px" height="75px">
                 </span>
                 <div class="ms-auto">
                     <a href="{{ path('app_department_new')}} " type="button" class="btn purple-strong">Dodaj dział</a>
@@ -70,12 +69,27 @@
                     next: 'Następna',
                     previous: 'Poprzednia'
                 },
-                search: 'Wyszukaj',
+                search: '',
                 lengthMenu: 'Pokaż _MENU_ wpisów na stronę',
                 info: 'Pokazuje _START_ do _END_ z _TOTAL_ wpisów',
                 infoEmpty: 'Brak wpisów do wyświetlenia',
                 infoFiltered: '(filtrowanie z _MAX_ wpisów)',
                 zeroRecords: 'Brak wyników'
+            },
+            initComplete: function() {
+                $('.dataTables_filter').css({
+                    "text-align": "right",
+                    "float": "right",
+                    "margin-right": "25px",
+                    "padding": "0px 5px",
+                    "border": "0px",
+                    "border-bottom": "2px solid #7E60BF",
+                    "border-radius": "0px",
+                 });
+                $('.form-control').css({
+                    "border": "0px",
+                });
+                $('.dataTables_filter input').attr('placeholder', 'Wyszukaj...');
             }
         });
     });
