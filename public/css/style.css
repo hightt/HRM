@@ -2,6 +2,11 @@ body {
     font-family: "Noto Sans", serif;
     overflow-x: hidden;
 }
+a
+{
+    text-decoration: none;
+    color: black;
+}
 .message-box
 {
     position: absolute;
@@ -75,6 +80,13 @@ body {
 .pagination
 {
     color: black;
+}
+
+.login-box
+{
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 30px;
 }
 @keyframes fadeOut {
     0% {

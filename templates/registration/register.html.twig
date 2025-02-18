@@ -1,23 +1,50 @@
 {% extends 'index.html.twig' %}
 
-{% block title %}Register!{% endblock %}
+{% block title %}Log in!
+{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
+	<style>
+		body {
+			background-color: #f7f7f7;
+		}
+	</style>
+	<form method="post">
+		<div class="row justify-content-center">
+			<div class="col-lg-6 mt-lg-4 col-md-12 login-box">
+				<h3 class="text-center" style="color: #393939;">Rejestracja</h3>
 
-    <h1>Register</h1>
+				{{ form_errors(registrationForm) }}
 
-    {{ form_errors(registrationForm) }}
-
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+				{{ form_start(registrationForm) }}
+				<div class="mb-3">
+					<label>E-mail</label>
+					{{ form_widget(registrationForm.email, { 'attr': {'class': 'form-control'} }) }}
+					{{ form_errors(registrationForm.email) }}
+				</div>
+				<div class="mb-3">
+					<label>Hasło</label>
+					{{ form_widget(registrationForm.plainPassword, { 'attr': {'class': 'form-control'} }) }}
+					{{ form_errors(registrationForm.plainPassword) }}
+				</div>
+                <div class="mb-3">
+					<label>Imię i nazwisko</label>
+					{{ form_widget(registrationForm.name, { 'attr': {'class': 'form-control'} }) }}
+					{{ form_errors(registrationForm.name) }}
+				</div>
+				<div class="mb-3">
+					<label>Akceptuję warunki korzystania</label>
+					{{ form_widget(registrationForm.agreeTerms, { 'attr': {'class': 'form-check-input ms-1'} }) }}
+					{{ form_errors(registrationForm.agreeTerms) }}
+				</div>
+				<div class="text-center">
+					<button class="btn" type="submit" style="background-color: #7E60BF; color: white;">
+						Zarejestruj się
+					</button>
+                     <p class="mt-2">Posiadasz już konto? <a href="{{path('app_login')}}">Zaloguj się</a></p>
+				</div>
+				{{ form_end(registrationForm) }}
+			</div>
+		</div>
+	</form>
 {% endblock %}
