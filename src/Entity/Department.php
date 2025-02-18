@@ -19,7 +19,7 @@ class Department
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(name: "manager_id", referencedColumnName: "id", nullable: true, onDelete: "SET NULL")]
     #[ORM\JoinColumn(nullable: true)]
     private ?Employee $manager = null;
 
