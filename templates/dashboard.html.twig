@@ -11,16 +11,8 @@
 				<div class="col-12">
 					<nav class="navbar navbar-light ">
 						<div class="container-fluid">
-							<div class="me-auto">
-								{% if app.user %}
-									<form action="{{ path('app_logout') }}" method="post">
-										<button type="submit" class="btn btn-primary">Wyloguj</button>
-									</form>
-									Witaj, {{app.user.email}}
-								{% else %}
-									<a href="{{path('app_login')}}" class="btn btn-primary">Zaloguj się</a>
-								{% endif %}
-
+							<div class="me-auto" style="font-size: 20px;">
+									Witaj, <span class="text-bold">{{app.user.name}} 👋</span>
 							</div>
 							<span class="navbar-brand mb-0 h1"></span>
 							<div class="ms-auto">

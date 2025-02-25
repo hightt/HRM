@@ -13,53 +13,84 @@ use App\Repository\DepartmentRepository;
 use App\Entity\Department;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class EmployeeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstName')
-            ->add('lastName')
-            ->add('birthdayDate', DateType::class, [
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd',
-                'input' => 'datetime', 
-                'html5' => false,
+            ->add('firstName', TextType::class, [
+                'label' => 'Imię',
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Wpisz imię']
             ])
-            ->add('pesel')
-            ->add('position')
-            ->add('phoneNumber')
-            ->add('address')
-            ->add('salary')
-            ->add('status')
+            ->add('lastName', TextType::class, [
+                'label' => 'Nazwisko',
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Wpisz nazwisko']
+            ])
+            ->add('birthdayDate', DateType::class, [
+                'label' => 'Data urodzenia',
+                'widget' => 'single_text',
+                'html5' => true,
+                'attr' => ['class' => 'form-control']
+            ])
+            ->add('pesel', TextType::class, [
+                'label' => 'PESEL',
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Wpisz numer PESEL']
+            ])
+            ->add('position', TextType::class, [
+                'label' => 'Stanowisko',
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Podaj stanowisko']
+            ])
+            ->add('phoneNumber', TextType::class, [
+                'label' => 'Numer telefonu',
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Podaj numer telefonu']
+            ])
+            ->add('address', TextType::class, [
+                'label' => 'Adres',
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Podaj adres']
+            ])
+            ->add('salary', NumberType::class, [
+                'label' => 'Wynagrodzenie',
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Podaj pensję']
+            ])
             ->add('gender', ChoiceType::class, [
+                'label' => 'Płeć',
                 'choices' => [
                     'Kobieta' => 'K',
                     'Mężczyzna' => 'M',
                 ],
+                'placeholder' => 'Wybierz płeć',
+                'attr' => ['class' => 'form-control']
             ])
             ->add('status', ChoiceType::class, [
+                'label' => 'Czy aktywny?',
                 'choices' => [
                     'Tak' => '1',
                     'Nie' => '0',
                 ],
+                'placeholder' => 'Wybierz status',
+                'attr' => ['class' => 'form-control']
             ])
             ->add('department', EntityType::class, [
+                'label' => 'Dział',
                 'class' => Department::class,
                 'query_builder' => function (DepartmentRepository $departmentRepository) {
                     return $departmentRepository->createQueryBuilder('d')
-                        ->distinct();
+                        ->distinct()
+                        ->orderBy('d.name', 'ASC');
                 },
                 'choice_label' => 'name',
+                'placeholder' => 'Wybierz dział',
+                'attr' => ['class' => 'form-control']
             ])
             ->add('employmentDate', DateType::class, [
+                'label' => 'Data zatrudnienia',
                 'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd',
-                'input' => 'datetime',
-                'html5' => false,
-            ])
-        ;
+                'html5' => true,
+                'attr' => ['class' => 'form-control']
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

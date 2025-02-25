@@ -31,68 +31,73 @@
 
 	<div class="row">
 		<div class="col-6">
-			<div class="mb-3">
+			<div class="mb-3 ms-3 me-3">
 				<label>Imię</label>
 				{{ form_widget(form.firstName, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.firstName) }}
 			</div>
-			<div class="mb-3">
+			<div class="mb-3 ms-3 me-3">
 				<label>Nazwisko</label>
 				{{ form_widget(form.lastName, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.lastName) }}
 			</div>
-			<div class="mb-3">
+			<div class="mb-3 ms-3 me-3">
 				<label>Data urodzin</label>
 				{{ form_widget(form.birthdayDate, { 'attr': {'class': 'form-control', 'type': 'date'} }) }}
 				{{ form_errors(form.birthdayDate) }}
 			</div>
-			<div class="mb-3">
+			<div class="mb-3 ms-3 me-3">
 				<label>PESEL</label>
 				{{ form_widget(form.pesel, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.pesel) }}
 			</div>
-			<div class="mb-3">
+			<div class="mb-3 ms-3 me-3">
 				<label>Numer telefonu</label>
 				{{ form_widget(form.phoneNumber, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.phoneNumber) }}
 			</div>
-			<div class="mb-3">
+			<div class="mb-3 ms-3 me-3">
 				<label>Adres</label>
 				{{ form_widget(form.address, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.address) }}
 			</div>
-			<div class="mb-3">
+			<div class="mb-3 ms-3 me-3">
 				<label>Płeć</label>
 				{{ form_widget(form.gender, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.gender) }}
 			</div>
 		</div>
 		<div class="col-6">
-			<div class="mb-3">
+			<div class="mb-3 ms-3 me-3">
 				<label>Stanowisko</label>
 				{{ form_widget(form.position, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.position) }}
 			</div>
-			<div class="mb-3">
+			<div class="mb-3 ms-3 me-3">
 				<label>Dział</label>
 				{{ form_widget(form.department, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.department) }}
 			</div>
-			<div class="mb-3">
+			<div class="mb-3 ms-3 me-3">
 				<label>Wynagrodzenie zł brutto</label>
 				{{ form_widget(form.salary, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.salary) }}
 			</div>
-			<div class="mb-3">
+			<div class="mb-3 ms-3 me-3">
 				<label>Aktywny</label>
 				{{ form_widget(form.status, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.status) }}
+			</div>
+			<div class="mb-3 ms-3 me-3">
+				<label>Data zatrudnienia</label>
+				{{ form_widget(form.employmentDate, { 'attr': {'class': 'form-control'} }) }}
+				{{ form_errors(form.employmentDate) }}
 			</div>
 		</div>
 	</div>
 
 	<div class="text-center">
-		<button type="submit" class="btn btn-primary">Zapisz dane pracownika</button>
+		<button type="submit" class="btn btn-success">Zapisz dane pracownika</button>
 	</div>
 	{{ form_end(form) }}
 {% endblock %}
