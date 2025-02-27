@@ -1,38 +1,138 @@
 {% extends 'index.html.twig' %}
 
-{% block title %}Dodaj / edytuj pracownika{% endblock %}
+{% block title %}Dodaj / edytuj pracownika
+{% endblock %}
 
 {% block content %}
-    <h1>Employee</h1>
+	<style>
+		body {
+			background-color: #f6f6f6;
+		}
+	</style>
+	<div class="container">
+		<div class="row mt-5">
+			<div class="col-4">
+				<div class="p-3" style="background-color: #fff; border-radius: 8px;">
+					<div class="text-center">
+						<img src="{{asset('images/employee.png')}}" width="150px" height="150px" style="border-radius: 50%">
+					</div>
+					<div class="mt-2 text-center" style="font-weight: bold;">{{employee.getFullName}}</div>
+					<div class="mt-2 text-center">{{employee.position}}</div>
+				</div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ employee.id }}</td>
-            </tr>
-            <tr>
-                <th>First_name</th>
-                <td>{{ employee.firstName }}</td>
-            </tr>
-            <tr>
-                <th>Last_name</th>
-                <td>{{ employee.lastName }}</td>
-            </tr>
-            <tr>
-                <th>Birthday_date</th>
-                <td>{{ employee.birthdayDate ? employee.birthdayDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Pesel</th>
-                <td>{{ employee.pesel }}</td>
-            </tr>
-        </tbody>
-    </table>
+				<div class="p-3 mt-2" style="background-color: #fff; border-radius: 8px;">
+					<div style="font-weight: bold;">
+						Oddział
+					</div>
+					<div class="mt-2">{{employee.department.name}}</div>
+				</div>
 
-    <a href="{{ path('app_employee_index') }}">back to list</a>
-
-    <a href="{{ path('app_employee_edit', {'id': employee.id}) }}">edit</a>
-
-    {{ include('employee/_delete_form.html.twig') }}
+				<div class="p-3 mt-2" style="background-color: #fff; border-radius: 8px;">
+					<div style="font-weight: bold;">
+						Przełożony
+					</div>
+					<div class="mt-2">
+						<img src="{{asset('images/employee_2.png')}}" width="25px" height="25px" style="border-radius: 50%">
+						<a class="ms-" href="{{ path('app_employee_show', { id: employee.department.manager.id }) }}">
+							{{employee.department.manager.getFullName}}
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-8">
+				<div class="p-3" style="background-color: #fff; border-radius: 8px;">
+					<div class="text-end">
+						<a href="{{ path('app_employee_edit', {'id': employee.id}) }}" class="m-0 p-0" alt="Edytuj dane pracownika">
+							<i class="fa-regular fa-pen-to-square" style="font-size: 40px; color: #7E60BF;"></i>
+						</a>
+					</div>
+					<div>
+						<div class="mb-3">
+							<span style="font-weight: bold;">Imię</span>
+							<div class="mt-1">{{employee.firstName}}</div>
+						</div>
+						<hr>
+						<div class="mb-3">
+							<span style="font-weight: bold;">Nazwisko</span>
+							<div class="mt-1">{{employee.lastName}}</div>
+						</div>
+						<hr>
+						<div class="mb-3">
+							<span style="font-weight: bold;">
+								<i class="fa-regular fa-envelope"></i>
+								E-mail</span>
+							<div class="mt-1">{{employee.email}}</div>
+						</div>
+						<hr>
+						<div class="mb-3">
+							<span style="font-weight: bold;">
+								<i class="fa-solid fa-cake-candles"></i>
+								Data urodzenia</span>
+							<div class="mt-1">{{employee.birthdayDate|date('d.m.Y')}}</div>
+						</div>
+						<hr>
+						<div class="mb-3">
+							<span style="font-weight: bold;">
+								<i class="fa-regular fa-id-card"></i>
+								PESEL</span>
+							<div class="mt-1">{{employee.pesel}}</div>
+						</div>
+						<hr>
+						<div class="mb-3">
+							<span style="font-weight: bold;">
+								<i class="fa-regular fa-calendar"></i>
+								Data zatrudnienia</span>
+							<div class="mt-1">{{employee.employmentDate|date('d.m.Y')}}</div>
+						</div>
+						<hr>
+						<div class="mb-3">
+							<span style="font-weight: bold;">
+								<i class="fa-solid fa-venus-mars"></i>
+								Płeć</span>
+							<div class="mt-1">
+								{% if employee.gender == 'K' %}
+									Kobieta
+								{% else %}
+									Mężczyzna
+								{% endif %}
+							</div>
+						</div>
+						<hr>
+						<div class="mb-3">
+							<span style="font-weight: bold;">
+								<i class="fa-solid fa-phone"></i>
+								Numer telefonu</span>
+							<div class="mt-1">563 241 421</div>
+						</div>
+						<hr>
+						<div class="mb-3">
+							<span style="font-weight: bold;">
+								<i class="fa-solid fa-location-dot"></i>
+								Adres</span>
+							<div class="mt-1">{{employee.address}}</div>
+						</div>
+						<hr>
+						<div class="mb-3">
+							<span style="font-weight: bold;">
+								<i class="fa-solid fa-money-bill"></i>
+								Wynagrodzenie</span>
+							<div class="mt-1">{{employee.salary}}
+								zł</div>
+						</div>
+						<hr>
+						<div class="mb-3">
+							<span style="font-weight: bold;">Status</span>
+							<div class="mt-1">
+								{% if employee.status == true %}
+									<span style="color: green">Aktywny</span>
+								{% else %}
+									<span style="color: red">Nieaktywny</span>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}

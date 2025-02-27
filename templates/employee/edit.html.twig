@@ -9,7 +9,11 @@
 			<nav class="navbar navbar-light ">
 				<div class="container-fluid">
 					<div class="me-auto">
-						<span>Edycja danych pracownika</span>
+						<span>
+							<a href="{{ path('app_employee_show', {'id': employee.id}) }}" class="m-0 p-0">
+								<i class="fa-solid fa-address-card" style="font-size: 40px; color: #7E60BF;"></i>
+							</a>
+						</span>
 					</div>
 
 					<span class="navbar-brand mb-0 h1">
@@ -97,7 +101,7 @@
 	</div>
 
 	<div class="text-center">
-		<button type="submit" class="btn btn-success">Zapisz dane pracownika</button>
+		<button type="submit" class="btn purple-strong">Zapisz dane pracownika</button>
 	</div>
 	{{ form_end(form) }}
 {% endblock %}

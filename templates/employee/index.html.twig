@@ -30,6 +30,7 @@
 				<th>Stanowisko</th>
 				<th>Dział</th>
 				<th></th>
+				<th></th>
 			</tr>
 		</thead>
 	</table>
@@ -54,6 +55,12 @@
 						data: 'editUrl',
 						render: function (data, type, row) {
 							return '<a href="' + data + '" class="btn purple-strong">Edytuj</a>';
+						}
+					},
+					{
+						data: 'showUrl',
+						render: function (data, type, row) {
+							return '<a href="' + data + '" class="btn purple-strong">Szczegóły</a>';
 						}
 					}
 	
