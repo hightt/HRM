@@ -14,7 +14,7 @@
 			<div class="col-4">
 				<div class="p-3" style="background-color: #fff; border-radius: 8px;">
 					<div class="text-center">
-						<img src="{{asset('images/employee.png')}}" width="150px" height="150px" style="border-radius: 50%">
+						<img src="{{asset('images/employee_woman.png')}}" width="150px" height="150px" style="border-radius: 50%">
 					</div>
 					<div class="mt-2 text-center" style="font-weight: bold;">{{employee.getFullName}}</div>
 					<div class="mt-2 text-center">{{employee.position}}</div>
@@ -32,7 +32,7 @@
 						Przełożony
 					</div>
 					<div class="mt-2">
-						<img src="{{asset('images/employee_2.png')}}" width="25px" height="25px" style="border-radius: 50%">
+						<img src="{{asset('images/employee_man.png')}}" width="25px" height="25px" style="border-radius: 50%">
 						<a class="ms-" href="{{ path('app_employee_show', { id: employee.department.manager.id }) }}">
 							{{employee.department.manager.getFullName}}
 						</a>
