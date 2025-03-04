@@ -34,7 +34,8 @@ class DepartmentType extends AbstractType
                 },
                 'label' => 'Menedżer',
                 'placeholder' => 'Wybierz menedżera',
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'],
+                'required' => false,
             ])
             ->add('location', TextType::class, [
                 'label' => 'Lokalizacja',
