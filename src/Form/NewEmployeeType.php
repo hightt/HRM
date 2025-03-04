@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Entity\Employee;
+use App\DTO\EmployeeDTO;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,10 +13,11 @@ use App\Repository\DepartmentRepository;
 use App\Entity\Department;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class EmployeeType extends AbstractType
+class NewEmployeeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -64,15 +65,6 @@ class EmployeeType extends AbstractType
                 'placeholder' => 'Wybierz płeć',
                 'attr' => ['class' => 'form-control']
             ])
-            ->add('status', ChoiceType::class, [
-                'label' => 'Czy aktywny?',
-                'choices' => [
-                    'Tak' => '1',
-                    'Nie' => '0',
-                ],
-                'placeholder' => 'Wybierz status',
-                'attr' => ['class' => 'form-control']
-            ])
             ->add('department', EntityType::class, [
                 'label' => 'Dział',
                 'class' => Department::class,
@@ -90,13 +82,18 @@ class EmployeeType extends AbstractType
                 'widget' => 'single_text',
                 'html5' => true,
                 'attr' => ['class' => 'form-control']
-            ]);
+            ])
+            ->add('email', EmailType::class, [
+                'label' => 'E-mail',
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Wymagany do utworzenia konta pracownika']
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Employee::class,
+            'data_class' => EmployeeDTO::class,
         ]);
     }
 }

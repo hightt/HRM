@@ -34,9 +34,6 @@ class Employee
     #[ORM\Column(length: 255)]
     private ?string $position = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $email = null;
-
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $phoneNumber = null;
 
@@ -55,6 +52,10 @@ class Employee
     #[ORM\ManyToOne(targetEntity: Department::class, inversedBy: 'employees')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Department $department = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -133,18 +134,6 @@ class Employee
         return $this;
     }
 
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(?string $email): static
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
     public function getPhoneNumber(): ?string
     {
         return $this->phoneNumber;
@@ -216,4 +205,22 @@ class Employee
 
         return $this;
     }
+
+    public function getFullName(): string
+    {
+        return sprintf('%s %s', $this->firstName, $this->lastName);
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
 }

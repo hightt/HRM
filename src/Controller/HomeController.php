@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -7,6 +6,7 @@ namespace App\Controller;
 use App\Repository\DepartmentRepository;
 use App\Repository\EmployeeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -16,6 +16,7 @@ class HomeController extends AbstractController
     public function index(
         EmployeeRepository      $employeeRepository,
         DepartmentRepository    $departmentRepository,
+        Security                $security,
     ): Response {
         $numOfEmployees = count($employeeRepository->findBy(['status' => 1]));
         $labels = [];
@@ -34,6 +35,7 @@ class HomeController extends AbstractController
             'numOfEmployees'        => $numOfEmployees,
             'departmentChartData'   => ['labels' => $labels, 'employeeNumbers' => $employeeNumbers],
             'lastJoinedEmployees'   => $employeeRepository->getRecentlyJoinedEmployees(30),
+            'employee' => $employeeRepository->findOneBy(['user' => $security->getUser()])
         ]);
     }
 }

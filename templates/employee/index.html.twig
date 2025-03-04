@@ -4,77 +4,97 @@
 {% endblock %}
 
 {% block content %}
-<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
-<div class="row">
-	<div class="col-12">
-		<nav class="navbar navbar-light ">
-			<div class="container-fluid">
-				<div class="me-auto">
-					<span></span>
-				</div>
+	 <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+	 <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+		<div class="row"> <div class="col-12">
+			<nav class="navbar navbar-light ">
+				<div class="container-fluid">
+					<div class="me-auto">
+						<span></span>
+					</div>
 
-				<span class="navbar-brand mb-0 h1">
-					<img src="{{ asset('images/logo2.png')}}" width="175px" height="75px">
-				</span>
-				<div class="ms-auto">
-					<a href="{{ path('app_employee_new')}} " type="button" class="btn purple-strong">Dodaj pracownika</a>
+					<span class="navbar-brand mb-0 h1">
+					</span>
+					<div class="ms-auto">
+						<a href="{{ path('app_employee_new')}} " type="button" class="btn purple-strong">Dodaj pracownika</a>
+					</div>
 				</div>
-			</div>
-		</nav>
+			</nav>
+		</div>
 	</div>
-</div>
 
-<table id="main-table" class="table text-left">
-	<thead>
-		<tr>
-			<th>Imię i nazwisko</th>
-			<th>Stanowisko</th>
-			<th>Dział</th>
-			<th></th>
-		</tr>
-	</thead>
-</table>
+	<table id="main-table" class="table text-left">
+		<thead>
+			<tr>
+				<th>Imię i nazwisko</th>
+				<th>Stanowisko</th>
+				<th>Dział</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+	</table>
 
-<script>
-	$(document).ready(function () {
-		var table = $('#main-table').DataTable({
-			processing: true,
-			serverSide: true,
-			ajax: '{{ path("app_employee_list") }}',
-			columns: [
-				{
-					data: 'name'
-				}, 
-				{
-					data: 'position'
-				}, 
-				{
-					data: 'department'
-				}, 
-				{
-					data: 'editUrl',
-					render: function (data, type, row) {
-						return '<a href="' + data + '" class="btn purple-strong">Edytuj</a>';
+	 <script>
+		$(document).ready(function () {
+			var table = $('#main-table').DataTable({
+				processing: true,
+				serverSide: true,
+				ajax: '{{ path("app_employee_list") }}',
+				columns: [
+					{
+						data: 'name'
+					}, 
+					{
+						data: 'position'
+					}, 
+					{
+						data: 'department'
+					}, 
+					{
+						data: 'editUrl',
+						render: function (data, type, row) {
+							return '<a href="' + data + '" class="btn purple-strong">Edytuj</a>';
+						}
+					},
+					{
+						data: 'showUrl',
+						render: function (data, type, row) {
+							return '<a href="' + data + '" class="btn purple-strong">Szczegóły</a>';
+						}
 					}
-				}
-
-			],
-			lengthChange: false,
-            info: false,
-			language: {
-				paginate: {
-					next: 'Następna',
-					previous: 'Poprzednia'
+	
+				],
+				lengthChange: false,
+	            info: false,
+				language: {
+					paginate: {
+						next: 'Następna',
+						previous: 'Poprzednia'
+					},
+					search: '',
+					lengthMenu: 'Pokaż _MENU_ wpisów na stronę',
+					info: 'Pokazuje _START_ do _END_ z _TOTAL_ wpisów',
+					infoEmpty: 'Brak wpisów do wyświetlenia',
+					infoFiltered: '(filtrowanie z _MAX_ wpisów)',
+					zeroRecords: 'Brak wyników'
 				},
-				search: 'Wyszukaj',
-				lengthMenu: 'Pokaż _MENU_ wpisów na stronę',
-				info: 'Pokazuje _START_ do _END_ z _TOTAL_ wpisów',
-				infoEmpty: 'Brak wpisów do wyświetlenia',
-				infoFiltered: '(filtrowanie z _MAX_ wpisów)',
-				zeroRecords: 'Brak wyników'
-			}
+				initComplete: function() {
+					$('.dataTables_filter').css({
+						"text-align": "right",
+						"float": "right",
+						"margin-right": "25px",
+						"padding": "0px 5px",
+						"border": "0px",
+						"border-bottom": "2px solid #7E60BF",
+						"border-radius": "0px",
+					});
+						$('.form-control').css({
+						"border": "0px",
+					});
+					$('.dataTables_filter input').attr('placeholder', 'Wyszukaj...');
+	        	}
+			});
 		});
-	});
-</script>
+	</script>
 {% endblock %}

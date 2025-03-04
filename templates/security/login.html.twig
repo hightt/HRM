@@ -1,0 +1,46 @@
+{% extends 'index.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+<style>
+    body {
+        background-color: #f7f7f7;
+    }
+</style>
+<form method="post">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 mt-lg-4 col-md-12 login-box">
+            <h3 class="text-center" style="color: #393939;">Zaloguj się</h3>
+            <div class="mb-3">
+                <label for="inputEmail">E-mail</label>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+            </div>
+
+            <div class="mb-3">
+                <label for="inputPassword">Hasło</label>
+                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+            </div>
+
+            <div class="mb-3">
+                <label>
+                    <input type="checkbox" name="_remember_me"> Zapamiętaj mnie
+                </label>
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        
+            <div class="text-center">
+                <button class="btn" type="submit" style="background-color: #7E60BF; color: white;">
+                    Zaloguj się
+                </button>
+                <p class="mt-2">Nie pamiętasz hasła?<a href="{{path('app_login')}}"> Kliknij tutaj</a></p>
+            </div>
+
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+        </div>
+    </div>
+</form>
+{% endblock %}

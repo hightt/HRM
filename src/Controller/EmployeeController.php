@@ -3,22 +3,27 @@ declare(strict_types = 1);
 
 namespace App\Controller;
 
+use App\DTO\EmployeeDTO;
 use App\Entity\Employee;
 use App\Form\EmployeeType;
+use App\Form\NewEmployeeType;
 use App\Repository\EmployeeRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Service\Employee\CreateEmployeeAndUserService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 #[Route('/employee')]
 final class EmployeeController extends AbstractController
 {
     #[Route(name: 'app_employee_index', methods: ['GET'])]
-    public function index(EmployeeRepository $employeeRepository): Response
+    public function index(
+        EmployeeRepository $employeeRepository
+    ): Response
     {
         return $this->render('employee/index.html.twig', [
             'employees' => $employeeRepository->findAll(),
@@ -26,25 +31,28 @@ final class EmployeeController extends AbstractController
     }
 
     #[Route('/new', name: 'app_employee_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(
+        Request $request, 
+        EntityManagerInterface $entityManager,
+        CreateEmployeeAndUserService $createEmployeeAndUserService,
+    ): Response
     {
-        $employee = new Employee();
-        $form = $this->createForm(EmployeeType::class, $employee);
+        $employeeDTO = new EmployeeDTO();
+        $form = $this->createForm(NewEmployeeType::class, $employeeDTO);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($employee);
-            $entityManager->flush();
-            $this->addFlash('success', sprintf('Pomyślnie dodano pracownika: %s %s', $employee->getFirstName(), $employee->getLastName()));
+            $employee = $createEmployeeAndUserService->createEmployeeAndUserAfterFormSend($employeeDTO);
+            $this->addFlash('success', 'Pomyślnie dodano nowego pracownika');
 
             return $this->redirectToRoute('app_employee_index', [], Response::HTTP_SEE_OTHER);
         }
-
+    
         return $this->render('employee/new.html.twig', [
-            'employee' => $employee,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
+    
 
     #[Route('/show/{id}', name: 'app_employee_show', methods: ['GET'])]
     public function show(Employee $employee): Response
@@ -55,7 +63,11 @@ final class EmployeeController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_employee_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Employee $employee, EntityManagerInterface $entityManager): Response
+    public function edit(
+        Request                 $request, 
+        Employee                $employee, 
+        EntityManagerInterface  $entityManager
+    ): Response
     {
         $form = $this->createForm(EmployeeType::class, $employee);
         $form->handleRequest($request);
@@ -73,7 +85,11 @@ final class EmployeeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_employee_delete', methods: ['POST'])]
-    public function delete(Request $request, Employee $employee, EntityManagerInterface $entityManager): Response
+    public function delete(
+        Request                 $request, 
+        Employee                $employee, 
+        EntityManagerInterface  $entityManager
+    ): Response
     {
         if ($this->isCsrfTokenValid('delete' . $employee->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($employee);
@@ -86,8 +102,8 @@ final class EmployeeController extends AbstractController
 
     #[Route('/list', name: 'app_employee_list', methods: ['GET'])]
     public function list(
-        EmployeeRepository $employeeRepository,
-        Request $request,
+        EmployeeRepository  $employeeRepository,
+        Request             $request,
     ) {
         $draw = $request->query->getInt('draw');
         $start = $request->query->getInt('start', 0);
@@ -124,7 +140,8 @@ final class EmployeeController extends AbstractController
                 'name'     =>   sprintf('%s %s', $employee->getFirstName(), $employee->getLastName()),
                 'position'      => $employee->getPosition(),
                 'department'    => $employee->getDepartment()?->getName(),
-                'editUrl'       => $this->generateUrl('app_employee_edit', ['id' => $employee->getId()])
+                'editUrl'       => $this->generateUrl('app_employee_edit', ['id' => $employee->getId()]),
+                'showUrl'       => $this->generateUrl('app_employee_show', ['id' => $employee->getId()])
             ];
         }, $employees);
 
