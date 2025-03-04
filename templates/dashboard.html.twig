@@ -12,7 +12,7 @@
 					<nav class="navbar navbar-light ">
 						<div class="container-fluid">
 							<div class="me-auto" style="font-size: 20px;">
-									Witaj, <span class="text-bold">{{app.user.name}} 👋</span>
+									Witaj, <span class="text-bold">{{employee.getFullName}} 👋</span>
 							</div>
 							<span class="navbar-brand mb-0 h1"></span>
 							<div class="ms-auto">
@@ -29,8 +29,9 @@
 						<div class="text-bold text-left ps-3 pe-3 mt-3">
 							<h2>{{ numOfEmployees }}</h2>
 						</div>
-						<div class="dashboard-box-footer purple-strong align-text-bottom p-3 pt-4">{{ lastJoinedEmployees|length }} nowych pracowników w ciągu
-																				ostatnich 30 dni</div>
+						<div class="dashboard-box-footer purple-strong align-text-bottom p-3 pt-4">
+							{{ lastJoinedEmployees|length }} nowych pracowników w ciągu ostatnich 30 dni
+						</div>
 					</div>
 				</div>
 				<div class="col-lg-4 col-sm-12 d-flex align-items-center justify-content-center ">
@@ -39,8 +40,8 @@
 						<div class="text-bold text-left ps-3 pe-3 mt-3">
 							<h2>1 452</h2>
 						</div>
-						<div class="dashboard-box-footer purple-strong align-text-bottom p-3 pt-4">Duis tincidunt et mi quis
-																				posuere.
+						<div class="dashboard-box-footer purple-strong align-text-bottom p-3 pt-4">
+							Duis tincidunt et mi quisosuere.
 						</div>
 					</div>
 				</div>
@@ -50,8 +51,9 @@
 						<div class="text-bold text-left ps-3 pe-3 mt-3">
 							<h2></h2>
 						</div>
-						<div class="dashboard-box-footer purple-strong align-text-bottom p-3 pt-4">Duis tincidunt et mi quis
-																				posuere.</div>
+						<div class="dashboard-box-footer purple-strong align-text-bottom p-3 pt-4">
+							Duis tincidunt et mi quis posuere.
+						</div>
 					</div>
 				</div>
 			</div>
@@ -69,10 +71,13 @@
 						<i class="fa-regular fa-user" style="font-size: 45px;"></i>
 					</div>
 					<div class="col-xl-8 p-xl-0">
-						<div class="text-end" style="font-size: 15px; color: gray;">{{
-					lastJoinedEmployee.employmentDate|date('d.m.Y') }}</div>
-						<div class="text-center" style="font-weight: bold;">{{ lastJoinedEmployee.firstName }}
-							{{ lastJoinedEmployee.lastName }}</div>
+						<div class="text-end" style="font-size: 15px; color: gray;">
+							{{lastJoinedEmployee.employmentDate|date('d.m.Y') }}
+						</div>
+						<div class="text-center" style="font-weight: bold;">
+							{{ lastJoinedEmployee.firstName }}
+							{{ lastJoinedEmployee.lastName }}
+							</div>
 						<div class="text-center" style="margin-top: -5px;">{{ lastJoinedEmployee.position }}</div>
 					</div>
 				</div>

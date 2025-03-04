@@ -40,7 +40,6 @@ class EmployeeFixtures extends Fixture implements DependentFixtureInterface
                 ->setPesel((string)rand(10000000000, 99999999999))
                 ->setEmploymentDate($generator->dateTimeBetween('-10 years'))
                 ->setPosition($faker->position())
-                ->setEmail($generator->email())
                 ->setPhoneNumber($faker->phoneNumber())
                 ->setAddress($generator->address())
                 ->setSalary($faker->numberBetween(4300, 10000))
