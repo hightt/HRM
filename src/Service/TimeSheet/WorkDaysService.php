@@ -12,17 +12,7 @@ class WorkDaysService
 
     public function __construct()
     {
-        $this->holidays = [
-            '01-01',
-            '01-06', 
-            '05-01', 
-            '05-03',
-            '08-15',
-            '11-01',
-            '11-11',
-            '12-25',
-            '12-26', 
-        ];
+        $this->holidays = ['01-01','01-06', '05-01', '05-03','08-15','11-01','11-11','12-25','12-26'];
     }
 
     public function getDaysOfMonth(int $year, int $month): array
@@ -37,7 +27,7 @@ class WorkDaysService
             $isHoliday = $this->isHoliday($date);
 
             $days[] = [
-                'date' => $date->format('Y-m-d'),
+                'date'      => $date->format('Y-m-d'),
                 'dayOfWeek' => $this->getDayOfWeek($date),
                 'isWeekend' => $isWeekend,
                 'isHoliday' => $isHoliday,
@@ -49,7 +39,7 @@ class WorkDaysService
 
     private function isWeekend(DateTimeImmutable $date): bool
     {
-        return in_array($date->format('N'), [6, 7]); // Sobota (6) i niedziela (7)
+        return in_array($date->format('N'), [6, 7]);
     }
 
     private function isHoliday(DateTimeImmutable $date): bool

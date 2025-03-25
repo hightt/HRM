@@ -10,7 +10,7 @@ use Dompdf\Options;
 use App\Entity\Employee;
 use App\Form\MonthlyWorkLogType;
 use App\Repository\WorkLogRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\Employee\EmployeeDocumentGeneratorService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -24,7 +24,6 @@ final class TimeSheetController extends AbstractController
     public function index(
         Request                  $request,
         Employee                 $employee,
-        EntityManagerInterface   $entityManagerInterface,
         EmployeeTimeSheetService $employeeTimeSheetService,
     ): Response {
         $employeeWorkLogsInCurrentMonth = $employeeTimeSheetService->getEmployeeWorkLogsForCurrentMonth($employee);
@@ -33,7 +32,6 @@ final class TimeSheetController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $employeeTimeSheetService->saveTimeSheet($form->getData()['workLogs']);
-
             $this->addFlash('success', 'Pomyślnie edytowano dane ewidencje czasu pracy');
 
             return $this->redirectToRoute('app_time_sheet_index', ['id' => $employee->getId()], Response::HTTP_SEE_OTHER);
@@ -46,10 +44,12 @@ final class TimeSheetController extends AbstractController
 
     #[Route('/employee/{id}/generate_work_time_raport_for_current_month', name: 'app_time_sheet_employee_generate_work_time_raport_for_current_month', methods: [Request::METHOD_GET])]
     public function generateWorkTimeRaportForCurrentMonth(
-        Employee                 $employee,
-        WorkLogRepository        $workLogRepository,
+        Employee                         $employee,
+        WorkLogRepository                $workLogRepository,
+        EmployeeDocumentGeneratorService $employeeDocumentGeneratorService,
     ): Response {
         $employeeWorkLogsInCurrentMonth = $workLogRepository->findEmployeeWorkLogsByCurrentMonth($employee);
+        $documentName = $employeeDocumentGeneratorService->createDocumentName($employee, 'monthly_work_time_report');
         $options = (new Options())
             ->set('defaultFont', 'DejaVu Sans')
             ->set('isHtml5ParserEnabled', true)
@@ -68,8 +68,8 @@ final class TimeSheetController extends AbstractController
         $dompdf->render();
 
         return new Response($dompdf->output(), 200, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="raport.pdf"',
+            'Content-Type'        => 'application/pdf',
+            'Content-Disposition' => sprintf('inline; filename="%s.pdf"', $documentName),
         ]);
         
     }

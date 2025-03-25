@@ -12,11 +12,13 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class HomeController extends AbstractController
 {
+    static int $maxRecentJoinDays = 30;
+
     #[Route('/', name: 'app_homecontroller')]
     public function index(
-        EmployeeRepository      $employeeRepository,
-        DepartmentRepository    $departmentRepository,
-        Security                $security,
+        EmployeeRepository   $employeeRepository,
+        DepartmentRepository $departmentRepository,
+        Security             $security,
     ): Response {
         $numOfEmployees = count($employeeRepository->findBy(['status' => 1]));
         $labels = [];
@@ -32,10 +34,10 @@ class HomeController extends AbstractController
         }
 
         return $this->render('dashboard.html.twig', [
-            'numOfEmployees'        => $numOfEmployees,
-            'departmentChartData'   => ['labels' => $labels, 'employeeNumbers' => $employeeNumbers],
-            'lastJoinedEmployees'   => $employeeRepository->getRecentlyJoinedEmployees(30),
-            'employee' => $employeeRepository->findOneBy(['user' => $security->getUser()])
+            'numOfEmployees'      => $numOfEmployees,
+            'departmentChartData' => ['labels' => $labels, 'employeeNumbers' => $employeeNumbers],
+            'lastJoinedEmployees' => $employeeRepository->getRecentlyJoinedEmployees(self::$maxRecentJoinDays),
+            'employee'            => $employeeRepository->findOneBy(['user' => $security->getUser()])
         ]);
     }
 }

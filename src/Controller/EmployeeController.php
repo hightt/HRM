@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\DTO\EmployeeDTO;
-use App\DTO\WorkReportDTO;
 use App\Entity\Employee;
 use App\Form\EmployeeType;
 use App\Form\NewEmployeeType;
 use App\Repository\EmployeeRepository;
-use App\Repository\WorkLogRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +26,7 @@ final class EmployeeController extends AbstractController
     public function index(
         EmployeeRepository $employeeRepository
     ): Response {
+
         return $this->render('employee/index.html.twig', [
             'employees' => $employeeRepository->findAll(),
         ]);
@@ -35,8 +34,7 @@ final class EmployeeController extends AbstractController
 
     #[Route('/new', name: 'app_employee_new', methods: ['GET', 'POST'])]
     public function new(
-        Request $request,
-        EntityManagerInterface $entityManager,
+        Request                      $request,
         CreateEmployeeAndUserService $createEmployeeAndUserService,
     ): Response {
         $employeeDTO = new EmployeeDTO();
@@ -44,7 +42,7 @@ final class EmployeeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $employee = $createEmployeeAndUserService->createEmployeeAndUserAfterFormSend($employeeDTO);
+            $createEmployeeAndUserService->createEmployeeAndUserAfterFormSend($employeeDTO);
             $this->addFlash('success', 'Pomyślnie dodano nowego pracownika');
 
             return $this->redirectToRoute('app_employee_index', [], Response::HTTP_SEE_OTHER);
@@ -59,7 +57,7 @@ final class EmployeeController extends AbstractController
     #[Route('/show/{id}', name: 'app_employee_show', methods: ['GET'])]
     public function show(
         EmployeeTimeSheetService $employeeTimeSheetService,
-        Employee $employee,
+        Employee                 $employee,
     ): Response
     {
         $employeeWorkReportForCurrentMonth = $employeeTimeSheetService->getEmployeeMonthWorkReport($employee);
@@ -72,9 +70,9 @@ final class EmployeeController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_employee_edit', methods: ['GET', 'POST'])]
     public function edit(
-        Request                 $request,
-        Employee                $employee,
-        EntityManagerInterface  $entityManager
+        Request                $request,
+        Employee               $employee,
+        EntityManagerInterface $entityManager,
     ): Response {
         $form = $this->createForm(EmployeeType::class, $employee);
         $form->handleRequest($request);
@@ -96,7 +94,7 @@ final class EmployeeController extends AbstractController
     public function delete(
         Request                 $request,
         Employee                $employee,
-        EntityManagerInterface  $entityManager
+        EntityManagerInterface  $entityManager,
     ): Response {
         if ($this->isCsrfTokenValid('delete' . $employee->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($employee);

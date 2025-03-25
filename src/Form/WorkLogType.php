@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 namespace App\Form;
 
@@ -22,13 +23,13 @@ class WorkLogType extends AbstractType
         $builder
             ->add('date', DateType::class, [
                 'attr' => [
-                    'class'         => 'form-control',
-                    'readonly'      => 'readonly',
-                    'style'         => 'width: 130px;'
+                    'class'    => 'form-control',
+                    'readonly' => 'readonly',
+                    'style'    => 'width: 130px;'
                 ]
             ])
             ->add('hourStart', TimeType::class, [
-                'widget' => 'choice',
+                'widget'  => 'choice',
                 'minutes' => [0, 15, 30, 45],
                 'attr' => [
                     'class' => 'input-select-work-log',
@@ -38,7 +39,7 @@ class WorkLogType extends AbstractType
                 'required' => false,
             ])
             ->add('hourEnd', TimeType::class, [
-                'widget' => 'choice',
+                'widget'  => 'choice',
                 'minutes' => [0, 15, 30, 45],
                 'attr' => [
                     'class' => 'input-select-work-log',
@@ -55,12 +56,12 @@ class WorkLogType extends AbstractType
             ])
             ->add('isDayOff', CheckboxType::class, [
                 'required' => false,
-                'attr' => ['class' => 'form-check-input']
+                'attr'     => ['class' => 'form-check-input']
             ])
             ->add('absenceSymbol', EntityType::class, [
                 'required' => false,
-                'label' => 'Powód nieobecności',
-                'class' => AbsenceSymbol::class,
+                'label'    => 'Powód nieobecności',
+                'class'    => AbsenceSymbol::class,
                 'query_builder' => function (AbsenceSymbolRepository $absenceSymbolRepository) {
                     return $absenceSymbolRepository->createQueryBuilder('a')
                         ->orderBy('a.name', 'ASC');
@@ -74,9 +75,9 @@ class WorkLogType extends AbstractType
             ->add('notes', TextareaType::class, [
                 'required' => false,
                 'attr' => [
-                    'class' => 'form-control',
+                    'class'       => 'form-control',
                     'placeholder' => 'Dodatkowe uwagi...',
-                    'style' => 'width: 200px; height: 40px;'
+                    'style'       => 'width: 200px; height: 40px;'
                 ]
             ]);
     }

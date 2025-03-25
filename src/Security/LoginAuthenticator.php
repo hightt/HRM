@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 namespace App\Security;
 
@@ -23,13 +24,11 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
     public const LOGIN_ROUTE = 'app_login';
 
     public function __construct(private UrlGeneratorInterface $urlGenerator)
-    {
-    }
+    {}
 
     public function authenticate(Request $request): Passport
     {
         $email = $request->getPayload()->getString('email');
-
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
 
         return new Passport(

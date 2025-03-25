@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Service\TimeSheet;
@@ -10,8 +9,8 @@ use DateTimeImmutable;
 use App\Entity\WorkLog;
 use App\Repository\WorkLogRepository;
 use App\Service\TimeSheet\WorkDaysService;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use DateTime;
 
 class EmployeeTimeSheetService
 {

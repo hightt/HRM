@@ -23,7 +23,8 @@ class MonthlyWorkLogType extends AbstractType
             ->add('save', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-success btn-lg w-100'],
                 'label' => 'Zapisz ewidencję'
-            ]);
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

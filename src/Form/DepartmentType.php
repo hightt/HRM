@@ -40,7 +40,8 @@ class DepartmentType extends AbstractType
             ->add('location', TextType::class, [
                 'label' => 'Lokalizacja',
                 'attr' => ['class' => 'form-control', 'placeholder' => 'Podaj lokalizację']
-            ]);
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

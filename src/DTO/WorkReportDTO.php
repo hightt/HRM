@@ -5,20 +5,12 @@ namespace App\DTO;
 
 class WorkReportDTO
 {
-    private float $overtimeHours;
-    private float $workedHours;
-    private int $absentDays;
-
     public function __construct(
-        float   $workedHours, 
-        float   $overtimeHours, 
-        int     $absentDays
+        private float $workedHours, 
+        private float $overtimeHours, 
+        private int   $absentDays
     )
-    {
-        $this->overtimeHours = $overtimeHours;
-        $this->workedHours = $workedHours;
-        $this->absentDays = $absentDays;
-    }
+    {}
 
     public function getOvertimeHours(): float
     {

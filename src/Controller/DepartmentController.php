@@ -42,7 +42,7 @@ final class DepartmentController extends AbstractController
 
         return $this->render('department/new.html.twig', [
             'department' => $department,
-            'form' => $form,
+            'form'       => $form,
         ]);
     }
 
@@ -115,20 +115,20 @@ final class DepartmentController extends AbstractController
 
         $data = array_map(function ($department) {
             return [
-                'id'            =>  $department->getId(),
-                'name'          =>  $department->getName(),
-                'managerName'       =>  $department->getManagerName(),
-                'location'      =>    $department->getLocation(),
-                'editUrl'       => $this->generateUrl('app_department_edit', ['id' => $department->getId()]),
-                'showUrl'      => $this->generateUrl('app_department_show', ['id' => $department->getId()]),
+                'id'          =>  $department->getId(),
+                'name'        =>  $department->getName(),
+                'managerName' =>  $department->getManagerName(),
+                'location'    =>    $department->getLocation(),
+                'editUrl'     => $this->generateUrl('app_department_edit', ['id' => $department->getId()]),
+                'showUrl'     => $this->generateUrl('app_department_show', ['id' => $department->getId()]),
             ];
         }, $departments);
 
         return new JsonResponse([
-            'draw'              => $draw,
-            'recordsTotal'      => $totalRecords,
-            'recordsFiltered'   => $recordsFiltered,
-            'data'              => $data,
+            'draw'            => $draw,
+            'recordsTotal'    => $totalRecords,
+            'recordsFiltered' => $recordsFiltered,
+            'data'            => $data,
         ]);
     }
 }
