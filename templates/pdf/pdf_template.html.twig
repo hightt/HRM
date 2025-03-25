@@ -1,0 +1,90 @@
+{% extends 'root.html.twig' %}
+
+{% block body %}
+<div class="container-fluid">
+    <h1>{{ title }}</h1>
+    <p class="date">Data wygenerowania: {{ date|date('Y-m-d H:i') }}</p>
+    <style>
+        body {
+            font-size: 14px;
+        }
+
+        h1 {
+            color: #4A90E2;
+            text-align: center;
+        }
+
+        .date {
+            font-style: italic;
+            text-align: center;
+        }
+
+        .content {
+            text-align: justify;
+        }
+
+        table {
+            font-size: 12px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 4px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4A90E2;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="width: 100px;">Data</th>
+                <th style="width: 75px;">Rozpoczęcie</th>
+                <th style="width: 75px;">Zakończenie</th>
+                <th style="width: 100px;">Dzień wolny?</th>
+                <th>Kod nieobecności</th>
+                <th>Dodatkowe uwagi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for workLog in workLogs %}
+            <tr>
+                <td>{{ workLog.date|date('Y-m-d') }}</td>
+                <td>{{ workLog.getHourStart|date('H:i') }}</td>
+                <td>{{ workLog.getHourEnd|date('H:i') }}</td>
+                <td>
+                    {% if workLog.isDayOff %}
+                        Tak
+                    {% else %}
+                        Nie
+                    {% endif %}
+                </td>
+                <td>
+                    {% if workLog.absenceSymbol is not null %}
+                        {{ workLog.absenceSymbol.name }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

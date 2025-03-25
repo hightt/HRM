@@ -1,14 +1,15 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Repository;
 
+use DateTime;
 use App\Entity\WorkLog;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Employee;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
-/**
- * @extends ServiceEntityRepository<WorkLog>
- */
 class WorkLogRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -16,28 +17,24 @@ class WorkLogRepository extends ServiceEntityRepository
         parent::__construct($registry, WorkLog::class);
     }
 
-    //    /**
-    //     * @return WorkLog[] Returns an array of WorkLog objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('w')
-    //            ->andWhere('w.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('w.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
 
-    //    public function findOneBySomeField($value): ?WorkLog
-    //    {
-    //        return $this->createQueryBuilder('w')
-    //            ->andWhere('w.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+       public function findEmployeeWorkLogsByCurrentMonth(Employee $employee)
+       {
+            $firstDay = new DateTime('first day of this month');
+            $lastDay = new DateTime('last day of this month');
+
+           return $this->createQueryBuilder('w')
+               ->where('w.date >= :firstDay')
+               ->andWhere('w.date <= :lastDay')
+               ->andWhere('w.employee = :employee')
+               ->setParameter('firstDay', $firstDay)
+               ->setParameter('lastDay', $lastDay)
+               ->setParameter('employee', $employee)
+               ->orderBy('w.date', 'ASC')
+               ->setMaxResults(31)
+               ->getQuery()
+               ->execute()
+           ;
+       }
+
 }

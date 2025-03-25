@@ -1,86 +1,76 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace App\Controller;
 
+use DateTime;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Entity\Employee;
-use App\Entity\WorkLog;
-use App\Form\WorkLogType;
+use App\Form\MonthlyWorkLogType;
 use App\Repository\WorkLogRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Service\TimeSheet\EmployeeTimeSheetService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/time_sheet')]
 final class TimeSheetController extends AbstractController
 {
-    #[Route('/employee/{id}', name: 'app_time_sheet_index', methods: ['GET'])]
+    #[Route('/employee/{id}', name: 'app_time_sheet_index', methods: [Request::METHOD_GET, Request::METHOD_POST])]
     public function index(
-        Employee            $employee,
-        WorkLogRepository   $workLogRepository
-    ): Response
-    {
+        Request                  $request,
+        Employee                 $employee,
+        EntityManagerInterface   $entityManagerInterface,
+        EmployeeTimeSheetService $employeeTimeSheetService,
+    ): Response {
+        $employeeWorkLogsInCurrentMonth = $employeeTimeSheetService->getEmployeeWorkLogsForCurrentMonth($employee);
+
+        $form = $this->createForm(MonthlyWorkLogType::class, ['workLogs' => $employeeWorkLogsInCurrentMonth, 'employee' => $employee]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $employeeTimeSheetService->saveTimeSheet($form->getData()['workLogs']);
+
+            $this->addFlash('success', 'Pomyślnie edytowano dane ewidencje czasu pracy');
+
+            return $this->redirectToRoute('app_time_sheet_index', ['id' => $employee->getId()], Response::HTTP_SEE_OTHER);
+        }
+
         return $this->render('time_sheet/index.html.twig', [
-            'work_logs' => $workLogRepository->findAll(),
+            'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/new', name: 'app_time_sheet_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $workLog = new WorkLog();
-        $form = $this->createForm(WorkLogType::class, $workLog);
-        $form->handleRequest($request);
+    #[Route('/employee/{id}/generate_work_time_raport_for_current_month', name: 'app_time_sheet_employee_generate_work_time_raport_for_current_month', methods: [Request::METHOD_GET])]
+    public function generateWorkTimeRaportForCurrentMonth(
+        Employee                 $employee,
+        WorkLogRepository        $workLogRepository,
+    ): Response {
+        $employeeWorkLogsInCurrentMonth = $workLogRepository->findEmployeeWorkLogsByCurrentMonth($employee);
+        $options = (new Options())
+            ->set('defaultFont', 'DejaVu Sans')
+            ->set('isHtml5ParserEnabled', true)
+        ;
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($workLog);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_time_sheet_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('time_sheet/new.html.twig', [
-            'work_log' => $workLog,
-            'form' => $form,
+        $dompdf = new Dompdf($options);
+        $html = $this->renderView('pdf/pdf_template.html.twig', [
+            'title' => 'Raport Pracowników',
+            'date' => new DateTime(),
+            'workLogs' => $employeeWorkLogsInCurrentMonth,
+            'employee' => $employee,
         ]);
-    }
 
-    #[Route('/{id}', name: 'app_time_sheet_show', methods: ['GET'])]
-    public function show(WorkLog $workLog): Response
-    {
-        return $this->render('time_sheet/show.html.twig', [
-            'work_log' => $workLog,
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        return new Response($dompdf->output(), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="raport.pdf"',
         ]);
-    }
-
-    #[Route('/{id}/edit', name: 'app_time_sheet_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, WorkLog $workLog, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(WorkLogType::class, $workLog);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_time_sheet_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('time_sheet/edit.html.twig', [
-            'work_log' => $workLog,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_time_sheet_delete', methods: ['POST'])]
-    public function delete(Request $request, WorkLog $workLog, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$workLog->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($workLog);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('app_time_sheet_index', [], Response::HTTP_SEE_OTHER);
+        
     }
 }

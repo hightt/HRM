@@ -1,6 +1,6 @@
 {% extends 'index.html.twig' %}
 
-{% block title %}Dodaj / edytuj pracownika
+{% block title %}Szczegóły pracownika
 {% endblock %}
 
 {% block content %}
@@ -32,19 +32,52 @@
 						Przełożony
 					</div>
 					<div class="mt-2">
-						<img src="{{asset('images/employee_man.png')}}" width="25px" height="25px" style="border-radius: 50%">
-						<a class="ms-" href="{{ path('app_employee_show', { id: employee.department.manager.id }) }}">
-							{{employee.department.manager.getFullName}}
+						{% if employee.department and employee.department.manager %}
+							<img src="{{asset('images/employee_man.png')}}" width="25px" height="25px" style="border-radius: 50%">
+							<a class="ms-" href="{{ path('app_employee_show', { id: employee.department.manager.id }) }}">
+								{{employee.department.manager.getFullName}}
+							</a>
+						{% endif %}
+					</div>
+				</div>
+
+				<div class="p-3 mt-2" style="background-color: #fff; border-radius: 8px;">
+					<div style="font-weight: bold;">
+						Ewidencja w tym miesiącu
+					</div>
+					<div class="mb-3 mt-3">
+						<span>Przepracowanych godzin:
+							{{workReport.getWorkedHours}}</span>
+					</div>
+					<hr>
+					<div class="mb-3 mt-3">
+						<span>Nadgodzin:
+							{{workReport.getOvertimeHours}}</span>
+					</div>
+					<hr>
+					<div class="mb-3 mt-3">
+						<span>Dni nieobecności:
+							{{workReport.getAbsentDays}}</span>
+					</div>
+					<div>
+						<a href="{{ path('app_time_sheet_employee_generate_work_time_raport_for_current_month', {'id': employee.id}) }}"alt="Aktualna ewidencja godzin">
+							<i class="fa-solid fa-file-pdf me-2" style="font-size: 25px; color: #d3624f;"></i>
+							Aktualna ewidencja godzin
 						</a>
 					</div>
 				</div>
 			</div>
 			<div class="col-8">
 				<div class="p-3" style="background-color: #fff; border-radius: 8px;">
-					<div class="text-end">
-						<a href="{{ path('app_employee_edit', {'id': employee.id}) }}" class="m-0 p-0" alt="Edytuj dane pracownika">
-							<i class="fa-regular fa-pen-to-square" style="font-size: 40px; color: #7E60BF;"></i>
-						</a>
+					<div class="row">
+						<div class="col-12 mb-3">
+							<a href="{{ path('app_time_sheet_index', {'id': employee.id}) }}" type="button" class="btn btn purple-strong" alt="Ewidencja pracownika">
+								Ewidencja
+							</a>
+							<a href="{{ path('app_employee_edit', {'id': employee.id}) }}" type="button" class="btn btn purple-strong" alt="Ewidencja pracownika">
+								Edytuj dane podstawowe
+							</a>
+						</div>
 					</div>
 					<div>
 						<div class="mb-3">
@@ -61,7 +94,7 @@
 							<span style="font-weight: bold;">
 								<i class="fa-regular fa-envelope"></i>
 								E-mail</span>
-							<div class="mt-1">{{employee.email}}</div>
+							{# <div class="mt-1">{{employee.user.email}}</div> #}
 						</div>
 						<hr>
 						<div class="mb-3">

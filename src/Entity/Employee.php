@@ -4,6 +4,8 @@ declare(strict_types = 1);
 namespace App\Entity;
 
 use App\Repository\EmployeeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use DateTimeInterface;
@@ -56,6 +58,17 @@ class Employee
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    /**
+     * @var Collection<int, WorkLog>
+     */
+    #[ORM\OneToMany(targetEntity: WorkLog::class, mappedBy: 'employee')]
+    private Collection $workLogs;
+
+    public function __construct()
+    {
+        $this->workLogs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -219,6 +232,36 @@ class Employee
     public function setUser(User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WorkLog>
+     */
+    public function getWorkLogs(): Collection
+    {
+        return $this->workLogs;
+    }
+
+    public function addWorkLog(WorkLog $workLog): static
+    {
+        if (!$this->workLogs->contains($workLog)) {
+            $this->workLogs->add($workLog);
+            $workLog->setEmployee($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkLog(WorkLog $workLog): static
+    {
+        if ($this->workLogs->removeElement($workLog)) {
+            // set the owning side to null (unless already changed)
+            if ($workLog->getEmployee() === $this) {
+                $workLog->setEmployee(null);
+            }
+        }
 
         return $this;
     }

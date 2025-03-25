@@ -1,6 +1,6 @@
 {% extends 'index.html.twig' %}
 
-{% block title %}Dodaj / edytuj pracownika
+{% block title %}Edytuj pracownika
 {% endblock %}
 
 {% block content %}
@@ -10,8 +10,8 @@
 				<div class="container-fluid">
 					<div class="me-auto">
 						<span>
-							<a href="{{ path('app_employee_show', {'id': employee.id}) }}" class="m-0 p-0">
-								<i class="fa-solid fa-address-card" style="font-size: 40px; color: #7E60BF;"></i>
+							<a href="{{ path('app_employee_show', {'id': employee.id}) }}" type="button" class="btn btn purple-strong" alt="Ewidencja pracownika">
+								Szczegóły
 							</a>
 						</span>
 					</div>

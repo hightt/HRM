@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Service;
+namespace App\Service\TimeSheet;
 
 use DateTimeImmutable;
 use IntlDateFormatter;
@@ -38,10 +38,9 @@ class WorkDaysService
 
             $days[] = [
                 'date' => $date->format('Y-m-d'),
-                'day_of_week' => $this->getDayOfWeek($date),
-                'is_working_day' => !$isWeekend && !$isHoliday,
-                'is_weekend' => $isWeekend,
-                'is_holiday' => $isHoliday,
+                'dayOfWeek' => $this->getDayOfWeek($date),
+                'isWeekend' => $isWeekend,
+                'isHoliday' => $isHoliday,
             ];
         }
 
