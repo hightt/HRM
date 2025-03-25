@@ -25,7 +25,7 @@ class Department
     #[ORM\OneToMany(targetEntity: Employee::class, mappedBy: 'department')]
     private Collection $employees;
 
-    #[ORM\OneToOne(inversedBy: 'department', cascade: ['persist'])]
+    #[ORM\ManyToOne(inversedBy: 'department', cascade: ['persist'])]
     #[ORM\JoinColumn(name: "manager_id", referencedColumnName: "id", onDelete: "SET NULL")]
     private ?Employee $manager = null;
     
