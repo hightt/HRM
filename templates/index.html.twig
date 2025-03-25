@@ -16,26 +16,11 @@
 								<span>Dashboard</span>
 							</a>
 						</li>
-						<li class="nav-item">
-							<a href="#pracownicySubmenu" data-bs-toggle="collapse" class="nav-link d-flex align-items-center link-dark">
-								<i class="fa-solid fa-users me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
-								<span>Pracownicy</span>
-								<i class="fa-solid fa-chevron-down ms-auto"></i>
+						<li>
+							<a href="{{ path('app_employee_index') }}" class="nav-link d-flex align-items-center {% if app.request.attributes.get('_route') == 'app_employee_index' %}main-menu-link-active{% else %}link-dark{% endif %}">
+								<i class="fa-solid fa-user me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
+								<span>Lista pracowników</span>
 							</a>
-							<ul class="collapse list-unstyled ps-3 {% if app.request.attributes.get('_route') in ['app_employee_index', 'app_employee_index'] %}show{% endif %}" id="pracownicySubmenu">
-								<li>
-									<a href="{{ path('app_employee_index') }}" class="nav-link d-flex align-items-center {% if app.request.attributes.get('_route') == 'app_employee_index' %}main-menu-link-active{% else %}link-dark{% endif %}">
-										<i class="fa-solid fa-user me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
-										<span>Lista pracowników</span>
-									</a>
-								</li>
-								<li>
-									<a href="{{ path('app_employee_index') }}" class="nav-link d-flex align-items-center {% if app.request.attributes.get('_route') == 'app_employee_inde' %}main-menu-link-active{% else %}link-dark{% endif %}">
-										<i class="fa-solid fa-clock me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
-										<span>Ewidencja godzin</span>
-									</a>
-								</li>
-							</ul>
 						</li>
 						<li>
 							<a href="{{ path('app_department_index') }}" class="nav-link d-flex align-items-center {% if app.request.attributes.get('_route') == 'app_department_index' %}main-menu-link-active{% else %}link-dark{% endif %}">
