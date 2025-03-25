@@ -92,6 +92,13 @@
                 $('.dataTables_filter input').attr('placeholder', 'Wyszukaj...');
             }
         });
+
+        $('#main-table tbody').on('click', 'tr', function () {
+            var rowData = table.row(this).data(); 
+            if (rowData && rowData.showUrl) {
+                window.location.href = rowData.showUrl; 
+            }
+        });
     });
 </script>
 {% endblock %}

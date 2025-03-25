@@ -1,10 +1,9 @@
 {% extends 'index.html.twig' %}
 
-{% block title %}Strona główna
-{% endblock %}
+{% block title %}Strona główna{% endblock %}
 
 {% block content %}
-	 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<div class="row">
 		<div class="col-xl-9 col-lg-12">
 			<div class="row mb-2">
@@ -12,7 +11,7 @@
 					<nav class="navbar navbar-light ">
 						<div class="container-fluid">
 							<div class="me-auto" style="font-size: 20px;">
-									Witaj, <span class="text-bold">{{employee.getFullName}} 👋</span>
+								Witaj, <span class="text-bold">{{employee.getFullName}} 👋</span>
 							</div>
 							<span class="navbar-brand mb-0 h1"></span>
 							<div class="ms-auto">

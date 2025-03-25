@@ -1,0 +1,72 @@
+{% extends 'index.html.twig' %}
+
+{% block title %}Szczegóły pracownika
+{% endblock %}
+
+{% block content %}
+	<style>
+		body {
+			background-color: #f6f6f6;
+		}
+	</style>
+	<div class="container">
+		<div class="row mt-5">
+			<div class="col-4">
+				<div class="p-3" style="background-color: #fff; border-radius: 8px;">
+					<div class="text-center">
+						<img src="{{asset('images/department.png')}}" width="150px" height="150px">
+					</div>
+					<div class="mt-2 text-center" style="font-weight: bold;">{{department.name}}</div>
+				</div>
+
+				<div class="p-3 mt-2" style="background-color: #fff; border-radius: 8px;">
+					<div style="font-weight: bold;">
+						Manager
+					</div>
+					<div class="mt-2">
+						{% if department.manager %}
+							<img src="{{asset('images/employee_man.png')}}" width="25px" height="25px" style="border-radius: 50%">
+							<a class="ms-" href="{{ path('app_employee_show', { id: department.manager.id }) }}">
+								{{department.manager.getFullName}}
+							</a>
+						{% endif %}
+					</div>
+				</div>
+
+				<div class="p-3 mt-2" style="background-color: #fff; border-radius: 8px;">
+					<div style="font-weight: bold;">
+						Podsumowanie miesięczne pracowników
+					</div>
+					<div>
+						{# <a href="{{ path('app_time_sheet_employee_generate_work_time_raport_for_current_month', {'id': employee.id}) }}"alt="Aktualna ewidencja godzin"> #}
+							<i class="fa-solid fa-file-pdf me-2" style="font-size: 25px; color: #d3624f;"></i>
+							Aktualna ewidencja godzin
+						{# </a> #}
+					</div>
+				</div>
+			</div>
+			<div class="col-8">
+				<div class="p-3" style="background-color: #fff; border-radius: 8px;">
+					<div class="row">
+						<div class="col-12 mb-3">
+							<a href="{{ path('app_department_edit', {'id': department.id}) }}" type="button" class="btn btn purple-strong" alt="Ewidencja pracownika">
+								Edytuj dane podstawowe
+							</a>
+						</div>
+					</div>
+					<div>
+						<div class="mb-3">
+							<span style="font-weight: bold;">Nazwa działu</span>
+							<div class="mt-1">{{department.name}}</div>
+						</div>
+						<hr>
+						<div class="mb-3">
+							<span style="font-weight: bold;">Lokalizacja</span>
+							<div class="mt-1">{{department.location}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

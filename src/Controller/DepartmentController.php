@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -24,10 +25,9 @@ final class DepartmentController extends AbstractController
 
     #[Route('/new', name: 'app_department_new', methods: ['GET', 'POST'])]
     public function new(
-        Request                 $request, 
+        Request                 $request,
         EntityManagerInterface  $entityManager,
-    ): Response
-    {
+    ): Response {
         $department = new Department();
         $form = $this->createForm(DepartmentType::class, $department);
         $form->handleRequest($request);
@@ -46,13 +46,22 @@ final class DepartmentController extends AbstractController
         ]);
     }
 
+    #[Route('/show/{id}', name: 'app_department_show', methods: ['GET'])]
+    public function show(
+        Department $department,
+    ): Response {
+        return $this->render('department/show.html.twig', [
+            'department'   => $department,
+        ]);
+    }
+
+
     #[Route('/{id}/edit', name: 'app_department_edit', methods: ['GET', 'POST'])]
     public function edit(
-        Request                 $request, 
-        Department              $department, 
+        Request                 $request,
+        Department              $department,
         EntityManagerInterface  $entityManager,
-    ): Response
-    {
+    ): Response {
         $form = $this->createForm(DepartmentType::class, $department);
         $form->handleRequest($request);
 
@@ -110,7 +119,8 @@ final class DepartmentController extends AbstractController
                 'name'          =>  $department->getName(),
                 'managerName'       =>  $department->getManagerName(),
                 'location'      =>    $department->getLocation(),
-                'editUrl'       => $this->generateUrl('app_department_edit', ['id' => $department->getId()])
+                'editUrl'       => $this->generateUrl('app_department_edit', ['id' => $department->getId()]),
+                'showUrl'      => $this->generateUrl('app_department_show', ['id' => $department->getId()]),
             ];
         }, $departments);
 
