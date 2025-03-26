@@ -3,17 +3,17 @@ declare(strict_types = 1);
 
 namespace App\DataFixtures;
 
-use App\Repository\DepartmentRepository;
 use App\Repository\EmployeeRepository;
 use Doctrine\Persistence\ObjectManager;
+use App\Repository\DepartmentRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
-class EmployeeDepartmentFixtures extends Fixture  implements DependentFixtureInterface
+class EmployeeDepartmentFixtures extends Fixture implements FixtureGroupInterface
 {
     public function __construct(
-        private EmployeeRepository      $employeeRepository,
-        private DepartmentRepository    $departmentRepository,
+        private EmployeeRepository   $employeeRepository,
+        private DepartmentRepository $departmentRepository,
     ){}
 
     public function load(ObjectManager $manager): void
@@ -27,11 +27,8 @@ class EmployeeDepartmentFixtures extends Fixture  implements DependentFixtureInt
         $manager->flush();
     }
 
-    public function getDependencies(): array
+    public static function getGroups(): array
     {
-        return [
-            EmployeeFixtures::class, 
-            DepartmentFixtures::class, 
-        ];
+        return ['2'];
     }
 }

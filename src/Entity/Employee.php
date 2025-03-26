@@ -52,7 +52,7 @@ class Employee
     private ?string $gender = null;
 
     #[ORM\ManyToOne(targetEntity: Department::class, inversedBy: 'employees')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Department $department = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]

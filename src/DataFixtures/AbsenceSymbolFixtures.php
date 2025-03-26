@@ -38,7 +38,7 @@ class AbsenceSymbolFixtures extends Fixture implements FixtureGroupInterface
 
     public static function getGroups(): array
     {
-        return ['group1'];
+        return ['0'];
     }
 
 
