@@ -26,11 +26,10 @@ class WorkLogRepository extends ServiceEntityRepository
             ->where('w.date >= :firstDay')
             ->andWhere('w.date <= :lastDay')
             ->andWhere('w.employee = :employee')
-            ->setParameter('firstDay', $firstDay)
-            ->setParameter('lastDay', $lastDay)
+            ->setParameter('firstDay', $firstDay->setTime(0, 0, 0))
+            ->setParameter('lastDay', $lastDay->setTime(0, 0, 0))
             ->setParameter('employee', $employee)
             ->orderBy('w.date', 'ASC')
-            ->setMaxResults(31)
             ->getQuery()
             ->execute()
         ;

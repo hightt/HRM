@@ -24,13 +24,14 @@ class EmployeeTimeSheetService
     {
         $currentDate = new Datetime();
         $employeeWorkLogsInCurrentMonth = $this->workLogRepository->findEmployeeWorkLogsByCurrentMonth($employee);
+        
         foreach ($employeeWorkLogsInCurrentMonth as $employeeWorkLog) {
             if (!is_null($employeeWorkLog->getAbsenceSymbol()) && $employeeWorkLog->isDayOff() !== true) {
                 $employeeWorkLog->setIsDayOff = true;
             }
         }
-        if (!empty($employeeWorkLogsInCurrentMonth)) {
 
+        if (!empty($employeeWorkLogsInCurrentMonth)) {
             return $employeeWorkLogsInCurrentMonth;
         }
 
@@ -61,6 +62,7 @@ class EmployeeTimeSheetService
         foreach ($workLogs as $workLog) {
             if (!is_null($workLog->getAbsenceSymbol()) || $workLog->isDayOff()) {
                 $this->resetWorkLogData($workLog);
+                $this->entityManagerInterface->persist($workLog);
 
                 continue;
             }

@@ -13,8 +13,8 @@ class EmployeeDocumentGeneratorService
 
     public function createDocumentName(Employee $employee, string $documentPrefix)
     {
-        return sprintf('%s_%s_%s_%s'(  
-            new Datetime())->format('Ymd'),
+        return sprintf('%s_%s_%s_%s', 
+            (new Datetime())->format('Ymd'),
             $employee->getLastName(),
             $employee->getFirstName(),
             $documentPrefix

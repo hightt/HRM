@@ -2,14 +2,15 @@
 
 {% block body %}
 <div class="container-fluid">
-    <h1>{{ title }}</h1>
-    <p class="date">Data wygenerowania: {{ date|date('Y-m-d H:i') }}</p>
+    <h3>Miesięczny raport przepracowanego czasu</h3>
+    <div style="text-align: center; font-weight: bold; margin-top: -10px;">{{employee.getFullName}}</div>
+    <p class="date">Data wygenerowania: {{ date|date('Y-m-d') }}</p>
     <style>
         body {
             font-size: 14px;
         }
 
-        h1 {
+        h3 {
             color: #4A90E2;
             text-align: center;
         }
@@ -65,8 +66,8 @@
             {% for workLog in workLogs %}
             <tr>
                 <td>{{ workLog.date|date('Y-m-d') }}</td>
-                <td>{{ workLog.getHourStart|date('H:i') }}</td>
-                <td>{{ workLog.getHourEnd|date('H:i') }}</td>
+                <td>{% if workLog.getHourStart != null  %} {{ workLog.getHourStart|date('H:i') }} {% endif %}</td>
+                 <td>{% if workLog.getHourEnd != null  %} {{ workLog.getHourEnd|date('H:i') }} {% endif %}</td>
                 <td>
                     {% if workLog.isDayOff %}
                         Tak

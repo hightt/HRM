@@ -29,10 +29,10 @@ class WorkLog
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?DateTimeInterface $hourEnd = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?float $hoursNumber = 0.0;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?float $overtimeNumber = 0.0;
 
     #[ORM\Column]

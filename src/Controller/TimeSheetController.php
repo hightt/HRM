@@ -27,7 +27,6 @@ final class TimeSheetController extends AbstractController
         EmployeeTimeSheetService $employeeTimeSheetService,
     ): Response {
         $employeeWorkLogsInCurrentMonth = $employeeTimeSheetService->getEmployeeWorkLogsForCurrentMonth($employee);
-
         $form = $this->createForm(MonthlyWorkLogType::class, ['workLogs' => $employeeWorkLogsInCurrentMonth, 'employee' => $employee]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -57,7 +56,6 @@ final class TimeSheetController extends AbstractController
 
         $dompdf = new Dompdf($options);
         $html = $this->renderView('pdf/pdf_template.html.twig', [
-            'title' => 'Raport Pracowników',
             'date' => new DateTime(),
             'workLogs' => $employeeWorkLogsInCurrentMonth,
             'employee' => $employee,
