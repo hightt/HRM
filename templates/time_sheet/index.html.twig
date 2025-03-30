@@ -53,9 +53,9 @@
 		</thead>
 		<tbody>
 			{% for workLogForm in form.workLogs %}
-				<tr {% if workLogForm.vars.value.isDayOff==true %} style="background-color: #e0e0e0;" {% endif %}>
+				<tr {% if workLogForm.vars.value.isDayOff ==true %} style="background-color: #e0e0e0;" {% endif %}>
 					<td class="text-center">{{ form_widget(workLogForm.date, {'attr': {'class': 'form-control', 'style':
-				'width:130px;'}}) }}</td>
+				'width:130px; text-align: center;'}}) }}</td>
 					{% if workLogForm.vars.value.isDayOff == true %}
 						<td class="text-center">{{ form_widget(workLogForm.hourStart, {'attr': {'class': 'form-control
 				input-select-work-log', 'style': 'display: none; '}}) }}</td>

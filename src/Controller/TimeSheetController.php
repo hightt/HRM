@@ -55,7 +55,7 @@ final class TimeSheetController extends AbstractController
         ;
 
         $dompdf = new Dompdf($options);
-        $html = $this->renderView('pdf/pdf_template.html.twig', [
+        $html = $this->renderView('pdf/employee_monthly_time_sheet.twig', [
             'date' => new DateTime(),
             'workLogs' => $employeeWorkLogsInCurrentMonth,
             'employee' => $employee,

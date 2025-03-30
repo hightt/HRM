@@ -25,8 +25,10 @@ class WorkLogType extends AbstractType
                 'attr' => [
                     'class'    => 'form-control',
                     'readonly' => 'readonly',
-                    'style'    => 'width: 130px;'
-                ]
+                    'style'    => 'width: 130px;',
+                ],
+                'format' => 'dd.MM.yyyy',
+                'html5' => false,
             ])
             ->add('hourStart', TimeType::class, [
                 'widget'  => 'choice',

@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use DateTime;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Entity\Department;
 use App\Form\DepartmentType;
 use App\Repository\DepartmentRepository;
+use App\Repository\WorkLogRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -130,5 +134,54 @@ final class DepartmentController extends AbstractController
             'recordsFiltered' => $recordsFiltered,
             'data'            => $data,
         ]);
+    }
+
+    #[Route('/department/{id}/generate_work_time_raport_for_current_month', name: 'app_time_sheet_department_generate_work_time_raport_for_current_month', methods: [Request::METHOD_GET])]
+    public function generateWorkTimeRaportForCurrentMonth(
+        Department $department,
+        WorkLogRepository $workLogRepository,
+    ): Response {
+        $departmentEmployees = $department->getEmployees();
+        $employeesWorkTime = [];
+        foreach ($departmentEmployees as $i => $departmentEmployee) {
+            $employeesWorkTime[$i] = [
+                'employee' => $departmentEmployee,
+                'sumHoursNumber' => 0,
+                'sumAbsenceDays' => 0,
+                'overtimeSum'    => 0,
+            ];
+
+            $employeeWorkLogs = $workLogRepository->findEmployeeWorkLogsByCurrentMonth($departmentEmployee);
+            /** @var WorkLog $employeeWorkLog */
+            foreach ($employeeWorkLogs as $employeeWorkLog) {
+                $employeesWorkTime[$i]['sumHoursNumber'] += $employeeWorkLog->getHoursNumber();
+                $employeesWorkTime[$i]['overtimeSum'] += $employeeWorkLog->getOvertimeNumber();
+                if (!is_null($employeeWorkLog->getAbsenceSymbol())) {
+                    $employeesWorkTime[$i]['sumAbsenceDays'] ++;
+                }
+            }
+        }
+
+        $options = (new Options())
+            ->set('defaultFont', 'DejaVu Sans')
+            ->set('isHtml5ParserEnabled', true)
+        ;
+
+        $dompdf = new Dompdf($options);
+        $html = $this->renderView('pdf/department_monthly_time_sheet_of_employees.twig', [
+            'date'             => new DateTime(),
+            'employeeWorkLogs' => $employeesWorkTime,
+            'department'       => $department,
+        ]);
+
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        return new Response($dompdf->output(), 200, [
+            'Content-Type'        => 'application/pdf',
+            'Content-Disposition' => sprintf('inline; filename="%s.pdf"', 'test'),
+        ]);
+        
     }
 }
