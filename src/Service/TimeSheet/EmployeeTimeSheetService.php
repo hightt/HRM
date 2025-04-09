@@ -23,7 +23,7 @@ class EmployeeTimeSheetService
     public function getEmployeeWorkLogsForCurrentMonth(Employee $employee): array
     {
         $currentDate = new Datetime();
-        $employeeWorkLogsInCurrentMonth = $this->workLogRepository->findEmployeeWorkLogsByCurrentMonth($employee);
+        $employeeWorkLogsInCurrentMonth = $this->workLogRepository->findEmployeeWorkLogsByCurrentMonth($employee->getId());
         
         foreach ($employeeWorkLogsInCurrentMonth as $employeeWorkLog) {
             if (!is_null($employeeWorkLog->getAbsenceSymbol()) && $employeeWorkLog->isDayOff() !== true) {
@@ -96,7 +96,7 @@ class EmployeeTimeSheetService
 
     public function getEmployeeMonthWorkReport(Employee $employee): WorkReportDTO
     {
-        $employeeWorkLogsInCurrentMonth = $this->workLogRepository->findEmployeeWorkLogsByCurrentMonth($employee);
+        $employeeWorkLogsInCurrentMonth = $this->workLogRepository->findEmployeeWorkLogsByCurrentMonth($employee->getId());
 
         if (empty($employeeWorkLogsInCurrentMonth)) {
             return new WorkReportDTO(0, 0, 0);
@@ -113,5 +113,26 @@ class EmployeeTimeSheetService
         }
 
         return new WorkReportDTO($workedHours, $overtimeHours, $absentDays);
+    }
+
+    public function getEmployeeMonthlyWorkTimeSummary(int $employeeId)
+    {
+        $employeeWorkLogs = $this->workLogRepository->findEmployeeWorkLogsByCurrentMonth($employeeId);
+        $employeeWorkTimeSummary = [
+            'sumHoursNumber' => 0,
+            'overtimeSum' => 0,
+            'sumAbsenceDays' => 0,
+        ];
+
+        /** @var WorkLog $employeeWorkLog */
+        foreach ($employeeWorkLogs as $employeeWorkLog) {
+            $employeeWorkTimeSummary['sumHoursNumber'] += $employeeWorkLog->getHoursNumber();
+            $employeeWorkTimeSummary['overtimeSum'] += $employeeWorkLog->getOvertimeNumber();
+            if (!is_null($employeeWorkLog->getAbsenceSymbol())) {
+                $employeeWorkTimeSummary['sumAbsenceDays'] ++;
+            }
+        }
+
+        return $employeeWorkTimeSummary;
     }
 }

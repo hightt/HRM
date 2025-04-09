@@ -7,15 +7,20 @@ a
     text-decoration: none;
     color: black;
 }
-.message-box
-{
-    position: absolute;
+
+.message-box {
+    position: fixed;
     top: 10px;
-    left: 75%;
+    right: 10px;
     opacity: 1;
     visibility: visible;
-    transition: opacity 1s ease, visibility 1s ease; 
-    animation: fadeOut 4s forwards; 
+    transition: opacity 1s ease, visibility 1s ease;
+    animation: fadeOut 4s forwards 3s;
+    z-index: 9999;
+    max-width: 300px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 

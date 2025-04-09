@@ -17,7 +17,7 @@ class WorkLogRepository extends ServiceEntityRepository
     }
 
 
-    public function findEmployeeWorkLogsByCurrentMonth(Employee $employee)
+    public function findEmployeeWorkLogsByCurrentMonth(int $employeeId)
     {
         $firstDay = new DateTime('first day of this month');
         $lastDay = new DateTime('last day of this month');
@@ -28,7 +28,7 @@ class WorkLogRepository extends ServiceEntityRepository
             ->andWhere('w.employee = :employee')
             ->setParameter('firstDay', $firstDay->setTime(0, 0, 0))
             ->setParameter('lastDay', $lastDay->setTime(0, 0, 0))
-            ->setParameter('employee', $employee)
+            ->setParameter('employee', $employeeId)
             ->orderBy('w.date', 'ASC')
             ->getQuery()
             ->execute()

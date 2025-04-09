@@ -1,0 +1,23 @@
+# config/packages/monolog.yaml
+monolog:
+    channels: ['messenger']
+
+    handlers:
+        # Logi dla messenger
+        messenger:
+            type: stream
+            path: '%kernel.logs_dir%/messenger.log'
+            level: info
+            channels: ['messenger']
+
+        # Logi główne
+        main:
+            type: stream
+            path: '%kernel.logs_dir%/dev.log'
+            level: debug
+
+        # Logi błędów
+        error:
+            type: stream
+            path: '%kernel.logs_dir%/error.log'
+            level: error

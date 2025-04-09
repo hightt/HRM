@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -9,13 +8,18 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use App\Entity\Department;
 use App\Form\DepartmentType;
-use App\Repository\DepartmentRepository;
+use Psr\Log\LoggerInterface;
 use App\Repository\WorkLogRepository;
+use App\Repository\DepartmentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
+use App\Message\GenerateEmployeeReportMessage;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Message\GenerateDepartmentReportMessage;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/department')]
@@ -136,52 +140,19 @@ final class DepartmentController extends AbstractController
         ]);
     }
 
-    #[Route('/department/{id}/generate_work_time_raport_for_current_month', name: 'app_time_sheet_department_generate_work_time_raport_for_current_month', methods: [Request::METHOD_GET])]
-    public function generateWorkTimeRaportForCurrentMonth(
-        Department $department,
-        WorkLogRepository $workLogRepository,
+    #[Route('/department/{id}/generate_work_time_report_for_current_month', name: 'app_time_sheet_department_generate_work_time_report_for_current_month', methods: [Request::METHOD_GET])]
+    public function generateWorkTimeReportForCurrentMonth(
+        Department          $department,
+        LoggerInterface     $logger,
+        MessageBusInterface $bus,
+        Security            $security,
     ): Response {
-        $departmentEmployees = $department->getEmployees();
-        $employeesWorkTime = [];
-        foreach ($departmentEmployees as $i => $departmentEmployee) {
-            $employeesWorkTime[$i] = [
-                'employee' => $departmentEmployee,
-                'sumHoursNumber' => 0,
-                'sumAbsenceDays' => 0,
-                'overtimeSum'    => 0,
-            ];
-
-            $employeeWorkLogs = $workLogRepository->findEmployeeWorkLogsByCurrentMonth($departmentEmployee);
-            /** @var WorkLog $employeeWorkLog */
-            foreach ($employeeWorkLogs as $employeeWorkLog) {
-                $employeesWorkTime[$i]['sumHoursNumber'] += $employeeWorkLog->getHoursNumber();
-                $employeesWorkTime[$i]['overtimeSum'] += $employeeWorkLog->getOvertimeNumber();
-                if (!is_null($employeeWorkLog->getAbsenceSymbol())) {
-                    $employeesWorkTime[$i]['sumAbsenceDays'] ++;
-                }
-            }
-        }
-
-        $options = (new Options())
-            ->set('defaultFont', 'DejaVu Sans')
-            ->set('isHtml5ParserEnabled', true)
-        ;
-
-        $dompdf = new Dompdf($options);
-        $html = $this->renderView('pdf/department_monthly_time_sheet_of_employees.twig', [
-            'date'             => new DateTime(),
-            'employeeWorkLogs' => $employeesWorkTime,
-            'department'       => $department,
-        ]);
-
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
-
-        return new Response($dompdf->output(), 200, [
-            'Content-Type'        => 'application/pdf',
-            'Content-Disposition' => sprintf('inline; filename="%s.pdf"', 'test'),
-        ]);
+        $logger->info(sprintf('Starting generate montly work time report for department: %s [ID: %d]', $department->getName(), $department->getId()));
+        $bus->dispatch(new GenerateDepartmentReportMessage($security->getUser()->getEmail(), $department));
+        $this->addFlash('success', 'Generowanie raportu rozpoczęte! Sprawdź swój adres e-mail.');
         
+        return $this->render('department/show.html.twig', [
+            'department'   => $department,
+        ]);
     }
 }

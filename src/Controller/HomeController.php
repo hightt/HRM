@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Repository\DepartmentRepository;
 use App\Repository\EmployeeRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\DepartmentRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
@@ -23,7 +23,6 @@ class HomeController extends AbstractController
         $numOfEmployees = count($employeeRepository->findBy(['status' => 1]));
         $labels = [];
         $employeeNumbers = [];
-
         foreach ($departmentRepository->findAll() as $department) {
             $activeEmployees = array_filter($department->getEmployees()->toArray(), function ($employee) {
                 return true === $employee->isStatus();
