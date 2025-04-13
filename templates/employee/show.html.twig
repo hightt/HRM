@@ -1,0 +1,183 @@
+{% extends 'index.html.twig' %}
+
+{% block title %}Szczegóły pracownika
+{% endblock %}
+
+{% block content %}
+	<style>
+		body {
+			background-color: #f6f6f6;
+		}
+	</style>
+	<div class="container">
+		<div class="row mt-5">
+			<div class="col-4">
+				<div class="p-3" style="background-color: #fff; border-radius: 8px;">
+					<div class="text-center">
+						<img src="{{asset('images/employee_woman.png')}}" width="150px" height="150px" style="border-radius: 50%">
+					</div>
+					<div class="mt-2 text-center" style="font-weight: bold;">{{employee.getFullName}}</div>
+					<div class="mt-2 text-center">{{employee.position}}</div>
+				</div>
+
+				<div class="p-3 mt-2" style="background-color: #fff; border-radius: 8px;">
+					<div style="font-weight: bold;">
+						Oddział
+					</div>
+					<div class="mt-2">{{employee.department.name}}</div>
+				</div>
+
+				<div class="p-3 mt-2" style="background-color: #fff; border-radius: 8px;">
+					<div style="font-weight: bold;">
+						Przełożony
+					</div>
+					<div class="mt-2">
+						{% if employee.department and employee.department.manager %}
+							<img src="{{asset('images/employee_man.png')}}" width="25px" height="25px" style="border-radius: 50%">
+							<a class="ms-" href="{{ path('app_employee_show', { id: employee.department.manager.id }) }}">
+								{{employee.department.manager.getFullName}}
+							</a>
+						{% endif %}
+					</div>
+				</div>
+
+				<div class="p-3 mt-2" style="background-color: #fff; border-radius: 8px;">
+					<div style="font-weight: bold;">
+						Ewidencja w tym miesiącu
+					</div>
+					<div class="mb-3 mt-3">
+						<span>Przepracowanych godzin:
+							{{workReport.getWorkedHours}}</span>
+					</div>
+					<hr>
+					<div class="mb-3 mt-3">
+						<span>Nadgodzin:
+							{{workReport.getOvertimeHours}}</span>
+					</div>
+					<hr>
+					<div class="mb-3 mt-3">
+						<span>Dni nieobecności:
+							{{workReport.getAbsentDays}}</span>
+					</div>
+					<div>
+						<a href="{{ path('app_time_sheet_employee_generate_work_time_report_for_current_month', {'id': employee.id}) }}" alt="Aktualna ewidencja godzin">
+							<i class="fa-solid fa-file-pdf me-2" style="font-size: 25px; color: #d3624f;"></i>
+							Aktualna ewidencja godzin
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-8">
+				<div class="p-3" style="background-color: #fff; border-radius: 8px;">
+					<div class="row">
+						<div class="col-12 mb-3">
+							<div class="me-auto">
+								<a href="{{ path('app_time_sheet_index', {'id': employee.id}) }}">
+									<div class="tool">
+										<div class="text-center">
+											<i class="fa-solid fa-book-open"></i>
+										</div>
+										<div class="text-center">Ewidencja</div>
+									</div>
+								</a>
+								<a href="{{ path('app_employee_edit', {'id': employee.id}) }}">
+									<div class="tool">
+										<div class="text-center">
+											<i class="fa-solid fa-circle-user"></i>
+										</div>
+										<div class="text-center">Edytuj dane podstawowe</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div>
+						<div class="mb-3">
+							<span style="font-weight: bold;">Imię</span>
+							<div class="mt-1">{{employee.firstName}}</div>
+						</div>
+						<hr>
+						<div class="mb-3">
+							<span style="font-weight: bold;">Nazwisko</span>
+							<div class="mt-1">{{employee.lastName}}</div>
+						</div>
+						<hr>
+						<div class="mb-3">
+							<span style="font-weight: bold;">
+								<i class="fa-regular fa-envelope"></i>
+								E-mail</span>
+							{# <div class="mt-1">{{employee.user.email}}</div> #}
+						</div>
+						<hr>
+						<div class="mb-3">
+							<span style="font-weight: bold;">
+								<i class="fa-solid fa-cake-candles"></i>
+								Data urodzenia</span>
+							<div class="mt-1">{{employee.birthdayDate|date('d.m.Y')}}</div>
+						</div>
+						<hr>
+						<div class="mb-3">
+							<span style="font-weight: bold;">
+								<i class="fa-regular fa-id-card"></i>
+								PESEL</span>
+							<div class="mt-1">{{employee.pesel}}</div>
+						</div>
+						<hr>
+						<div class="mb-3">
+							<span style="font-weight: bold;">
+								<i class="fa-regular fa-calendar"></i>
+								Data zatrudnienia</span>
+							<div class="mt-1">{{employee.employmentDate|date('d.m.Y')}}</div>
+						</div>
+						<hr>
+						<div class="mb-3">
+							<span style="font-weight: bold;">
+								<i class="fa-solid fa-venus-mars"></i>
+								Płeć</span>
+							<div class="mt-1">
+								{% if employee.gender == 'K' %}
+									Kobieta
+								{% else %}
+									Mężczyzna
+								{% endif %}
+							</div>
+						</div>
+						<hr>
+						<div class="mb-3">
+							<span style="font-weight: bold;">
+								<i class="fa-solid fa-phone"></i>
+								Numer telefonu</span>
+							<div class="mt-1">563 241 421</div>
+						</div>
+						<hr>
+						<div class="mb-3">
+							<span style="font-weight: bold;">
+								<i class="fa-solid fa-location-dot"></i>
+								Adres</span>
+							<div class="mt-1">{{employee.address}}</div>
+						</div>
+						<hr>
+						<div class="mb-3">
+							<span style="font-weight: bold;">
+								<i class="fa-solid fa-money-bill"></i>
+								Wynagrodzenie</span>
+							<div class="mt-1">{{employee.salary}}
+								zł</div>
+						</div>
+						<hr>
+						<div class="mb-3">
+							<span style="font-weight: bold;">Status</span>
+							<div class="mt-1">
+								{% if employee.status == true %}
+									<span style="color: green">Aktywny</span>
+								{% else %}
+									<span style="color: red">Nieaktywny</span>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
