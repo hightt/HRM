@@ -23,7 +23,6 @@ class CreateEmployeeAndUserService
         $employeeEntity->setUser($userEntity);
 
         $this->entityManager->flush();
-
     }
 
     private function createEmployeeEntity(EmployeeDTO $employeeDTO): Employee

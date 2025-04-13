@@ -7,25 +7,28 @@ use Faker\Factory;
 use Faker\Generator;
 use App\Entity\Employee;
 use App\Provider\Faker\Position;
-use App\Repository\DepartmentRepository;
 use Faker\Provider\pl_PL\Address;
 use Faker\Provider\pl_PL\PhoneNumber;
 use Doctrine\Persistence\ObjectManager;
+use App\Repository\DepartmentRepository;
+use App\Repository\UserRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class EmployeeFixtures extends Fixture implements DependentFixtureInterface 
+class EmployeeFixtures extends Fixture implements DependentFixtureInterface, FixtureGroupInterface
 {
     public function __construct(
         private DepartmentRepository $departmentRepository,
+        private UserRepository       $userRepository,
     )
     {}
     
     public function load(ObjectManager $manager): void
     {
         $departments = $this->departmentRepository->findAll();
+        $users = $this->userRepository->findAll();
         $numOfDepartments = count($departments);
-
         $generator = Factory::create("pl_PL");
         $faker = new Generator();
         $faker->addProvider(new PhoneNumber($faker));
@@ -46,6 +49,7 @@ class EmployeeFixtures extends Fixture implements DependentFixtureInterface
                 ->setStatus(true)
                 ->setGender(rand(0, 1) === 0 ? 'K' : 'M')
                 ->setDepartment($departments[rand(0, $numOfDepartments - 1)])
+                ->setUser($users[$i])
             ;
             $manager->persist($employee);
         }
@@ -57,5 +61,10 @@ class EmployeeFixtures extends Fixture implements DependentFixtureInterface
         return [
             DepartmentFixtures::class, 
         ];
+    }
+
+    public static function getGroups(): array
+    {
+        return ['1'];
     }
 }

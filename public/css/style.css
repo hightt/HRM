@@ -7,15 +7,20 @@ a
     text-decoration: none;
     color: black;
 }
-.message-box
-{
-    position: absolute;
+
+.message-box {
+    position: fixed;
     top: 10px;
-    left: 75%;
+    right: 10px;
     opacity: 1;
     visibility: visible;
-    transition: opacity 1s ease, visibility 1s ease; 
-    animation: fadeOut 4s forwards; 
+    transition: opacity 1s ease, visibility 1s ease;
+    animation: fadeOut 4s forwards 3s;
+    z-index: 9999;
+    max-width: 300px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -88,6 +93,64 @@ a
     border-radius: 5px;
     padding: 30px;
 }
+
+.input-select-work-log > select
+{
+    padding: 3px;
+    border: 0px;
+    background-color: #ffff;
+}
+
+#main-table tbody tr {
+    cursor: pointer;
+}
+
+#main-table tbody tr:hover {
+    background-color: #f5f5f5; /* Jasnoszare podświetlenie */
+}
+
+.me-auto {
+    display: flex; /* Ustawienie elementów w linii */
+    gap: 15px; /* Odstęp między elementami */
+    align-items: center; /* Wyrównanie do środka w pionie */
+}
+
+.tool {
+    border: 1px solid #E0D5FF; 
+    min-width: 150px;
+    max-width: 200px;
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 12px;
+    background-color: #f9f9fb;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.tool:hover {
+    color: #fff;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px);
+}
+
+.tool > div > i {
+    font-size: 35px;
+    color: #7E60BF;
+    transition: transform 0.3s ease;
+}
+
+.tool:hover > div > i {
+    transform: scale(1.2);
+}
+
+.tool > .text-center {
+    font-weight: 600;
+    margin-top: 8px;
+    color: #555;
+}
+
+
 @keyframes fadeOut {
     0% {
         opacity: 1; 

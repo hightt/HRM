@@ -1,16 +1,25 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Controller;
 
+use DateTime;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Entity\Department;
 use App\Form\DepartmentType;
+use Psr\Log\LoggerInterface;
+use App\Repository\WorkLogRepository;
 use App\Repository\DepartmentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
+use App\Message\GenerateEmployeeReportMessage;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Message\GenerateDepartmentReportMessage;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/department')]
@@ -24,10 +33,9 @@ final class DepartmentController extends AbstractController
 
     #[Route('/new', name: 'app_department_new', methods: ['GET', 'POST'])]
     public function new(
-        Request                 $request, 
+        Request                 $request,
         EntityManagerInterface  $entityManager,
-    ): Response
-    {
+    ): Response {
         $department = new Department();
         $form = $this->createForm(DepartmentType::class, $department);
         $form->handleRequest($request);
@@ -42,17 +50,26 @@ final class DepartmentController extends AbstractController
 
         return $this->render('department/new.html.twig', [
             'department' => $department,
-            'form' => $form,
+            'form'       => $form,
         ]);
     }
 
+    #[Route('/show/{id}', name: 'app_department_show', methods: ['GET'])]
+    public function show(
+        Department $department,
+    ): Response {
+        return $this->render('department/show.html.twig', [
+            'department'   => $department,
+        ]);
+    }
+
+
     #[Route('/{id}/edit', name: 'app_department_edit', methods: ['GET', 'POST'])]
     public function edit(
-        Request                 $request, 
-        Department              $department, 
+        Request                 $request,
+        Department              $department,
         EntityManagerInterface  $entityManager,
-    ): Response
-    {
+    ): Response {
         $form = $this->createForm(DepartmentType::class, $department);
         $form->handleRequest($request);
 
@@ -106,19 +123,36 @@ final class DepartmentController extends AbstractController
 
         $data = array_map(function ($department) {
             return [
-                'id'            =>  $department->getId(),
-                'name'          =>  $department->getName(),
-                'managerName'       =>  $department->getManagerName(),
-                'location'      =>    $department->getLocation(),
-                'editUrl'       => $this->generateUrl('app_department_edit', ['id' => $department->getId()])
+                'id'          =>  $department->getId(),
+                'name'        =>  $department->getName(),
+                'managerName' =>  $department->getManagerName(),
+                'location'    =>    $department->getLocation(),
+                'editUrl'     => $this->generateUrl('app_department_edit', ['id' => $department->getId()]),
+                'showUrl'     => $this->generateUrl('app_department_show', ['id' => $department->getId()]),
             ];
         }, $departments);
 
         return new JsonResponse([
-            'draw'              => $draw,
-            'recordsTotal'      => $totalRecords,
-            'recordsFiltered'   => $recordsFiltered,
-            'data'              => $data,
+            'draw'            => $draw,
+            'recordsTotal'    => $totalRecords,
+            'recordsFiltered' => $recordsFiltered,
+            'data'            => $data,
+        ]);
+    }
+
+    #[Route('/department/{id}/generate_work_time_report_for_current_month', name: 'app_time_sheet_department_generate_work_time_report_for_current_month', methods: [Request::METHOD_GET])]
+    public function generateWorkTimeReportForCurrentMonth(
+        Department          $department,
+        LoggerInterface     $logger,
+        MessageBusInterface $bus,
+        Security            $security,
+    ): Response {
+        $logger->info(sprintf('Starting generate montly work time report for department: %s [ID: %d]', $department->getName(), $department->getId()));
+        $bus->dispatch(new GenerateDepartmentReportMessage($security->getUser()->getEmail(), $department));
+        $this->addFlash('success', 'Generowanie raportu rozpoczęte! Sprawdź swój adres e-mail.');
+        
+        return $this->render('department/show.html.twig', [
+            'department'   => $department,
         ]);
     }
 }

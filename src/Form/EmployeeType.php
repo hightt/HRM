@@ -51,6 +51,29 @@ class EmployeeType extends AbstractType
                 'label' => 'Adres',
                 'attr' => ['class' => 'form-control', 'placeholder' => 'Podaj adres']
             ])
+            ->add('contractType', ChoiceType::class, [
+                'label' => 'Rodzaj zatrudnienia',
+                'choices' => [
+                    'Umowa o pracę'  => 'Umowa o pracę',
+                    'B2B'            => 'B2B',
+                    'Umowa zlecenie' => 'Umowa zlecenie',
+                    'Umowa o dzieło' => 'Umowa o dzieło',
+                ],
+                'placeholder' => 'Rodzaj zatrudnienia',
+                'attr' => ['class' => 'form-control']
+            ])
+            ->add('amountOfWorkingTime', ChoiceType::class, [
+                'label' => 'Wymiar czasu pracy',
+                'choices' => [
+                    '8/8' => '8/8',
+                    '7/8' => '7/8',
+                    '6/8' => '6/8',
+                    '5/8' => '5/8',
+                    '4/8' => '4/8',
+                ],
+                'placeholder' => 'Wymiar czasu pracy',
+                'attr' => ['class' => 'form-control']
+            ])
             ->add('salary', NumberType::class, [
                 'label' => 'Wynagrodzenie',
                 'attr' => ['class' => 'form-control', 'placeholder' => 'Podaj pensję']
