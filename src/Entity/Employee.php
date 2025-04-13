@@ -65,6 +65,12 @@ class Employee
     #[ORM\OneToMany(targetEntity: WorkLog::class, mappedBy: 'employee')]
     private Collection $workLogs;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $contractType = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $amountOfWorkingTime = null;
+
     public function __construct()
     {
         $this->workLogs = new ArrayCollection();
@@ -262,6 +268,30 @@ class Employee
                 $workLog->setEmployee(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getContractType(): ?string
+    {
+        return $this->contractType;
+    }
+
+    public function setContractType(?string $contractType): static
+    {
+        $this->contractType = $contractType;
+
+        return $this;
+    }
+
+    public function getAmountOfWorkingTime(): ?string
+    {
+        return $this->amountOfWorkingTime;
+    }
+
+    public function setAmountOfWorkingTime(?string $amountOfWorkingTime): static
+    {
+        $this->amountOfWorkingTime = $amountOfWorkingTime;
 
         return $this;
     }
