@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 namespace App\Entity;
 
@@ -18,18 +19,16 @@ class Department
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: true)]
-    private ?Employee $manager = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $location = null;
 
-    /**
-     * @var Collection<int, Employee>
-     */
-    #[ORM\OneToMany(targetEntity: Employee::class, mappedBy: 'departmentId')]
+    #[ORM\OneToMany(targetEntity: Employee::class, mappedBy: 'department')]
     private Collection $employees;
+
+    #[ORM\ManyToOne(inversedBy: 'department', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: "manager_id", referencedColumnName: "id", onDelete: "SET NULL")]
+    private ?Employee $manager = null;
+    
 
     public function __construct()
     {
@@ -53,12 +52,17 @@ class Department
         return $this;
     }
 
-    public function getManager(): ?Employee
+
+    public function getManagerName(): ?string
     {
-        return $this->manager;
+        if(is_null($this->manager)) {
+            return null;
+        }
+
+        return sprintf('%s %s', $this->manager->getFirstName(), $this->manager->getLastName());
     }
 
-    public function setManager(Employee $manager): static
+    public function setManager(?Employee $manager): static
     {
         $this->manager = $manager;
 
@@ -105,5 +109,10 @@ class Department
         }
 
         return $this;
+    }
+
+    public function getManager(): ?Employee
+    {
+        return $this->manager;
     }
 }

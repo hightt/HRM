@@ -1,0 +1,75 @@
+{% extends 'root.html.twig' %}
+
+{% block body %}
+<div class="container-fluid">
+    <h3>Podsumowanie czasu pracy pracowników</h3>
+    <div style="text-align: center; font-weight: bold; margin-top: -10px;">{{department.name}}</div>
+    <p class="date">Data wygenerowania: {{ date|date('Y-m-d') }}</p>
+    <style>
+        body {
+            font-size: 14px;
+        }
+
+        h3 {
+            color: #4A90E2;
+            text-align: center;
+        }
+
+        .date {
+            font-style: italic;
+            text-align: center;
+        }
+
+        .content {
+            text-align: justify;
+        }
+
+        table {
+            font-size: 12px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 4px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4A90E2;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="width: 145px;">Imię i nazwisko</th>
+                <th style="width: 150px;">Liczba przepracowanych godzin</th>
+                <th style="width: 60px;">Nadgodziny</th>
+                <th style="width: 60px;">Dni nieobecności</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employeeWorkLog in employeeWorkLogs %}
+            <tr>
+                <td>{{ employeeWorkLog.employee.getFullName }}</td>
+                <td>{{ employeeWorkLog.sumHoursNumber }}</td>
+                <td>{{ employeeWorkLog.overtimeSum }}</td>
+                <td>{{ employeeWorkLog.sumAbsenceDays }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

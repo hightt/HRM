@@ -1,14 +1,13 @@
 <?php
+declare(strict_types = 1);
 
 namespace App\Repository;
 
 use App\Entity\Employee;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use DateTime;
 
-/**
- * @extends ServiceEntityRepository<Employee>
- */
 class EmployeeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -16,28 +15,19 @@ class EmployeeRepository extends ServiceEntityRepository
         parent::__construct($registry, Employee::class);
     }
 
-    //    /**
-    //     * @return Employee[] Returns an array of Employee objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('e')
-    //            ->andWhere('e.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('e.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+       public function getRecentlyJoinedEmployees(int $daysRange): array
+       {
+            $dateThreshold = new DateTime();
+            $dateThreshold->modify("-{$daysRange} days");
 
-    //    public function findOneBySomeField($value): ?Employee
-    //    {
-    //        return $this->createQueryBuilder('e')
-    //            ->andWhere('e.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+           return $this->createQueryBuilder('e')
+               ->andWhere('e.employmentDate >= :dateThreshold')
+               ->andWhere('e.status = 1')
+               ->setParameter('dateThreshold', $dateThreshold)
+               ->orderBy('e.employmentDate', 'DESC')
+               ->setMaxResults(10)
+               ->getQuery()
+               ->getResult()
+           ;
+       }
 }

@@ -1,21 +1,15 @@
 <?php
+declare(strict_types = 1);
 
 namespace App\DataFixtures;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
 use App\Entity\Department;
-use App\Repository\EmployeeRepository;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
-class DepartmentFixtures extends Fixture implements DependentFixtureInterface
+class DepartmentFixtures extends Fixture implements FixtureGroupInterface
 {
-    public function __construct(
-        private EmployeeRepository $employeeRepository,
-    )
-    {
-        
-    }
     public function load(ObjectManager $manager): void
     {
         $departments = [
@@ -24,25 +18,36 @@ class DepartmentFixtures extends Fixture implements DependentFixtureInterface
             ['name' => 'Marketing', 'location' => 'Gdańsk'],
             ['name' => 'Sprzedaż', 'location' => 'Wrocław'],
             ['name' => 'Finanse', 'location' => 'Poznań'],
+            ['name' => 'Logistyka', 'location' => 'Łódź'],
+            ['name' => 'Obsługa Klienta', 'location' => 'Katowice'],
+            ['name' => 'Administracja', 'location' => 'Lublin'],
+            ['name' => 'Badania i Rozwój', 'location' => 'Szczecin'],
+            ['name' => 'Produkcja', 'location' => 'Bydgoszcz'],
+            ['name' => 'Zakupy', 'location' => 'Rzeszów'],
+            ['name' => 'Bezpieczeństwo', 'location' => 'Białystok'],
+            ['name' => 'Kontrola Jakości', 'location' => 'Toruń'],
+            ['name' => 'E-commerce', 'location' => 'Olsztyn'],
+            ['name' => 'Księgowość', 'location' => 'Opole'],
+            ['name' => 'Zarządzanie projektami', 'location' => 'Gdynia'],
+            ['name' => 'Public Relations', 'location' => 'Częstochowa'],
+            ['name' => 'Szkolenia', 'location' => 'Radom'],
+            ['name' => 'Analiza Danych', 'location' => 'Sosnowiec'],
+            ['name' => 'Infrastruktura IT', 'location' => 'Kielce'],
         ];
+        
 
-        $employees = $this->employeeRepository->findAll();
-        foreach ($departments as $data) {
-            $randomIndex = rand(0, count($employees)-1);
+        foreach ($departments as $i => $data) {
             $department = new Department();
             $department->setName($data['name']);
             $department->setLocation($data['location']);
-            $department->setManager($employees[$randomIndex]);
             $manager->persist($department);
         }
 
         $manager->flush();
     }
 
-    public function getDependencies(): array
+    public static function getGroups(): array
     {
-        return [
-            EmployeeFixtures::class, 
-        ];
+        return ['0'];
     }
 }
