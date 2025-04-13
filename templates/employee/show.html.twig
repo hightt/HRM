@@ -60,7 +60,7 @@
 							{{workReport.getAbsentDays}}</span>
 					</div>
 					<div>
-						<a href="{{ path('app_time_sheet_employee_generate_work_time_report_for_current_month', {'id': employee.id}) }}"alt="Aktualna ewidencja godzin">
+						<a href="{{ path('app_time_sheet_employee_generate_work_time_report_for_current_month', {'id': employee.id}) }}" alt="Aktualna ewidencja godzin">
 							<i class="fa-solid fa-file-pdf me-2" style="font-size: 25px; color: #d3624f;"></i>
 							Aktualna ewidencja godzin
 						</a>
@@ -71,12 +71,24 @@
 				<div class="p-3" style="background-color: #fff; border-radius: 8px;">
 					<div class="row">
 						<div class="col-12 mb-3">
-							<a href="{{ path('app_time_sheet_index', {'id': employee.id}) }}" type="button" class="btn btn purple-strong" alt="Ewidencja pracownika">
-								Ewidencja
-							</a>
-							<a href="{{ path('app_employee_edit', {'id': employee.id}) }}" type="button" class="btn btn purple-strong" alt="Ewidencja pracownika">
-								Edytuj dane podstawowe
-							</a>
+							<div class="me-auto">
+								<a href="{{ path('app_time_sheet_index', {'id': employee.id}) }}">
+									<div class="tool">
+										<div class="text-center">
+											<i class="fa-solid fa-book-open"></i>
+										</div>
+										<div class="text-center">Ewidencja</div>
+									</div>
+								</a>
+								<a href="{{ path('app_employee_edit', {'id': employee.id}) }}">
+									<div class="tool">
+										<div class="text-center">
+											<i class="fa-solid fa-circle-user"></i>
+										</div>
+										<div class="text-center">Edytuj dane podstawowe</div>
+									</div>
+								</a>
+							</div>
 						</div>
 					</div>
 					<div>
