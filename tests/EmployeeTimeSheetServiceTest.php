@@ -107,6 +107,63 @@ class EmployeeTimeSheetServiceTest extends TestCase
             $this::assertNull($weekendLog->getAbsenceSymbol());
     }
 
+    public function testEmployeeMonthWorkReportForExistingWorkLogs()
+    {
+        $employee = $this->createEmployee();
+
+        $workLogs = [
+            (new WorkLog())
+            ->setDate(new Datetime('2024-04-01'))
+            ->setHoursNumber(8.00)
+            ->setOvertimeNumber(0)
+            ->setAbsenceSymbol(null),
+            (new WorkLog())
+            ->setDate(new Datetime('2024-04-02'))
+            ->setHoursNumber(0)
+            ->setOvertimeNumber(0)
+            ->setAbsenceSymbol(new AbsenceSymbol()),
+            (new WorkLog())
+            ->setDate(new Datetime('2024-04-03'))
+            ->setHoursNumber(10.50)
+            ->setOvertimeNumber(2.50)
+            ->setAbsenceSymbol(null),
+            (new WorkLog())
+            ->setDate(new Datetime('2024-04-04'))
+            ->setHoursNumber(9.50)
+            ->setOvertimeNumber(1.50)
+            ->setAbsenceSymbol(null),
+        ];
+
+        $this->workLogRepository
+            ->expects($this->once())
+            ->method('findEmployeeWorkLogsByCurrentMonth')
+            ->willReturn($workLogs)
+        ;
+
+        /** @var WorkReportDTO $employeeMonthWorkReport */
+        $employeeMonthWorkReport = $this->service->getEmployeeMonthWorkReport($employee);
+        $this->assertEquals(28.00, $employeeMonthWorkReport->getWorkedHours());
+        $this->assertEquals(4.00, $employeeMonthWorkReport->getOvertimeHours());
+        $this->assertEquals(1, $employeeMonthWorkReport->getAbsentDays());
+    }
+
+    public function testEmployeeMonthWorkReportForNotExistingWorkLogs()
+    {
+        $employee = $this->createEmployee();
+
+        $this->workLogRepository
+            ->expects($this->once())
+            ->method('findEmployeeWorkLogsByCurrentMonth')
+            ->willReturn([])
+        ;
+
+        /** @var WorkReportDTO $employeeMonthWorkReport */
+        $employeeMonthWorkReport = $this->service->getEmployeeMonthWorkReport($employee);
+        $this->assertEquals(0.00, $employeeMonthWorkReport->getWorkedHours());
+        $this->assertEquals(0.00, $employeeMonthWorkReport->getOvertimeHours());
+        $this->assertEquals(0.00, $employeeMonthWorkReport->getAbsentDays());
+    }
+
     public function createEmployee(): Employee
     {
         $employee = (new Employee())
