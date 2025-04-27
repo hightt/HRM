@@ -27,7 +27,7 @@ class EmployeeTimeSheetService
         
         foreach ($employeeWorkLogsInCurrentMonth as $employeeWorkLog) {
             if (!is_null($employeeWorkLog->getAbsenceSymbol()) && $employeeWorkLog->isDayOff() !== true) {
-                $employeeWorkLog->setIsDayOff = true;
+                $employeeWorkLog->setIsDayOff(true);
             }
         }
 
