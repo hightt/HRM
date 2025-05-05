@@ -1,49 +1,175 @@
 {
 	"info": {
-		"_postman_id": "d952a039-ddfd-44ed-bf1e-b89f6b36e7dd",
-		"name": "HRM",
+		"_postman_id": "7b81c511-1b69-496e-a7b3-df75e3396fcb",
+		"name": "Employee API",
+		"description": "REST API for managing employees in HRM system",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "44688415",
-		"_collection_link": "https://konradduda.postman.co/workspace/Konrad-Duda's-Workspace~f7537d43-53bd-4c2b-84ba-538cd355575f/collection/44688415-d952a039-ddfd-44ed-bf1e-b89f6b36e7dd?action=share&source=collection_link&creator=44688415"
+		"_collection_link": "https://konradduda.postman.co/workspace/Konrad-Duda's-Workspace~f7537d43-53bd-4c2b-84ba-538cd355575f/collection/44688415-7b81c511-1b69-496e-a7b3-df75e3396fcb?action=share&source=collection_link&creator=44688415"
 	},
 	"item": [
 		{
-			"name": "JWT Token",
+			"name": "Get All Employees",
 			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"username\":\"your_username\",\n    \"password\":\"uour_password\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "your_token",
+							"type": "string"
 						}
-					}
+					]
 				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
 				"url": {
-					"raw": "https://127.0.0.1:8000/api/login_check?username=konrad1@o2.pl&password=123123",
-					"protocol": "https",
+					"raw": "{{base_url}}/api/v1/employees",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{base_url}}"
 					],
-					"port": "8000",
 					"path": [
 						"api",
-						"login_check"
+						"v1",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Single Employee",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/v1/employees/103",
+					"host": [
+						"{{base_url}}"
 					],
-					"query": [
+					"path": [
+						"api",
+						"v1",
+						"employees",
+						"103"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Employee",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
 						{
-							"key": "username",
-							"value": "konrad1@o2.pl"
-						},
-						{
-							"key": "password",
-							"value": "your_password"
+							"key": "token",
+							"value": "your_token",
+							"type": "string"
 						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"birthdayDate\": \"1990-01-01\",\n  \"pesel\": \"90010112345\",\n  \"employmentDate\": \"2024-01-15\",\n  \"position\": \"Developer\",\n  \"phoneNumber\": \"123456789\",\n  \"address\": \"Main St 1\",\n  \"salary\": 7500,\n  \"gender\": \"M\",\n  \"departmentId\": 2,\n  \"contractType\": \"UoP\",\n  \"amountOfWorkingTime\": \"Full-time\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/employees",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Employee",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Updated\",\n  \"salary\": 8000,\n  \"contractType\": \"B2B\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/employees/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"employees",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Employee",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/v1/employees/123",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"employees",
+						"123"
 					]
 				}
 			},
