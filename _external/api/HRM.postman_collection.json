@@ -1,0 +1,53 @@
+{
+	"info": {
+		"_postman_id": "d952a039-ddfd-44ed-bf1e-b89f6b36e7dd",
+		"name": "HRM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44688415",
+		"_collection_link": "https://konradduda.postman.co/workspace/Konrad-Duda's-Workspace~f7537d43-53bd-4c2b-84ba-538cd355575f/collection/44688415-d952a039-ddfd-44ed-bf1e-b89f6b36e7dd?action=share&source=collection_link&creator=44688415"
+	},
+	"item": [
+		{
+			"name": "JWT Token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"your_username\",\n    \"password\":\"uour_password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://127.0.0.1:8000/api/login_check?username=konrad1@o2.pl&password=123123",
+					"protocol": "https",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"login_check"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "konrad1@o2.pl"
+						},
+						{
+							"key": "password",
+							"value": "your_password"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
