@@ -14,6 +14,12 @@ class HomeController extends AbstractController
 {
     static int $maxRecentJoinDays = 30;
 
+    #[Route('/landing-page', name: 'app_landing_page')]
+    public function landingPage(
+    ): Response {
+        return $this->render('landing_page.html.twig', []);
+    }
+
     #[Route('/', name: 'app_homecontroller')]
     public function index(
         EmployeeRepository   $employeeRepository,
