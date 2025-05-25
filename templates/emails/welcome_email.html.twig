@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Witamy na pokładzie!</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6;">
+    <h2>Cześć {{ user.firstName|default('') }},</h2>
+
+    <p>Miło nam poinformować, że Twoje konto w systemie zarządzania zasobami ludzkimi (HRM) zostało właśnie utworzone.</p>
+
+    <p>Od teraz możesz:</p>
+    <ul>
+        <li>Rejestrować swój czas pracy,</li>
+        <li>Przeglądać ewidencje i raporty,</li>
+        <li>Pobierać miesięczne zestawienia w formacie PDF,</li>
+        <li>Zarządzać swoimi danymi kontaktowymi.</li>
+    </ul>
+
+    <h3>🔐 Dane logowania:</h3>
+    <p><strong>Adres e-mail:</strong> {{ user.email }}<br>
+    <strong>Hasło:</strong> (ustawione podczas pierwszego logowania lub przesłane osobno)</p>
+
+    <p>🌐 <a href="{{ loginUrl }}">Kliknij tutaj, aby się zalogować</a></p>
+
+    <p>W razie pytań skontaktuj się z działem HR lub administratorem systemu.</p>
+
+    <p>Pozdrawiamy,<br><strong>Zespół HRM</strong></p>
+</body>
+</html>
