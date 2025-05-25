@@ -44,7 +44,7 @@ class EmployeeTimeSheetServiceTest extends TestCase
         );
     }
 
-    public function testReturnExistingExistingsEmployeeWorkLogsForCurrentMonth()
+    public function testReturnExistingEmployeeWorkLogsForCurrentMonth()
     {
         $employee = $this->createEmployee();
         $workLogs = [
