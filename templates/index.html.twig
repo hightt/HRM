@@ -16,9 +16,29 @@
 								<span>Dashboard</span>
 							</a>
 						</li>
+						<li class="nav-item">
+							<a href="{{ path('app_employee_show', { id: app.user.employee.id }) }}" class="nav-link d-flex align-items-center {% if app.request.attributes.get('_route') == 'app_employee_show' %}main-menu-link-active{% else %}link-dark{% endif %}">
+								<i class="fa-solid fa-user me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
+								<span>Twoje konto</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="{{ path('app_department_show', { id: app.user.employee.department.id }) }}" class="nav-link d-flex align-items-center {% if app.request.attributes.get('_route') == 'app_department_show' %}main-menu-link-active{% else %}link-dark{% endif %}">
+								<i class="fa-solid fa-building-user me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
+								<span>Twój dział</span>
+							</a>
+						</li>
+						<!--- TODO -->
+						<li class="nav-item">
+							<a href="{{ path('app_department_show', { id: app.user.employee.department.id }) }}" class="nav-link d-flex align-items-center {% if app.request.attributes.get('_route') == 'app_department_show' %}main-menu-link-active{% else %}link-dark{% endif %}">
+								<i class="fa-solid fa-building-user me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
+								<span>Wnioski urlopowe</span>
+							</a>
+						</li>
+						{% if is_granted('ROLE_ACCOUNTING') %}
 						<li>
 							<a href="{{ path('app_employee_index') }}" class="nav-link d-flex align-items-center {% if app.request.attributes.get('_route') == 'app_employee_index' %}main-menu-link-active{% else %}link-dark{% endif %}">
-								<i class="fa-solid fa-user me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
+								<i class="fa-solid fa-users me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
 								<span>Lista pracowników</span>
 							</a>
 						</li>
@@ -40,6 +60,7 @@
 								<span>Ustawienia</span>
 							</a>
 						</li>
+						{% endif %}
 						<li>
 							<form action="{{ path('app_logout') }}" method="post">
 								<button type="submit" class="nav-link d-flex align-items-center link-dark" style="background: none; border: none; width: 100%; text-align: left;">

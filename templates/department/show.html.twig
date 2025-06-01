@@ -26,13 +26,12 @@
 					<div class="mt-2">
 						{% if department.manager %}
 							<img src="{{asset('images/employee_man.png')}}" width="25px" height="25px" style="border-radius: 50%">
-							<a class="ms-" href="{{ path('app_employee_show', { id: department.manager.id }) }}">
-								{{department.manager.getFullName}}
-							</a>
+							{{department.manager.getFullName}}
 						{% endif %}
 					</div>
 				</div>
 
+				{% if is_granted('ROLE_ACCOUNTING') %}
 				<div class="p-3 mt-2" style="background-color: #fff; border-radius: 8px;">
 					<div style="font-weight: bold;">
 						Podsumowanie miesięczne pracowników
@@ -44,11 +43,13 @@
 						</a>
 					</div>
 				</div>
+				{% endif %}
 			</div>
 			<div class="col-8">
 				<div class="p-3" style="background-color: #fff; border-radius: 8px;">
 					<div class="row mb-3">
 						<div class="me-auto">
+							{% if is_granted('ROLE_ACCOUNTING') %}
 							<a href="{{ path('app_department_edit', {'id': department.id}) }}">
 								<div class="tool">
 									<div class="text-center">
@@ -57,6 +58,7 @@
 									<div class="text-center">Edytuj dane podstawowe</div>
 								</div>
 							</a>
+							{% endif %}
 						</div>
 					</div>
 					<div>
