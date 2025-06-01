@@ -3,23 +3,19 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use DateTime;
-use Dompdf\Dompdf;
-use Dompdf\Options;
 use App\Entity\Department;
 use App\Form\DepartmentType;
 use Psr\Log\LoggerInterface;
-use App\Repository\WorkLogRepository;
 use App\Repository\DepartmentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
-use App\Message\GenerateEmployeeReportMessage;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Message\GenerateDepartmentReportMessage;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/department')]
@@ -31,6 +27,7 @@ final class DepartmentController extends AbstractController
         return $this->render('department/index.html.twig');
     }
 
+    #[IsGranted('ROLE_ACCOUNTING')]
     #[Route('/new', name: 'app_department_new', methods: ['GET', 'POST'])]
     public function new(
         Request                 $request,
@@ -56,14 +53,22 @@ final class DepartmentController extends AbstractController
 
     #[Route('/show/{id}', name: 'app_department_show', methods: ['GET'])]
     public function show(
-        Department $department,
+        Department  $department,
+        Security    $security,
     ): Response {
+        /** @var User $currentUser */
+        $currentUser = $security->getUser();
+        if ($currentUser->getEmployee()->getDepartment()->getId() !== $department->getId()) {
+            $this->denyAccessUnlessGranted('ROLE_ACCOUNTING');
+        }
+
         return $this->render('department/show.html.twig', [
             'department'   => $department,
         ]);
     }
 
 
+    #[IsGranted('ROLE_ACCOUNTING')]
     #[Route('/{id}/edit', name: 'app_department_edit', methods: ['GET', 'POST'])]
     public function edit(
         Request                 $request,
@@ -87,6 +92,7 @@ final class DepartmentController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ACCOUNTING')]
     #[Route('/list', name: 'app_department_list', methods: ['GET'])]
     public function list(
         DepartmentRepository    $departmentRepository,

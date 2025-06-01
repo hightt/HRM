@@ -37,6 +37,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private bool $isVerified = false;
 
+    #[ORM\OneToOne(mappedBy: 'user', targetEntity: Employee::class)]
+    private ?Employee $employee = null;
+
+    public function getEmployee(): ?Employee
+    {
+        return $this->employee;
+    }
+
+    public function setEmployee(?Employee $employee): static
+    {
+        $this->employee = $employee;
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -79,7 +93,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @param list<string> $roles
+     * @param list<string> $rolesr
      */
     public function setRoles(array $roles): static
     {

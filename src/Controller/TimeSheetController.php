@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Service\TimeSheet\EmployeeTimeSheetService;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 
 #[Route('/time_sheet')]
 final class TimeSheetController extends AbstractController
@@ -22,7 +23,14 @@ final class TimeSheetController extends AbstractController
         Request                  $request,
         Employee                 $employee,
         EmployeeTimeSheetService $employeeTimeSheetService,
+        Security                 $security,
     ): Response {
+        /** @var User $currentUser */
+        $currentUser = $security->getUser();
+        if ($currentUser->getEmployee()->getId() !== $employee->getId()) {
+            $this->denyAccessUnlessGranted('ROLE_ACCOUNTING');
+        }
+
         $employeeWorkLogsInCurrentMonth = $employeeTimeSheetService->getEmployeeWorkLogsForCurrentMonth($employee);
         $form = $this->createForm(MonthlyWorkLogType::class, ['workLogs' => $employeeWorkLogsInCurrentMonth, 'employee' => $employee]);
         $form->handleRequest($request);
@@ -45,7 +53,14 @@ final class TimeSheetController extends AbstractController
         Employee                 $employee,
         EmployeeTimeSheetService $employeeTimeSheetService,
         LoggerInterface          $logger,
+        Security                 $security,
     ): Response {
+        /** @var User $currentUser */
+        $currentUser = $security->getUser();
+        if ($currentUser->getEmployee()->getId() !== $employee->getId()) {
+            $this->denyAccessUnlessGranted('ROLE_ACCOUNTING');
+        }
+
         $logger->info(sprintf('Starting generate montly work time report employee: %s [ID: %d]', $employee->getFullName(), $employee->getId()));
 
         $bus->dispatch(new GenerateEmployeeReportMessage($employee->getUser()->getEmail(), $employee));
