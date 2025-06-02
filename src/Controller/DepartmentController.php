@@ -30,8 +30,8 @@ final class DepartmentController extends AbstractController
     #[IsGranted('ROLE_ACCOUNTING')]
     #[Route('/new', name: 'app_department_new', methods: ['GET', 'POST'])]
     public function new(
-        Request                 $request,
-        EntityManagerInterface  $entityManager,
+        Request                $request,
+        EntityManagerInterface $entityManager,
     ): Response {
         $department = new Department();
         $form = $this->createForm(DepartmentType::class, $department);
@@ -53,8 +53,8 @@ final class DepartmentController extends AbstractController
 
     #[Route('/show/{id}', name: 'app_department_show', methods: ['GET'])]
     public function show(
-        Department  $department,
-        Security    $security,
+        Department $department,
+        Security   $security,
     ): Response {
         /** @var User $currentUser */
         $currentUser = $security->getUser();
@@ -62,8 +62,13 @@ final class DepartmentController extends AbstractController
             $this->denyAccessUnlessGranted('ROLE_ACCOUNTING');
         }
 
+        $employees = array_filter($department->getEmployees()->toArray(), function($employee) {
+            return $employee->isStatus() === true;
+        });
+
         return $this->render('department/show.html.twig', [
-            'department'   => $department,
+            'department' => $department,
+            'employees'  => $employees,
         ]);
     }
 
@@ -71,9 +76,9 @@ final class DepartmentController extends AbstractController
     #[IsGranted('ROLE_ACCOUNTING')]
     #[Route('/{id}/edit', name: 'app_department_edit', methods: ['GET', 'POST'])]
     public function edit(
-        Request                 $request,
-        Department              $department,
-        EntityManagerInterface  $entityManager,
+        Request                $request,
+        Department             $department,
+        EntityManagerInterface $entityManager,
     ): Response {
         $form = $this->createForm(DepartmentType::class, $department);
         $form->handleRequest($request);
@@ -87,8 +92,8 @@ final class DepartmentController extends AbstractController
         }
 
         return $this->render('department/edit.html.twig', [
-            'employee'  => $department,
-            'form'      => $form,
+            'employee' => $department,
+            'form'     => $form,
         ]);
     }
 
@@ -129,10 +134,10 @@ final class DepartmentController extends AbstractController
 
         $data = array_map(function ($department) {
             return [
-                'id'          =>  $department->getId(),
-                'name'        =>  $department->getName(),
-                'managerName' =>  $department->getManagerName(),
-                'location'    =>    $department->getLocation(),
+                'id'          => $department->getId(),
+                'name'        => $department->getName(),
+                'managerName' => $department->getManagerName(),
+                'location'    => $department->getLocation(),
                 'editUrl'     => $this->generateUrl('app_department_edit', ['id' => $department->getId()]),
                 'showUrl'     => $this->generateUrl('app_department_show', ['id' => $department->getId()]),
             ];
@@ -154,11 +159,14 @@ final class DepartmentController extends AbstractController
         Security            $security,
     ): Response {
         $logger->info(sprintf('Starting generate montly work time report for department: %s [ID: %d]', $department->getName(), $department->getId()));
-        $bus->dispatch(new GenerateDepartmentReportMessage($security->getUser()->getEmail(), $department));
+        
+        /** @var User $currentUser */
+        $currentUser = $security->getUser();
+        $bus->dispatch(new GenerateDepartmentReportMessage($currentUser->getEmail(), $department));
         $this->addFlash('success', 'Generowanie raportu rozpoczęte! Sprawdź swój adres e-mail.');
         
         return $this->render('department/show.html.twig', [
-            'department'   => $department,
+            'department' => $department,
         ]);
     }
 }
