@@ -6,14 +6,17 @@ namespace App\Service\Employee;
 use App\Entity\User;
 use App\DTO\EmployeeDTO;
 use App\Entity\Employee;
+use App\Event\UserCreatedEvent;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class CreateEmployeeAndUserService 
 {
     public function __construct(
         private EntityManagerInterface      $entityManager,
-        private UserPasswordHasherInterface $passwordHasher
+        private UserPasswordHasherInterface $passwordHasher,
+        private EventDispatcherInterface    $eventDispatcher,
     ) {}
 
     public function createEmployeeAndUserAfterFormSend(EmployeeDTO $employeeDTO)
@@ -21,8 +24,9 @@ class CreateEmployeeAndUserService
         $employeeEntity = $this->createEmployeeEntity($employeeDTO);
         $userEntity = $this->createUserEntityWithDefaultPassword($employeeDTO, $employeeEntity->getPesel());
         $employeeEntity->setUser($userEntity);
-
         $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch(new UserCreatedEvent($userEntity));
     }
 
     private function createEmployeeEntity(EmployeeDTO $employeeDTO): Employee

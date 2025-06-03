@@ -1,0 +1,93 @@
+{% extends 'root.html.twig' %}
+
+{% block title %}HRM - Human Resource Management{% endblock %}
+
+{% block body %}
+<style>
+    .hero {
+        background: url('/images/landing_page.png') center center / cover no-repeat;
+        color: white;
+        height: 100vh;
+        position: relative;
+    }
+    .hero-overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+</style>
+
+<section class="hero d-flex align-items-center justify-content-center text-center">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+        <h1 class="display-3 fw-bold">HRM</h1>
+        <p class="lead fs-4">Nowoczesne zarządzanie zasobami ludzkimi</p>
+        <a href="{{ path('app_login') }}" class="btn btn-lg btn-primary mt-4 purple-strong border-0" >
+            <i class="fas fa-sign-in-alt me-2" ></i>Zaloguj się
+        </a>
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container text-center">
+        <h2 class="mb-4">Co oferuje HRM?</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                <h5>Zarządzanie pracownikami</h5>
+                <p>Kompleksowa baza danych pracowników z możliwością edycji i przeglądania.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fas fa-calendar-check fa-3x text-success mb-3"></i>
+                <h5>Ewidencja czasu pracy</h5>
+                <p>Śledź obecność, czas pracy i absencje w czasie rzeczywistym.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fas fa-chart-line fa-3x text-warning mb-3"></i>
+                <h5>Statystyki i raporty</h5>
+                <p>Wizualizacje danych i automatyczne raportowanie wyników pracy.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container text-center">
+        <h2 class="mb-4">Dlaczego warto wybrać HRM?</h2>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <i class="fas fa-shield-alt fa-2x text-info mb-2"></i>
+                <h6>Bezpieczeństwo danych</h6>
+                <p>Twoje dane są bezpieczne – wykorzystujemy JWT i nowoczesne standardy bezpieczeństwa.</p>
+            </div>
+            <div class="col-md-6 mb-4">
+                <i class="fas fa-cogs fa-2x text-danger mb-2"></i>
+                <h6>Elastyczność systemu</h6>
+                <p>Łatwa integracja z innymi narzędziami i pełna kontrola nad funkcjonalnościami.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="text-white py-5 text-center" style="background-color: #7E60BF;">
+    <div class="container">
+        <h2 class="mb-3">Gotowy, aby usprawnić zarządzanie zespołem?</h2>
+        <a href="{{ path('app_register') }}" class="btn btn-light btn-lg">
+            <i class="fas fa-user-plus me-2"></i>Zarejestruj się
+        </a>
+    </div>
+</section>
+
+<footer class="bg-dark text-white py-3 text-center">
+    <div class="container">
+        <small>&copy; {{ "now"|date("Y") }} HRM. Wszelkie prawa zastrzeżone.</small>
+    </div>
+</footer>
+{% endblock %}

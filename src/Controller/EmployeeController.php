@@ -4,24 +4,28 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\DTO\EmployeeDTO;
 use App\Entity\Employee;
 use App\Form\EmployeeType;
 use App\Form\NewEmployeeType;
 use App\Repository\EmployeeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Service\Employee\CreateEmployeeAndUserService;
 use App\Service\TimeSheet\EmployeeTimeSheetService;
+use App\Service\Employee\CreateEmployeeAndUserService;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 #[Route('/employee')]
 final class EmployeeController extends AbstractController
 {
+    #[IsGranted('ROLE_ACCOUNTING')]
     #[Route(name: 'app_employee_index', methods: ['GET'])]
     public function index(
         EmployeeRepository $employeeRepository
@@ -32,6 +36,7 @@ final class EmployeeController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ACCOUNTING')]
     #[Route('/new', name: 'app_employee_new', methods: ['GET', 'POST'])]
     public function new(
         Request                      $request,
@@ -58,8 +63,14 @@ final class EmployeeController extends AbstractController
     public function show(
         EmployeeTimeSheetService $employeeTimeSheetService,
         Employee                 $employee,
+        Security                 $security,
     ): Response
     {
+        /** @var User $currentUser */
+        $currentUser = $security->getUser();
+        if ($currentUser->getEmployee()->getId() !== $employee->getId()) {
+            $this->denyAccessUnlessGranted('ROLE_ACCOUNTING');
+        }
         $employeeWorkReportForCurrentMonth = $employeeTimeSheetService->getEmployeeMonthWorkReport($employee);
 
         return $this->render('employee/show.html.twig', [
@@ -68,6 +79,7 @@ final class EmployeeController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ACCOUNTING')]
     #[Route('/{id}/edit', name: 'app_employee_edit', methods: ['GET', 'POST'])]
     public function edit(
         Request                $request,
@@ -90,6 +102,7 @@ final class EmployeeController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ACCOUNTING')]
     #[Route('/{id}', name: 'app_employee_delete', methods: ['POST'])]
     public function delete(
         Request                 $request,
@@ -105,6 +118,7 @@ final class EmployeeController extends AbstractController
         return $this->redirectToRoute('app_employee_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[IsGranted('ROLE_ACCOUNTING')]
     #[Route('/list', name: 'app_employee_list', methods: ['GET'])]
     public function list(
         EmployeeRepository  $employeeRepository,

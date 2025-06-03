@@ -34,9 +34,7 @@
 					<div class="mt-2">
 						{% if employee.department and employee.department.manager %}
 							<img src="{{asset('images/employee_man.png')}}" width="25px" height="25px" style="border-radius: 50%">
-							<a class="ms-" href="{{ path('app_employee_show', { id: employee.department.manager.id }) }}">
-								{{employee.department.manager.getFullName}}
-							</a>
+							{{employee.department.manager.getFullName}}
 						{% endif %}
 					</div>
 				</div>
@@ -80,6 +78,7 @@
 										<div class="text-center">Ewidencja</div>
 									</div>
 								</a>
+								{% if is_granted('ROLE_ACCOUNTING') %}
 								<a href="{{ path('app_employee_edit', {'id': employee.id}) }}">
 									<div class="tool">
 										<div class="text-center">
@@ -88,6 +87,7 @@
 										<div class="text-center">Edytuj dane podstawowe</div>
 									</div>
 								</a>
+								{% endif %}
 							</div>
 						</div>
 					</div>

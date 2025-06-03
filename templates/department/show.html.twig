@@ -26,37 +26,39 @@
 					<div class="mt-2">
 						{% if department.manager %}
 							<img src="{{asset('images/employee_man.png')}}" width="25px" height="25px" style="border-radius: 50%">
-							<a class="ms-" href="{{ path('app_employee_show', { id: department.manager.id }) }}">
-								{{department.manager.getFullName}}
-							</a>
+							{{department.manager.getFullName}}
 						{% endif %}
 					</div>
 				</div>
 
-				<div class="p-3 mt-2" style="background-color: #fff; border-radius: 8px;">
-					<div style="font-weight: bold;">
-						Podsumowanie miesięczne pracowników
+				{% if is_granted('ROLE_ACCOUNTING') %}
+					<div class="p-3 mt-2" style="background-color: #fff; border-radius: 8px;">
+						<div style="font-weight: bold;">
+							Podsumowanie miesięczne pracowników
+						</div>
+						<div>
+							<a href="{{ path('app_time_sheet_department_generate_work_time_report_for_current_month', {'id': department.id}) }}" alt="Aktualna ewidencja godzin">
+								<i class="fa-solid fa-file-pdf me-2" style="font-size: 25px; color: #d3624f;"></i>
+								Aktualna ewidencja godzin
+							</a>
+						</div>
 					</div>
-					<div>
-						<a href="{{ path('app_time_sheet_department_generate_work_time_report_for_current_month', {'id': department.id}) }}" alt="Aktualna ewidencja godzin">
-							<i class="fa-solid fa-file-pdf me-2" style="font-size: 25px; color: #d3624f;"></i>
-							Aktualna ewidencja godzin
-						</a>
-					</div>
-				</div>
+				{% endif %}
 			</div>
 			<div class="col-8">
 				<div class="p-3" style="background-color: #fff; border-radius: 8px;">
 					<div class="row mb-3">
 						<div class="me-auto">
-							<a href="{{ path('app_department_edit', {'id': department.id}) }}">
-								<div class="tool">
-									<div class="text-center">
-										<i class="fa-solid fa-circle-user"></i>
+							{% if is_granted('ROLE_ACCOUNTING') %}
+								<a href="{{ path('app_department_edit', {'id': department.id}) }}">
+									<div class="tool">
+										<div class="text-center">
+											<i class="fa-solid fa-circle-user"></i>
+										</div>
+										<div class="text-center">Edytuj dane podstawowe</div>
 									</div>
-									<div class="text-center">Edytuj dane podstawowe</div>
-								</div>
-							</a>
+								</a>
+							{% endif %}
 						</div>
 					</div>
 					<div>
@@ -71,6 +73,28 @@
 						</div>
 					</div>
 				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<h5 class="text-muted mt-3">Pracownicy w dziale:</h5>
+			<div class="table-responsive rounded">
+				<table class="table table-striped table-bordered align-middle mb-0">
+					<thead class="table-light">
+						<tr>
+							<th>Imię i nazwisko</th>
+							<th>Stanowisko</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for employee in employees %}
+							<tr>
+								<td>{{ employee.getFullname }}</td>
+								<td>{{ employee.position }}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
