@@ -100,8 +100,8 @@ final class DepartmentController extends AbstractController
     #[IsGranted('ROLE_ACCOUNTING')]
     #[Route('/list', name: 'app_department_list', methods: ['GET'])]
     public function list(
-        DepartmentRepository    $departmentRepository,
-        Request                 $request,
+        DepartmentRepository $departmentRepository,
+        Request              $request,
     ) {
         $draw = $request->query->getInt('draw');
         $start = $request->query->getInt('start', 0);
