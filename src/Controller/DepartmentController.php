@@ -3,23 +3,19 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use DateTime;
-use Dompdf\Dompdf;
-use Dompdf\Options;
 use App\Entity\Department;
 use App\Form\DepartmentType;
 use Psr\Log\LoggerInterface;
-use App\Repository\WorkLogRepository;
 use App\Repository\DepartmentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
-use App\Message\GenerateEmployeeReportMessage;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Message\GenerateDepartmentReportMessage;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/department')]
@@ -31,10 +27,11 @@ final class DepartmentController extends AbstractController
         return $this->render('department/index.html.twig');
     }
 
+    #[IsGranted('ROLE_ACCOUNTING')]
     #[Route('/new', name: 'app_department_new', methods: ['GET', 'POST'])]
     public function new(
-        Request                 $request,
-        EntityManagerInterface  $entityManager,
+        Request                $request,
+        EntityManagerInterface $entityManager,
     ): Response {
         $department = new Department();
         $form = $this->createForm(DepartmentType::class, $department);
@@ -57,18 +54,31 @@ final class DepartmentController extends AbstractController
     #[Route('/show/{id}', name: 'app_department_show', methods: ['GET'])]
     public function show(
         Department $department,
+        Security   $security,
     ): Response {
+        /** @var User $currentUser */
+        $currentUser = $security->getUser();
+        if ($currentUser->getEmployee()->getDepartment()->getId() !== $department->getId()) {
+            $this->denyAccessUnlessGranted('ROLE_ACCOUNTING');
+        }
+
+        $employees = array_filter($department->getEmployees()->toArray(), function($employee) {
+            return $employee->isStatus() === true;
+        });
+
         return $this->render('department/show.html.twig', [
-            'department'   => $department,
+            'department' => $department,
+            'employees'  => $employees,
         ]);
     }
 
 
+    #[IsGranted('ROLE_ACCOUNTING')]
     #[Route('/{id}/edit', name: 'app_department_edit', methods: ['GET', 'POST'])]
     public function edit(
-        Request                 $request,
-        Department              $department,
-        EntityManagerInterface  $entityManager,
+        Request                $request,
+        Department             $department,
+        EntityManagerInterface $entityManager,
     ): Response {
         $form = $this->createForm(DepartmentType::class, $department);
         $form->handleRequest($request);
@@ -82,11 +92,12 @@ final class DepartmentController extends AbstractController
         }
 
         return $this->render('department/edit.html.twig', [
-            'employee'  => $department,
-            'form'      => $form,
+            'employee' => $department,
+            'form'     => $form,
         ]);
     }
 
+    #[IsGranted('ROLE_ACCOUNTING')]
     #[Route('/list', name: 'app_department_list', methods: ['GET'])]
     public function list(
         DepartmentRepository    $departmentRepository,
@@ -123,10 +134,10 @@ final class DepartmentController extends AbstractController
 
         $data = array_map(function ($department) {
             return [
-                'id'          =>  $department->getId(),
-                'name'        =>  $department->getName(),
-                'managerName' =>  $department->getManagerName(),
-                'location'    =>    $department->getLocation(),
+                'id'          => $department->getId(),
+                'name'        => $department->getName(),
+                'managerName' => $department->getManagerName(),
+                'location'    => $department->getLocation(),
                 'editUrl'     => $this->generateUrl('app_department_edit', ['id' => $department->getId()]),
                 'showUrl'     => $this->generateUrl('app_department_show', ['id' => $department->getId()]),
             ];
@@ -148,11 +159,14 @@ final class DepartmentController extends AbstractController
         Security            $security,
     ): Response {
         $logger->info(sprintf('Starting generate montly work time report for department: %s [ID: %d]', $department->getName(), $department->getId()));
-        $bus->dispatch(new GenerateDepartmentReportMessage($security->getUser()->getEmail(), $department));
+        
+        /** @var User $currentUser */
+        $currentUser = $security->getUser();
+        $bus->dispatch(new GenerateDepartmentReportMessage($currentUser->getEmail(), $department));
         $this->addFlash('success', 'Generowanie raportu rozpoczęte! Sprawdź swój adres e-mail.');
         
         return $this->render('department/show.html.twig', [
-            'department'   => $department,
+            'department' => $department,
         ]);
     }
 }

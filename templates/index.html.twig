@@ -5,41 +5,71 @@
 		<div class="row">
 			<div class="col-2 p-0 m-0">
 				<div class="sidebar d-flex flex-column flex-shrink-0 p-3 ps-0" style="min-height: 100vh; background-color: #f9f9f9;">
-					<div class="text-center">
+					<div class="text-center mb-3">
 						<img src="{{ asset('images/logo2.png')}}" width="175px" height="75px">
 					</div>
 					<hr>
-					<ul class="nav nav-pills flex-column mb-auto">
+
+					<h6 class="text-uppercase text-muted ps-3 mb-2">Nawigacja</h6>
+					<ul class="nav nav-pills flex-column mb-3">
 						<li class="nav-item">
 							<a href="{{ path('app_homecontroller') }}" class="nav-link d-flex align-items-center {% if app.request.attributes.get('_route') == 'app_homecontroller' %}main-menu-link-active{% else %}link-dark{% endif %}">
 								<i class="fa-solid fa-chart-line me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
 								<span>Dashboard</span>
 							</a>
 						</li>
-						<li>
-							<a href="{{ path('app_employee_index') }}" class="nav-link d-flex align-items-center {% if app.request.attributes.get('_route') == 'app_employee_index' %}main-menu-link-active{% else %}link-dark{% endif %}">
+						<li class="nav-item">
+							<a href="{{ path('app_employee_show', { id: app.user.employee.id }) }}" class="nav-link d-flex align-items-center {% if app.request.attributes.get('_route') == 'app_employee_show' %}main-menu-link-active{% else %}link-dark{% endif %}">
 								<i class="fa-solid fa-user me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
-								<span>Lista pracowników</span>
+								<span>Twoje konto</span>
 							</a>
 						</li>
-						<li>
-							<a href="{{ path('app_department_index') }}" class="nav-link d-flex align-items-center {% if app.request.attributes.get('_route') == 'app_department_index' %}main-menu-link-active{% else %}link-dark{% endif %}">
-								<i class="fa-solid fa-building me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
-								<span>Działy</span>
+						<li class="nav-item">
+							<a href="{{ path('app_department_show', { id: app.user.employee.department.id }) }}" class="nav-link d-flex align-items-center {% if app.request.attributes.get('_route') == 'app_department_show' %}main-menu-link-active{% else %}link-dark{% endif %}">
+								<i class="fa-solid fa-building-user me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
+								<span>Twój dział</span>
 							</a>
 						</li>
-						<li>
-							<a href="#" class="nav-link link-dark d-flex align-items-center">
-								<i class="fa-solid fa-house me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
-								<span>Dane na temat twojej firmy</span>
+						<li class="nav-item">
+							<a href="#" class="nav-link d-flex align-items-center link-dark">
+								<i class="fa-solid fa-plane me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
+								<span>Wnioski urlopowe</span>
 							</a>
 						</li>
-						<li>
-							<a href="#" class="nav-link link-dark d-flex align-items-center">
-								<i class="fa-solid fa-gear me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
-								<span>Ustawienia</span>
-							</a>
-						</li>
+					</ul>
+
+					{% if is_granted('ROLE_ACCOUNTING') %}
+						<h6 class="text-uppercase text-muted ps-3 mb-2">Administracja</h6>
+						<ul class="nav nav-pills flex-column mb-3">
+							<li>
+								<a href="{{ path('app_employee_index') }}" class="nav-link d-flex align-items-center {% if app.request.attributes.get('_route') == 'app_employee_index' %}main-menu-link-active{% else %}link-dark{% endif %}">
+									<i class="fa-solid fa-users me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
+									<span>Lista pracowników</span>
+								</a>
+							</li>
+							<li>
+								<a href="{{ path('app_department_index') }}" class="nav-link d-flex align-items-center {% if app.request.attributes.get('_route') == 'app_department_index' %}main-menu-link-active{% else %}link-dark{% endif %}">
+									<i class="fa-solid fa-building me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
+									<span>Działy</span>
+								</a>
+							</li>
+							<li>
+								<a href="#" class="nav-link link-dark d-flex align-items-center">
+									<i class="fa-solid fa-house me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
+									<span>Dane firmy</span>
+								</a>
+							</li>
+							<li>
+								<a href="#" class="nav-link link-dark d-flex align-items-center">
+									<i class="fa-solid fa-gear me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
+									<span>Ustawienia</span>
+								</a>
+							</li>
+						</ul>
+					{% endif %}
+
+					<hr>
+					<ul class="nav nav-pills flex-column">
 						<li>
 							<form action="{{ path('app_logout') }}" method="post">
 								<button type="submit" class="nav-link d-flex align-items-center link-dark" style="background: none; border: none; width: 100%; text-align: left;">
@@ -49,6 +79,7 @@
 							</form>
 						</li>
 					</ul>
+
 				</div>
 			</div>
 			<div class="col-10 p-0 m-0">

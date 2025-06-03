@@ -3,141 +3,231 @@
 {% block title %}Strona główna{% endblock %}
 
 {% block content %}
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<div class="row">
-		<div class="col-xl-9 col-lg-12">
-			<div class="row mb-2">
-				<div class="col-12">
-					<nav class="navbar navbar-light ">
-						<div class="container-fluid">
-							<div class="me-auto" style="font-size: 20px;">
-								Witaj, <span class="text-bold">{{employee.getFullName}} 👋</span>
-							</div>
-							<span class="navbar-brand mb-0 h1"></span>
-							<div class="ms-auto">
-								<btn class="btn purple-strong">Eksportuj dane</btn>
-							</div>
-						</div>
-					</nav>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-lg-4 col-sm-12 d-flex align-items-center justify-content-center ">
-					<div class="col-lg-10 col-sm-12 dashboard-statistics-box">
-						<div class="ps-3 pe-3 pt-3 ">Wszystkich pracowników</div>
-						<div class="text-bold text-left ps-3 pe-3 mt-3">
-							<h2>{{ numOfEmployees }}</h2>
-						</div>
-						<div class="dashboard-box-footer purple-strong align-text-bottom p-3 pt-4">
-							{{ lastJoinedEmployees|length }} nowych pracowników w ciągu ostatnich 30 dni
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-sm-12 d-flex align-items-center justify-content-center ">
-					<div class="col-lg-10  col-sm-12 dashboard-statistics-box">
-						<div class="ps-3 pe-3 pt-3 ">Liczba obecnych dzisiaj pracowników</div>
-						<div class="text-bold text-left ps-3 pe-3 mt-3">
-							<h2>1 452</h2>
-						</div>
-						<div class="dashboard-box-footer purple-strong align-text-bottom p-3 pt-4">
-							Duis tincidunt et mi quisosuere.
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-sm-12 d-flex align-items-center justify-content-center ">
-					<div class="col-lg-10  col-sm-12 dashboard-statistics-box">
-						<div class="ps-3 pe-3 pt-3 ">Nadchodzące wydarzenia</div>
-						<div class="text-bold text-left ps-3 pe-3 mt-3">
-							<h2></h2>
-						</div>
-						<div class="dashboard-box-footer purple-strong align-text-bottom p-3 pt-4">
-							Duis tincidunt et mi quis posuere.
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="mt-3 p-4 pe-2">
-					<canvas id="departmentsChart"></canvas>
-				</div>
-			</div>
-		</div>
-		<div class="col-xl-3 col-lg-12 mt-2">
-			<h4>Ostatnio dołączyli</h4>
-			{% for lastJoinedEmployee in lastJoinedEmployees %}
-				<div class="row mt-3 dashboard-employee">
-					<div class="col-xl-4 d-flex align-items-center justify-content-center text-center">
-						<i class="fa-regular fa-user" style="font-size: 45px;"></i>
-					</div>
-					<div class="col-xl-8 p-xl-0">
-						<div class="text-end" style="font-size: 15px; color: gray;">
-							{{lastJoinedEmployee.employmentDate|date('d.m.Y') }}
-						</div>
-						<div class="text-center" style="font-weight: bold;">
-							{{ lastJoinedEmployee.firstName }}
-							{{ lastJoinedEmployee.lastName }}
-							</div>
-						<div class="text-center" style="margin-top: -5px;">{{ lastJoinedEmployee.position }}</div>
-					</div>
-				</div>
-			{% endfor %}
-		</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="row">
+  <div class="col-xl-9 col-lg-12">
+    <nav class="navbar navbar-light bg-light rounded-3 mb-4 shadow-sm">
+      <div class="container-fluid">
+        <div class="fs-4 fw-semibold">Witaj, <span style="color: #7E60BF;">{{ employee.getFullName }}</span> 👋</div>
+        <button type="button" class="btn btn-purple-strong">Eksportuj dane</button>
+      </div>
+    </nav>
+
+    <div class="row g-3 mb-4">
+      <div class="col-lg-4 col-sm-12 d-flex justify-content-center">
+        <div class="card shadow-sm w-100" style="max-width: 320px;">
+          <div class="card-body text-center">
+            <h6 class="card-subtitle mb-2 text-muted">Wszystkich pracowników</h6>
+            <h2 class="fw-bold mb-3">{{ numOfEmployees }}</h2>
+            <div class="text-purple-strong small">
+              {{ lastJoinedEmployees|length }} nowych pracowników w ciągu ostatnich 30 dni
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-sm-12 d-flex justify-content-center">
+        <div class="card shadow-sm w-100" style="max-width: 320px;">
+          <div class="card-body text-center">
+            <h6 class="card-subtitle mb-2 text-muted">Liczba obecnych dzisiaj pracowników</h6>
+            <h2 class="fw-bold mb-3">1 452</h2>
+            <div class="text-purple-strong small">Duis tincidunt et mi quis posuere.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-sm-12 d-flex justify-content-center">
+        <div class="card shadow-sm w-100" style="max-width: 320px;">
+          <div class="card-body text-center">
+            <h6 class="card-subtitle mb-2 text-muted">Nadchodzące wydarzenia</h6>
+            <h2 class="fw-bold mb-3">—</h2>
+            <div class="text-purple-strong small">Duis tincidunt et mi quis posuere.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+	<div class="mb-4 text-center">
+	<h5 class="fw-semibold" style="color: #7E60BF; font-weight: bold">Ewidencja czasu pracy {{ "now"|date("m.Y") }}</h5>
 	</div>
 
-	 <script>
-			const labels = {{ departmentChartData.labels| json_encode | raw }};
-			const data = {{ departmentChartData.employeeNumbers| json_encode | raw }};
-		
-			const ctx = document.getElementById('departmentsChart').getContext('2d');
-			const departmentChart = new Chart(ctx, {
-				type: 'bar',
-				data: {
-					labels: labels,
-					datasets: [{
-						label: 'Liczba pracowników',
-						data: data,
-						backgroundColor: [
-							'rgba(75, 192, 192, 0.2)',
-							'rgba(255, 159, 64, 0.2)',
-							'rgba(153, 102, 255, 0.2)',
-							'rgba(255, 99, 132, 0.2)',
-							'rgba(71, 236, 38, 0.2)',
-						],
-						borderColor: [
-							'rgba(75, 192, 192, 1)',
-							'rgba(255, 159, 64, 1)',
-							'rgba(153, 102, 255, 1)',
-							'rgba(255, 99, 132, 1)',
-							'rgb(36, 239, 9)',
-						],
-						borderWidth: 1,
-						maxBarThickness: 50
-					}]
-				},
-				options: {
-					scales: {
-						y: {
-							beginAtZero: true,
-							ticks: { precision: 0 },
-						}
-		
-					},
-					plugins: {
-						legend: {
-							display: false,
-						},
-						title: {
-							display: true,
-							text: 'Liczba pracowników w poszczególnych działach',
-							position: 'top',
-							font: {
-								size: 17,
-							}
-						}
-					}
-		
-				}
-			});
-		</script>
+    <div class="table-responsive rounded shadow-sm m-3">
+      <table class="table table-striped table-bordered align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Data</th>
+            <th>Dzień tygodnia</th>
+            <th>Godzina rozpoczęcia</th>
+            <th>Godzina zakończenia</th>
+            <th>Czas pracy (h)</th>
+            <th>Dzień wolny?</th>
+            <th>Uwagi</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% set daysOfWeekTranslation = {
+            'Monday': 'Poniedziałek',
+            'Tuesday': 'Wtorek',
+            'Wednesday': 'Środa',
+            'Thursday': 'Czwartek',
+            'Friday': 'Piątek',
+            'Saturday': 'Sobota',
+            'Sunday': 'Niedziela'
+          } %}
+          {% set totalHours = 0 %}
+          {% for workLog in workLogs %}
+            <tr>
+              <td>{{ workLog.date|date('d.m.Y') }}</td>
+              <td>{{ daysOfWeekTranslation[workLog.date|date('l')] }}</td>
+              <td>
+				{% if workLog.isDayOff == 1 %}
+                	—
+                {% else %}
+					{{ workLog.hourStart|date('H:i') }}
+                {% endif %}
+			  </td>
+              <td>
+			  	
+				{% if workLog.isDayOff == 1 %}
+                	—
+                {% else %}
+					{{ workLog.hourEnd|date('H:i') }}
+                {% endif %}
+			  </td>
+              <td>
+                {% if workLog.hoursNumber is null %}
+                  <span class="text-muted">—</span>
+                {% else %}
+                  {{ workLog.hoursNumber|number_format(2, ',', '') }}
+                {% endif %}
+              </td>
+              <td class="text-center">
+                {% if workLog.isDayOff == 1 %}
+                  <span class="badge bg-success" title="Dzień wolny">✔</span>
+                {% else %}
+                  <span class="badge bg-danger" title="Dzień pracy">✘</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if workLog.absenceSymbol is not null %}
+                  <span class="text-warning fw-semibold" title="Zgłoszony wniosek">⚠ Zgłoszony wniosek</span>
+                {% else %}
+                  <span class="text-muted">—</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% set totalHours = totalHours + (workLog.hoursNumber ?: 0) %}
+          {% endfor %}
+        </tbody>
+        <tfoot class="table-light">
+          <tr>
+            <td colspan="4" class="text-end fw-bold">Łącznie:</td>
+            <td class="fw-bold">{{ totalHours|number_format(2, ',', '') }} h</td>
+            <td colspan="2"></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    {% if is_granted('ROLE_ACCOUNTING') %}
+      <canvas id="departmentsChart" class="shadow rounded mb-4" style="max-height: 350px;"></canvas>
+    {% endif %}
+  </div>
+
+  <div class="col-xl-3 col-lg-12 mt-2">
+    <h4 class="mb-3">Ostatnio dołączyli</h4>
+    {% for lastJoinedEmployee in lastJoinedEmployees %}
+      <div class="card mb-3 shadow-sm">
+        <div class="row g-0 align-items-center">
+          <div class="col-4 text-center">
+            <i class="fa-regular fa-user fa-3x text-secondary"></i>
+          </div>
+          <div class="col-8">
+            <div class="card-body py-2 px-3">
+              <div class="text-muted small text-end">{{ lastJoinedEmployee.employmentDate|date('d.m.Y') }}</div>
+              <div class="fw-bold text-truncate">{{ lastJoinedEmployee.firstName }} {{ lastJoinedEmployee.lastName }}</div>
+              <div class="text-truncate text-secondary small">{{ lastJoinedEmployee.position }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <p class="text-muted fst-italic">Brak nowych pracowników.</p>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  const labels = {{ departmentChartData.labels|json_encode|raw }};
+  const data = {{ departmentChartData.employeeNumbers|json_encode|raw }};
+
+  const ctx = document.getElementById('departmentsChart')?.getContext('2d');
+  if(ctx) {
+    const departmentChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Liczba pracowników',
+          data: data,
+          backgroundColor: [
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(71, 236, 38, 0.2)',
+          ],
+          borderColor: [
+            'rgba(75, 192, 192, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 99, 132, 1)',
+            'rgb(36, 239, 9)',
+          ],
+          borderWidth: 1,
+          maxBarThickness: 50
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { precision: 0 }
+          }
+        },
+        plugins: {
+          legend: { display: false },
+          title: {
+            display: true,
+            text: 'Liczba pracowników w poszczególnych działach',
+            position: 'top',
+            font: { size: 17 }
+          }
+        }
+      }
+    });
+  }
+</script>
+
+<style>
+  .btn-purple-strong {
+    background-color: #6f42c1;
+    color: white;
+  }
+  .btn-purple-strong:hover {
+    background-color: #5a32a3;
+    color: white;
+  }
+  .text-purple-strong {
+    color: #6f42c1;
+  }
+  .dashboard-statistics-box {
+    min-width: 250px;
+  }
+  .table > tbody > tr > td {
+    vertical-align: middle;
+  }
+</style>
 
 {% endblock %}
