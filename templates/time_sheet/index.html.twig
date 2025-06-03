@@ -1,89 +1,96 @@
 {% extends 'index.html.twig' %}
 
-{% block title %}Ewidencja godzin
-{% endblock %}
+{% block title %}Ewidencja godzin{% endblock %}
 
 {% block content %}
-	{% set months = {
-'January': 'Styczeń',
-'February': 'Luty',
-'March': 'Marzec',
-'April': 'Kwiecień',
-'May': 'Maj',
-'June': 'Czerwiec',
-'July': 'Lipiec',
-'August': 'Sierpień',
-'September': 'Wrzesień',
-'October': 'Październik',
-'November': 'Listopad',
-'December': 'Grudzień'
-} %}
+    {% set months = {
+        'January': 'Styczeń', 'February': 'Luty', 'March': 'Marzec',
+        'April': 'Kwiecień', 'May': 'Maj', 'June': 'Czerwiec',
+        'July': 'Lipiec', 'August': 'Sierpień', 'September': 'Wrzesień',
+        'October': 'Październik', 'November': 'Listopad', 'December': 'Grudzień'
+    } %}
 
-	<div class="row">
-		<div class="col-2">
-			<a href="{{ path('app_employee_show', {'id': form.vars.value.employee.id}) }}" type="button" class="btn btn purple-strong m-2" alt="Ewidencja pracownika">
-				Powrót
-			</a>
-		</div>
-		<div class="col-10 text-center">
-			<h4 class="mb-2 mt-2 text-center font-weight-normal">Ewidencja godzin pracy:
-				{{ form.vars.value.employee.getFullName }}
-			</h4>
-			{{ months["now"|date("F")] }},
-			{{ "now"|date("Y") }}
-		</div>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="{{ path('app_employee_show', {'id': form.vars.value.employee.id}) }}"
+           class="btn  ms-2 purple-strong">
+            <i class="fas fa-arrow-left me-2"></i>Powrót
+        </a>
+        <div class="text-center flex-grow-1">
+            <h4 class="fw-normal mb-1">Ewidencja godzin pracy: <strong>{{ form.vars.value.employee.getFullName }}</strong></h4>
+            <div class="text-muted small">
+                {{ months["now"|date("F")] }}, {{ "now"|date("Y") }}
+            </div>
+        </div>
+        <div class="w-25"></div> {# filler dla wyśrodkowania #}
+    </div>
 
-	</div>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>{{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
 
-	{% for message in app.flashes('success') %}
-		<div class="alert alert-success">{{ message }}</div>
-	{% endfor %}
+    {{ form_start(form) }}
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle text-center">
+            <thead class="table-light">
+                <tr>
+                    <th>Data</th>
+                    <th>Godzina rozpoczęcia</th>
+                    <th>Godzina zakończenia</th>
+                    <th>Dzień wolny?</th>
+                    <th>Powód nieobecności</th>
+                    <th>Notatki</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for workLogForm in form.workLogs %}
+                    <tr class="{% if workLogForm.vars.value.isDayOff %}table-secondary{% endif %}">
+                        <td>
+                            {{ form_widget(workLogForm.date, {'attr': {'class': 'form-control text-center', 'style': 'width: 130px;'}}) }}
+                        </td>
+                        <td>
+                            {{ form_widget(workLogForm.hourStart, {
+                                'attr': {
+                                    'class': 'form-control text-center input-select-work-log',
+                                    'style': workLogForm.vars.value.isDayOff ? 'display: none;' : 'width: 150px;'
+                                }
+                            }) }}
+                        </td>
+                        <td>
+                            {{ form_widget(workLogForm.hourEnd, {
+                                'attr': {
+                                    'class': 'form-control text-center input-select-work-log',
+                                    'style': workLogForm.vars.value.isDayOff ? 'display: none;' : 'width: 150px;'
+                                }
+                            }) }}
+                        </td>
+                        <td>
+                            {{ form_widget(workLogForm.isDayOff, {'attr': {'class': 'form-check-input'}}) }}
+                        </td>
+                        <td>
+                            {{ form_widget(workLogForm.absenceSymbol, {'attr': {'class': 'form-select'}}) }}
+                        </td>
+                        <td>
+                            {{ form_widget(workLogForm.notes, {'attr': {'class': 'form-control', 'style': 'height: 40px; width: 200px;'}}) }}
+                        </td>
 
-	{{ form_start(form) }}
-	<table class="table border rounded">
-		<thead class="font-weight: normal !important;">
-			<tr>
-				<th scope="col" class="text-center">Data</th>
-				<th scope="col" class="text-center">Godzina rozpoczęcia</th>
-				<th scope="col" class="text-center">Godzina zakończenia</th>
-				<th scope="col" class="text-center">Dzień wolny?</th>
-				<th scope="col" class="text-center">Powód nieobecności</th>
-				<th scope="col" class="text-center">Notatki</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for workLogForm in form.workLogs %}
-				<tr {% if workLogForm.vars.value.isDayOff ==true %} style="background-color: #e0e0e0;" {% endif %}>
-					<td class="text-center">{{ form_widget(workLogForm.date, {'attr': {'class': 'form-control', 'style':
-				'width:130px; text-align: center;'}}) }}</td>
-					{% if workLogForm.vars.value.isDayOff == true %}
-						<td class="text-center">{{ form_widget(workLogForm.hourStart, {'attr': {'class': 'form-control
-				input-select-work-log', 'style': 'display: none; '}}) }}</td>
-						<td class="text-center">{{ form_widget(workLogForm.hourEnd, {'attr': {'class': 'form-control
-				input-select-work-log', 'style': 'display: none;'}}) }}</td>
-					{% else %}
-						<td class="text-center">{{ form_widget(workLogForm.hourStart, {'attr': {'class': 'form-control
-				input-select-work-log', 'style': 'width:150px; '}}) }}</td>
-						<td class="text-center">{{ form_widget(workLogForm.hourEnd, {'attr': {'class': 'form-control
-				input-select-work-log', 'style': 'width:150px;'}}) }}</td>
-					{% endif %}
+                        {# Ukryte pola techniczne #}
+                        {{ form_widget(workLogForm.hoursNumber) }}
+                        {{ form_widget(workLogForm.overtimeNumber) }}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-					<td class="text-center">{{ form_widget(workLogForm.isDayOff, {'attr': {'class': 'form-check-input'}}) }}
-					</td>
-					<td class="text-center">{{ form_widget(workLogForm.absenceSymbol, {'attr': {'class': 'form-select'}}) }}
-					</td>
-					<td class="text-center">{{ form_widget(workLogForm.notes, {'attr': {'class': 'form-control', 'style':
-				'height:40px; width:200px;'}}) }}</td>
-					{{ form_widget(workLogForm.hoursNumber)}}
-					{{ form_widget(workLogForm.overtimeNumber)}}
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-	{{ form_row(form._token) }}
-	<div class="text-center">
-		{{ form_widget(form.save, {'attr': {'class': 'btn purple-strong mb-3'}}) }}
-	</div>
+    {{ form_row(form._token) }}
 
-	{{ form_end(form, {'render_rest': false}) }}
+    <div class="text-center mt-3">
+        <button type="submit" class="btn px-4 purple-strong" >
+            <i class="fas fa-save me-2"></i>Zapisz ewidencję
+        </button>
+    </div>
+    {{ form_end(form, {'render_rest': false}) }}
 {% endblock %}
