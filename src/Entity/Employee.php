@@ -3,12 +3,13 @@ declare(strict_types = 1);
 
 namespace App\Entity;
 
-use App\Repository\EmployeeRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTimeInterface;
+use App\Entity\LeaveRequest;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use DateTimeInterface;
+use App\Repository\EmployeeRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: EmployeeRepository::class)]
 class Employee
@@ -71,9 +72,23 @@ class Employee
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $amountOfWorkingTime = null;
 
+    /**
+     * @var Collection<int, LeaveRequest>
+     */
+    #[ORM\OneToMany(targetEntity: LeaveRequest::class, mappedBy: 'employee')]
+    private Collection $leaveRequests;
+
+    /**
+     * @var Collection<int, LeaveRequest>
+     */
+    #[ORM\OneToMany(targetEntity: LeaveRequest::class, mappedBy: 'reviewedBy')]
+    private Collection $reviewedLeaveRequests;
+
     public function __construct()
     {
         $this->workLogs = new ArrayCollection();
+        $this->leaveRequests = new ArrayCollection();
+        $this->reviewedLeaveRequests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -292,6 +307,66 @@ class Employee
     public function setAmountOfWorkingTime(?string $amountOfWorkingTime): static
     {
         $this->amountOfWorkingTime = $amountOfWorkingTime;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LeaveRequest>
+     */
+    public function getLeaveRequests(): Collection
+    {
+        return $this->leaveRequests;
+    }
+
+    public function addLeaveRequest(LeaveRequest $leaveRequest): static
+    {
+        if (!$this->leaveRequests->contains($leaveRequest)) {
+            $this->leaveRequests->add($leaveRequest);
+            $leaveRequest->setEmployee($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLeaveRequest(LeaveRequest $leaveRequest): static
+    {
+        if ($this->leaveRequests->removeElement($leaveRequest)) {
+            // set the owning side to null (unless already changed)
+            if ($leaveRequest->getEmployee() === $this) {
+                $leaveRequest->setEmployee(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LeaveRequest>
+     */
+    public function getReviewedLeaveRequests(): Collection
+    {
+        return $this->reviewedLeaveRequests;
+    }
+
+    public function addReviewedLeaveRequest(LeaveRequest $reviewedLeaveRequest): static
+    {
+        if (!$this->reviewedLeaveRequests->contains($reviewedLeaveRequest)) {
+            $this->reviewedLeaveRequests->add($reviewedLeaveRequest);
+            $reviewedLeaveRequest->setReviewedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReviewedLeaveRequest(LeaveRequest $reviewedLeaveRequest): static
+    {
+        if ($this->reviewedLeaveRequests->removeElement($reviewedLeaveRequest)) {
+            // set the owning side to null (unless already changed)
+            if ($reviewedLeaveRequest->getReviewedBy() === $this) {
+                $reviewedLeaveRequest->setReviewedBy(null);
+            }
+        }
 
         return $this;
     }
