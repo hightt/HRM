@@ -5,9 +5,9 @@ namespace App\Model\LeaveRequest;
 
 enum LeaveRequestStatus: string
 {
-    case PENDING  = 'pending';         // Oczekuje na decyzję
-    case APPROVED = 'approved';       // Zatwierdzony
-    case REJECTED = 'rejected';       // Odrzucony
+    case PENDING  = 'Oczekuje';         // Oczekuje na decyzję
+    case APPROVED = 'Zatwierdzony';       // Zatwierdzony
+    case REJECTED = 'Odrzucony';       // Odrzucony
 
     public function label(): string
     {
@@ -16,5 +16,13 @@ enum LeaveRequestStatus: string
             self::APPROVED => 'Zatwierdzony',
             self::REJECTED => 'Odrzucony',
         };
+    }
+
+    public static function choices(): array
+    {
+        return array_combine(
+            array_map(fn(self $case) => $case->label(), self::cases()),
+            self::cases()
+        );
     }
 }

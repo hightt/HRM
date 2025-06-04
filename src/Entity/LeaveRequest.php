@@ -62,7 +62,7 @@ class LeaveRequest
         return $this;
     }
 
-    public function getLeaveType(): ?string
+    public function getLeaveType(): ?LeaveRequestType
     {
         return $this->leaveType;
     }
@@ -98,7 +98,7 @@ class LeaveRequest
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): ?LeaveRequestStatus
     {
         return $this->status;
     }

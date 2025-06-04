@@ -5,12 +5,12 @@ namespace App\Model\LeaveRequest;
 
 enum LeaveRequestType: string
 {
-    case VACATION   = 'vacation';           // Urlop wypoczynkowy
-    case ON_DEMAND  = 'on_demand';         // Urlop na żądanie
-    case UNPAID     = 'unpaid';               // Urlop bezpłatny
-    case OCCASIONAL = 'occasional';       // Urlop okolicznościowy
-    case CHILD_CARE = 'child_care';       // Opieka nad dzieckiem
-    case OTHER      = 'other';                 // Inne
+    case VACATION   = 'Urlop wypoczynkowy';           // Urlop wypoczynkowy
+    case ON_DEMAND  = 'Urlop na żądanie';         // Urlop na żądanie
+    case UNPAID     = 'Urlop bezpłatny';               // Urlop bezpłatny
+    case OCCASIONAL = 'Urlop okolicznościowy';       // Urlop okolicznościowy
+    case CHILD_CARE = 'Opieka nad dzieckiem';       // Opieka nad dzieckiem
+    case OTHER      = 'Inne';                 // Inne
 
     public function label(): string
     {
@@ -23,4 +23,14 @@ enum LeaveRequestType: string
             self::OTHER => 'Inne',
         };
     }
+
+    public static function choices(): array
+    {
+        return array_combine(
+            array_map(fn(self $case) => $case->label(), self::cases()),
+            self::cases()
+        );
+    }
+
+    
 }
