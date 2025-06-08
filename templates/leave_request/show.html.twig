@@ -1,50 +1,72 @@
-<!DOCTYPE html>
+{% extends 'index.html.twig' %}
 
-<title>LeaveRequest</title>
+{% block title %}Szczegóły pracownika {% endblock %}
 
-{% block body %}
-    <h1>LeaveRequest</h1>
+{% block content %}
+	<style>
+		body {
+			background-color: #f6f6f6;
+		}
+	</style>
+	<div class="container">
+		<div class="row mt-5">
+			<div class="col-4">
+				<div class="p-3" style="background-color: #fff; border-radius: 8px;">
+					<div class="text-center">
+                    {# <i class="fa-solid fa-file-circle-check" style="font-size: 150px; color: green;"></i> #}
+                    {# <i class="fa-solid fa-umbrella-beach" style="font-size: 150px; color: #2ecc71;"></i> #}
+                    {# <i class="fa-solid fa-person-shelter" style="font-size: 150px; color: #3498db;"></i> #}
+                    {# <i class="fa-solid fa-calendar-check" style="font-size: 150px; color: #f39c12;"></i> #}
+                    {# <i class="fa-solid fa-file-signature" style="font-size: 150px; color: #34495e;"></i> #}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ leave_request.id }}</td>
-            </tr>
-            <tr>
-                <th>LeaveType</th>
-                <td>{{ leave_request.leaveType }}</td>
-            </tr>
-            <tr>
-                <th>DateFrom</th>
-                <td>{{ leave_request.dateFrom ? leave_request.dateFrom|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>DateTo</th>
-                <td>{{ leave_request.dateTo ? leave_request.dateTo|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ leave_request.status }}</td>
-            </tr>
-            <tr>
-                <th>Comment</th>
-                <td>{{ leave_request.comment }}</td>
-            </tr>
-            <tr>
-                <th>ManagerComment</th>
-                <td>{{ leave_request.managerComment }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ leave_request.createdAt ? leave_request.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <a href="{{ path('app_leave_request_index') }}">back to list</a>
+                    <i class="fa-solid fa-file" style="font-size: 150px"></i>
+					</div>
+					<div class="mt-2 text-center" style="font-weight: bold;"></div>
+				</div>
 
-    <a href="{{ path('app_leave_request_edit', {'id': leave_request.id}) }}">edit</a>
+				<div class="p-3 mt-2" style="background-color: #fff; border-radius: 8px;">
+					<div style="font-weight: bold;">
+						Manager
+					</div>
+					<div class="mt-2">
+						{# {% if department.manager %}
+							<img src="{{asset('images/employee_man.png')}}" width="25px" height="25px" style="border-radius: 50%">
+							{{department.manager.getFullName}}
+						{% endif %} #}
+					</div>
+				</div>
 
-    {{ include('leave_request/_delete_form.html.twig') }}
+			</div>
+			<div class="col-8">
+				<div class="p-3" style="background-color: #fff; border-radius: 8px;">
+					<div class="row mb-3">
+						<div class="me-auto">
+							{# {% if is_granted('ROLE_ACCOUNTING') %} #}
+								{# <a href="{{ path('app_department_edit', {'id': department.id}) }}"> #}
+									<div class="tool">
+										<div class="text-center">
+											<i class="fa-solid fa-circle-user"></i>
+										</div>
+										<div class="text-center">Edytuj dane podstawowe</div>
+									</div>
+								</a>
+							{# {% endif %} #}
+						</div>
+					</div>
+					<div>
+						<div class="mb-3">
+							<span style="font-weight: bold;">Nazwa działu</span>
+							{# <div class="mt-1">{{department.name}}</div> #}
+						</div>
+						<hr>
+						<div class="mb-3">
+							<span style="font-weight: bold;">Lokalizacja</span>
+							{# <div class="mt-1">{{department.location}}</div> #}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}

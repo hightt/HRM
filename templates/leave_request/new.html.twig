@@ -1,8 +1,8 @@
 {% extends 'index.html.twig' %}
 
-{% block title %}Dodaj pracownika
+{% block title %}
+	{{ 'leave_request.views.create.data'|trans }}
 {% endblock %}
-
 
 {% block content %}
 	<div class="row">
@@ -25,28 +25,29 @@
 	<div class="row">
 		<div class="col-12">
 			<div class="mb-3 ms-3 me-3">
-				<span style="font-size: 23px;">Dane do wniosku urlopowego</span>
+				<span style="font-size: 23px;">{{ 'leave_request.views.create.data'|trans }}</span>
 				<hr class="p-0 mt-1">
 			</div>
 		</div>
 		<div class="col-12">
 			<div class="mb-3 ms-3 me-3">
-				<label>Rodzaj wniosku</label>
+				<label>{{ 'leave_request.views.create.type'|trans }}</label>
 				{{ form_widget(form.leaveType, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.leaveType) }}
 			</div>
 			<div class="mb-3 ms-3 me-3">
-				<label>Od</label>
+				<label>
+					{{ 'leave_request.views.create.from'|trans }}</label>
 				{{ form_widget(form.dateFrom, { 'attr': {'class': 'form-control', 'type': 'date', 'placeholder': 'dd-mm-yyyy'} }) }}
 				{{ form_errors(form.dateFrom) }}
 			</div>
 			<div class="mb-3 ms-3 me-3">
-				<label>Do</label>
+				<label>{{ 'leave_request.views.create.to'|trans }}</label>
 				{{ form_widget(form.dateTo, { 'attr': {'class': 'form-control', 'type': 'date', 'placeholder': 'dd-mm-yyyy'} }) }}
 				{{ form_errors(form.dateTo) }}
 			</div>
 			<div class="mb-3 ms-3 me-3">
-				<label>Dodatkowy komentarz</label>
+				<label>{{ 'leave_request.views.create.additional_comments'|trans }}</label>
 				{{ form_widget(form.comment, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.comment) }}
 			</div>
@@ -54,9 +55,9 @@
 	</div>
 
 	<div class="text-center">
-		<button type="submit" class="btn purple-strong">Utwórz wniosek urlopowy</button>
+		<button type="submit" class="btn purple-strong">{{ 'leave_request.actions.create'|trans }}</button>
 	</div>
-	 {{ form_row(form._token) }}
-	 {{ form_end(form, {'render_rest': false}) }}
+	{{ form_row(form._token) }}
+	{{ form_end(form, {'render_rest': false}) }}
 
 {% endblock %}
