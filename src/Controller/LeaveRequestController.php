@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Service\LeaveRequest\LeaveRequestService;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/leave_request')]
@@ -86,7 +87,8 @@ final class LeaveRequestController extends AbstractController
     #[Route('/list', name: 'app_leave_request_list', methods: ['GET'])]
     public function list(
         LeaveRequestRepository $leaveRequestRepository,
-        Request             $request,
+        Request                $request,
+        TranslatorInterface    $translatorInterface,
     ) {
         $draw = $request->query->getInt('draw');
         $start = $request->query->getInt('start', 0);
@@ -117,24 +119,25 @@ final class LeaveRequestController extends AbstractController
             ->getQuery()
             ->getResult();
 
-        $data = array_map(function ($leaveRequest) {
+        
+        $data = array_map(function ($leaveRequest) use($translatorInterface) {
             return [
-                'id'           => $leaveRequest->getId(),
-                'employeeName' => $leaveRequest->getEmployee()->getFullName(),
-                'reviewedByManagerName'     => $leaveRequest->getReviewedBy()?->getFullName(),
-                'leaveType'   => $leaveRequest->getLeaveType()->value,
-                'dateFrom'      => $leaveRequest->getDateFrom()->format('d.m.Y'),
-                'dateTo'      => $leaveRequest->getDateTo()->format('d.m.Y'),
-                'status'      => $leaveRequest->getStatus()->value,
-                'showUrl'      => $this->generateUrl('app_leave_request_show', ['id' => $leaveRequest->getId()]),
+                'id'                    => $leaveRequest->getId(),
+                'employeeName'          => $leaveRequest->getEmployee()->getFullName(),
+                'reviewedByManagerName' => $leaveRequest->getReviewedBy()?->getFullName(),
+                'leaveType'             => $leaveRequest->getLeaveType()->label($translatorInterface),
+                'dateFrom'              => $leaveRequest->getDateFrom()->format('d.m.Y'),
+                'dateTo'                => $leaveRequest->getDateTo()->format('d.m.Y'),
+                'status'                => $leaveRequest->getStatus()->label($translatorInterface),
+                'showUrl'               => $this->generateUrl('app_leave_request_show', ['id' => $leaveRequest->getId()]),
             ];
         }, $leaveRequests);
 
         return new JsonResponse([
-            'draw'              => $draw,
-            'recordsTotal'      => $totalRecords,
-            'recordsFiltered'   => $recordsFiltered,
-            'data'              => $data,
+            'draw'            => $draw,
+            'recordsTotal'    => $totalRecords,
+            'recordsFiltered' => $recordsFiltered,
+            'data'            => $data,
         ]);
     }
 }

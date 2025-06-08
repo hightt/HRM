@@ -1,28 +1,29 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Model\LeaveRequest;
 
+use Symfony\Contracts\Translation\TranslatorInterface;
+
 enum LeaveRequestStatus: string
 {
-    case PENDING  = 'Oczekuje';         // Oczekuje na decyzję
-    case APPROVED = 'Zatwierdzony';       // Zatwierdzony
-    case REJECTED = 'Odrzucony';       // Odrzucony
+    case PENDING  = 'pending';
+    case APPROVED = 'approved';
+    case REJECTED = 'rejected';
+    case CANCELED = 'cancelled';
 
-    public function label(): string
+    public function label(TranslatorInterface $translator): string
     {
-        return match($this) {
-            self::PENDING  => 'Oczekuje',
-            self::APPROVED => 'Zatwierdzony',
-            self::REJECTED => 'Odrzucony',
-        };
+        return $translator->trans('leave_request.status.' . $this->value);
     }
 
-    public static function choices(): array
+    public static function choices(TranslatorInterface $translator): array
     {
-        return array_combine(
-            array_map(fn(self $case) => $case->label(), self::cases()),
-            self::cases()
-        );
+        $choices = [];
+        foreach (self::cases() as $case) {
+            $choices[$case->label($translator)] = $case;
+        }
+
+        return $choices;
     }
 }

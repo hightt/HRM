@@ -1,36 +1,32 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Model\LeaveRequest;
 
+use Symfony\Contracts\Translation\TranslatorInterface;
+
 enum LeaveRequestType: string
 {
-    case VACATION   = 'Urlop wypoczynkowy';           // Urlop wypoczynkowy
-    case ON_DEMAND  = 'Urlop na żądanie';         // Urlop na żądanie
-    case UNPAID     = 'Urlop bezpłatny';               // Urlop bezpłatny
-    case OCCASIONAL = 'Urlop okolicznościowy';       // Urlop okolicznościowy
-    case CHILD_CARE = 'Opieka nad dzieckiem';       // Opieka nad dzieckiem
-    case OTHER      = 'Inne';                 // Inne
+    case VACATION   = 'vacation';
+    case ON_DEMAND  = 'on_demand';
+    case UNPAID     = 'unpaid';
+    case OCCASIONAL = 'occasional';
+    case CHILD_CARE = 'child_care';
+    case OTHER      = 'other';
 
-    public function label(): string
+    public function label(TranslatorInterface $translator): string
     {
-        return match($this) {
-            self::VACATION => 'Urlop wypoczynkowy',
-            self::ON_DEMAND => 'Urlop na żądanie',
-            self::UNPAID => 'Urlop bezpłatny',
-            self::OCCASIONAL => 'Urlop okolicznościowy',
-            self::CHILD_CARE => 'Opieka nad dzieckiem',
-            self::OTHER => 'Inne',
-        };
+        return $translator->trans('leave_request.type.' . $this->value);
     }
 
-    public static function choices(): array
+    public static function choices(TranslatorInterface $translator): array
     {
-        return array_combine(
-            array_map(fn(self $case) => $case->label(), self::cases()),
-            self::cases()
-        );
+        $choices = [];
+        foreach (self::cases() as $case) {
+            $choices[$case->label($translator)] = $case->value;
+        }
+    
+        return $choices;
     }
-
     
 }

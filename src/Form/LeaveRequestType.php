@@ -1,28 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\Employee;
 use App\Entity\LeaveRequest;
-use App\Model\LeaveRequest\LeaveRequestStatus;
-use App\Model\LeaveRequest\LeaveRequestType as LeaveRequestEnum;
-use DateTimeImmutable;
 use Symfony\Component\Form\AbstractType;
+use App\Model\LeaveRequest\LeaveRequestStatus;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use App\Model\LeaveRequest\LeaveRequestType as LeaveRequestEnum;
 
 class LeaveRequestType extends AbstractType
 {
+    public function __construct(
+        private TranslatorInterface $translator
+    ) {}
+    
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('leaveType', ChoiceType::class, [
-                'choices' => LeaveRequestEnum::cases(),
-                'choice_label' => fn(LeaveRequestEnum $choice) => $choice->value, 
-                'choice_value' => fn(?LeaveRequestEnum $choice) => $choice?->value,
+                'choices' => LeaveRequestEnum::choices($this->translator),
             ])
             ->add('dateFrom', null, [
                 'widget' => 'single_text',

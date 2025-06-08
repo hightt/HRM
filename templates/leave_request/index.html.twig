@@ -14,7 +14,7 @@
 
 					<span class="navbar-brand mb-0 h1"></span>
 					<div class="ms-auto">
-						<a href="{{ path('app_leave_request_new')}} " type="button" class="btn purple-strong">Dodaj wniosek urlopowy</a>
+						<a href="{{ path('app_leave_request_new')}} " type="button" class="btn purple-strong">{{ 'leave_request.actions.create'|trans }}</a>
 					</div>
 				</div>
 			</nav>
@@ -24,13 +24,13 @@
 	<table id="main-table" class="table text-left">
 		<thead>
 			<tr>
-				<th>ID wniosku</th>
-				<th>Pracownik</th>
-				<th>Manager rozpatrujący wniosek</th>
-				<th>Rodzaj wniosku</th>
-				<th>Od</th>
-				<th>Do</th>
-				<th>Status</th>
+				<th>{{ 'leave_request.table.id'|trans}}</th>
+				<th>{{ 'leave_request.table.employee'|trans}}</th>
+				<th>{{ 'leave_request.table.manager'|trans}}</th>
+				<th>{{ 'leave_request.table.type'|trans}}</th>
+				<th>{{ 'leave_request.table.date_from'|trans}}</th>
+				<th>{{ 'leave_request.table.date_to'|trans}}</th>
+				<th>{{ 'leave_request.table.status'|trans}}</th>
 				<th></th>
 			</tr>
 		</thead>
@@ -53,23 +53,15 @@
 	                {
 	                    data: 'editUrl',
 	                    render: function (data, type, row) {
-	                        return '<a href="' + data + '" class="btn purple-strong">Edytuj</a>';
+	                        return '<a href="' + data + '" class="btn purple-strong">' + "{{ 'common.actions.edit'|trans|e('js') }}" + '</a>';
 	                    }
 	                },
 	            ],
 	            lengthChange: false,
 	            info: false,
-	            language: {
-	                paginate: { next: 'Następna', previous: 'Poprzednia' },
-	                search: '',
-	                lengthMenu: 'Pokaż _MENU_ wpisów na stronę',
-	                info: 'Pokazuje _START_ do _END_ z _TOTAL_ wpisów',
-	                infoEmpty: 'Brak wpisów do wyświetlenia',
-	                infoFiltered: '(filtrowanie z _MAX_ wpisów)',
-	                zeroRecords: 'Brak wyników'
-	            },
+	            language: datatableTranslations,
 	            initComplete: function() {
-	                $('.dataTables_filter input').attr('placeholder', 'Wyszukaj...');
+	                $('.dataTables_filter input').attr('placeholder', "{{ 'datatable.search'|trans|e('js') }}");
 	            }
 	        });
 	
