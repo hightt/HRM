@@ -51,7 +51,7 @@ final class LeaveRequestController extends AbstractController
     public function show(LeaveRequest $leaveRequest): Response
     {
         return $this->render('leave_request/show.html.twig', [
-            'leave_request' => $leaveRequest,
+            'leaveRequest' => $leaveRequest,
         ]);
     }
 
@@ -67,7 +67,7 @@ final class LeaveRequestController extends AbstractController
             return $this->redirectToRoute('app_leave_request_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('leave_request/edit.html.twig', [
+        return $this->render('leave_request/new.html.twig', [
             'leave_request' => $leaveRequest,
             'form' => $form,
         ]);
