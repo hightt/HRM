@@ -1,0 +1,76 @@
+{% extends 'index.html.twig' %}
+
+{% block title %}Lista wniosków urlopowych{% endblock %}
+
+{% block content %}
+	 <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+	 <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+		<div class="row"> <div class="col-12">
+			<nav class="navbar navbar-light ">
+				<div class="container-fluid">
+					<div class="me-auto">
+						<span></span>
+					</div>
+
+					<span class="navbar-brand mb-0 h1"></span>
+					<div class="ms-auto">
+						<a href="{{ path('app_leave_request_new')}} " type="button" class="btn purple-strong">{{ 'leave_request.actions.create'|trans }}</a>
+					</div>
+				</div>
+			</nav>
+		</div>
+	</div>
+
+	<table id="main-table" class="table text-left">
+		<thead>
+			<tr>
+				<th>{{ 'leave_request.table.id'|trans}}</th>
+				<th>{{ 'leave_request.table.employee'|trans}}</th>
+				<th>{{ 'leave_request.table.manager'|trans}}</th>
+				<th>{{ 'leave_request.table.type'|trans}}</th>
+				<th>{{ 'leave_request.table.date_from'|trans}}</th>
+				<th>{{ 'leave_request.table.date_to'|trans}}</th>
+				<th>{{ 'leave_request.table.status'|trans}}</th>
+				<th></th>
+			</tr>
+		</thead>
+	</table>
+
+	 <script>
+	    $(document).ready(function () {
+	        var table = $('#main-table').DataTable({
+	            processing: true,
+	            serverSide: true,
+	            ajax: '{{ path("app_leave_request_list") }}',
+	            columns: [
+	                { data: 'id' },
+	                { data: 'employeeName' },
+	                { data: 'reviewedByManagerName' },
+	                { data: 'leaveType' },
+	                { data: 'dateFrom' },
+	                { data: 'dateTo' },
+	                { data: 'status' },
+	                {
+	                    data: 'editUrl',
+	                    render: function (data, type, row) {
+	                        return '<a href="' + data + '" class="btn purple-strong">' + "{{ 'common.actions.edit'|trans|e('js') }}" + '</a>';
+	                    }
+	                },
+	            ],
+	            lengthChange: false,
+	            info: false,
+	            language: datatableTranslations,
+	            initComplete: function() {
+	                $('.dataTables_filter input').attr('placeholder', "{{ 'datatable.search'|trans|e('js') }}");
+	            }
+	        });
+	
+	        $('#main-table tbody').on('click', 'tr', function () {
+	            var rowData = table.row(this).data(); 
+	            if (rowData && rowData.showUrl) {
+	                window.location.href = rowData.showUrl; 
+	            }
+	        });
+	    });
+	</script>
+{% endblock %}

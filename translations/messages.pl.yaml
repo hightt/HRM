@@ -1,0 +1,71 @@
+common:
+  actions:
+    edit: "Edytuj"
+    delete: "Usuń"
+    save: "Zapisz"
+    cancel: "Anuluj"
+    confirm: "Potwierdź"
+    back: "Wstecz"
+    view: "Zobacz"
+  errors:
+    not_found: "Nie znaleziono"
+    forbidden: "Brak uprawnień do wykonania tej akcji"
+    server_error: "Błąd serwera, spróbuj ponownie później"
+
+leave_request:
+  status:
+    approved: "Zatwierdzony"
+    rejected: "Odrzucony"
+    pending: "Oczekujący"
+    cancelled: "Anulowany"
+  type:
+    vacation: "Urlop wypoczynkowy"
+    on_demand: "Urlop na żądanie"
+    unpaid: "Urlop bezpłatny"
+    occasional: "Urlop okolicznościowy"
+    child_care: "Urlop wychowawczy"
+    other: "Inny"
+  table:
+    id: "ID wniosku"
+    employee: "Pracownik"
+    manager: "Manager rozpatrujący wniosek"
+    type: "Rodzaj wniosku"
+    date_from: "Od"
+    date_to: "Do"
+    status: "Status"
+    actions: ""
+  actions:
+    create: "Utwórz wniosek urlopowy"
+    view: "Zobacz wniosek"
+    edit: "Edytuj wniosek"
+    delete: "Usuń wniosek"
+    approve: "Zatwierdź wniosek"
+    reject: "Odrzuć wniosek"
+    cancel: "Anuluj wniosek"
+  views:
+    create:
+      data: "Dane do wniosku urlopowego"
+      type: "Rodzaj wniosku"
+      from: "Data rozpoczęcia"
+      to: "Data zakończenia"
+      additional_comments: "Dodatkowe uwagi"
+    show:
+      details: "Szczegóły wniosku urlopowego"
+      employee: "Pracownik"
+      manager: "Manager"
+      type: "Rodzaj wniosku"
+      date_from: "Data rozpoczęcia"
+      date_to: "Data zakończenia"
+      status: "Status"
+      additional_comments: "Dodatkowe uwagi"
+
+datatable:
+  paginate:
+    next: "Następna"
+    previous: "Poprzednia"
+  search: "Wyszukaj..."
+  lengthMenu: "Pokaż _MENU_ wpisów na stronę"
+  info: "Pokazuje _START_ do _END_ z _TOTAL_ wpisów"
+  infoEmpty: "Brak wpisów do wyświetlenia"
+  infoFiltered: "(filtrowanie z _MAX_ wpisów)"
+  zeroRecords: "Brak wyników"
