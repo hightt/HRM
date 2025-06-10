@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\LeaveRequest;
 
+use DateTimeImmutable;
 use App\Entity\LeaveRequest;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\LeaveRequestRepository;
@@ -25,12 +26,13 @@ class LeaveRequestService
         $currentEmployee = $this->security->getUser();
 
         $leaveRequest
-            ->setCreatedAt(new \DateTimeImmutable())
+            ->setCreatedAt(new DateTimeImmutable())
             ->setStatus(LeaveRequestStatus::PENDING)
             ->setEmployee($currentEmployee->getEmployee())
         ;
 
         $this->entityManager->persist($leaveRequest);
         $this->entityManager->flush();
+
     }
 }

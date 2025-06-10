@@ -19,18 +19,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/leave_request')]
 final class LeaveRequestController extends AbstractController
 {
-    #[Route(name: 'app_leave_request_index', methods: ['GET'])]
+    #[Route(name: 'app_leave_request_index', methods: [REQUEST::METHOD_GET])]
     public function index(): Response
     {
         return $this->render('leave_request/index.html.twig', []);
     }
 
-    #[Route('/new', name: 'app_leave_request_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'app_leave_request_new', methods: [REQUEST::METHOD_GET, REQUEST::METHOD_POST])]
     public function new(
-        Request $request, 
+        Request             $request,
         LeaveRequestService $leaveRequestService,
-    ): Response
-    {
+    ): Response {
         $leaveRequest = new LeaveRequest();
         $form = $this->createForm(LeaveRequestType::class, $leaveRequest);
         $form->handleRequest($request);
@@ -47,7 +46,7 @@ final class LeaveRequestController extends AbstractController
         ]);
     }
 
-    #[Route('/show/{id}', name: 'app_leave_request_show', methods: ['GET'])]
+    #[Route('/show/{id}', name: 'app_leave_request_show', methods: [REQUEST::METHOD_GET])]
     public function show(LeaveRequest $leaveRequest): Response
     {
         return $this->render('leave_request/show.html.twig', [
@@ -55,8 +54,12 @@ final class LeaveRequestController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_leave_request_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, LeaveRequest $leaveRequest, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/edit', name: 'app_leave_request_edit', methods: [Request::METHOD_GET, REQUEST::METHOD_POST])]
+    public function edit(
+        Request                $request, 
+        LeaveRequest           $leaveRequest, 
+        EntityManagerInterface $entityManager
+    ): Response
     {
         $form = $this->createForm(LeaveRequestType::class, $leaveRequest);
         $form->handleRequest($request);
@@ -69,14 +72,18 @@ final class LeaveRequestController extends AbstractController
 
         return $this->render('leave_request/new.html.twig', [
             'leave_request' => $leaveRequest,
-            'form' => $form,
+            'form'          => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'app_leave_request_delete', methods: ['POST'])]
-    public function delete(Request $request, LeaveRequest $leaveRequest, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}', name: 'app_leave_request_delete', methods: [REQUEST::METHOD_POST])]
+    public function delete(
+        Request                $request, 
+        LeaveRequest           $leaveRequest, 
+        EntityManagerInterface $entityManager
+    ): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$leaveRequest->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $leaveRequest->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($leaveRequest);
             $entityManager->flush();
         }
@@ -84,7 +91,7 @@ final class LeaveRequestController extends AbstractController
         return $this->redirectToRoute('app_leave_request_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/list', name: 'app_leave_request_list', methods: ['GET'])]
+    #[Route('/list', name: 'app_leave_request_list', methods: [REQUEST::METHOD_GET])]
     public function list(
         LeaveRequestRepository $leaveRequestRepository,
         Request                $request,
@@ -119,8 +126,8 @@ final class LeaveRequestController extends AbstractController
             ->getQuery()
             ->getResult();
 
-        
-        $data = array_map(function ($leaveRequest) use($translatorInterface) {
+
+        $data = array_map(function ($leaveRequest) use ($translatorInterface) {
             return [
                 'id'                    => $leaveRequest->getId(),
                 'employeeName'          => $leaveRequest->getEmployee()->getFullName(),

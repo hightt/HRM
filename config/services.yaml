@@ -20,7 +20,11 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-            
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\Service\Email\:
+        resource: '../src/Service/Email/*'
+        tags: ['app.employee_email_handler']
+            
+    App\MessageHandler\GenerateEmployeeMonthlyWorkTimeReportHandler:
+        arguments:
+            $handlers: !tagged_iterator app.employee_email_handler
