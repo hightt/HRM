@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Message;
+namespace App\Model\Message;
 
 use App\Entity\Employee;
-use App\Service\Email\EmployeeEmail;
+use App\Model\LeaveRequest\EmployeeEmail;
 
 class GenerateEmployeeReportMessage extends AbstractGenerateEmailMessage
 {

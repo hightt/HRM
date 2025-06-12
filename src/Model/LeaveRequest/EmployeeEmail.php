@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Email;
+namespace App\Model\LeaveRequest;
 
 enum EmployeeEmail: string
 {

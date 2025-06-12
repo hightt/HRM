@@ -4,6 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    mailer_from_address: '%env(MAILER_FROM_ADDRESS)%'
 
 services:
     # default configuration for services in *this* file
@@ -25,6 +26,17 @@ services:
         resource: '../src/Service/Email/*'
         tags: ['app.employee_email_handler']
             
-    App\MessageHandler\GenerateEmployeeMonthlyWorkTimeReportHandler:
+    App\MessageHandler\GenerateEmployeeEmailHandler:
         arguments:
             $handlers: !tagged_iterator app.employee_email_handler
+            
+    # Tagowanie implementacji
+    App\Service\Email\MonthlyWorkReportEmailHandler:
+        arguments:
+            $mailerFromAddress: '%env(MAILER_FROM_ADDRESS)%'
+        tags: ['app.employee_email_handler']
+
+    App\Service\Email\LeaveRequestEmailSendHandler:
+        arguments:
+            $mailerFromAddress: '%env(MAILER_FROM_ADDRESS)%'
+        tags: ['app.employee_email_handler']

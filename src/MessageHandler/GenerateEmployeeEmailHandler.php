@@ -3,22 +3,18 @@ declare(strict_types=1);
 
 namespace App\MessageHandler;
 
-use App\Message\GenerateEmployeeReportMessage;
-use DateTime;
-use Exception;
-use Dompdf\Dompdf;
-use Dompdf\Options;
 use Twig\Environment;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Mime\Email;
 use App\Repository\WorkLogRepository;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Mailer\MailerInterface;
+use App\Model\Message\GenerateEmployeeReportMessage;
 use App\Service\Employee\EmployeeDocumentGeneratorService;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\DependencyInjection\Attribute\TaggedLocator;
+use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 
 #[AsMessageHandler]
-class GenerateEmployeeMonthlyWorkTimeReportHandler
+class GenerateEmployeeEmailHandler
 {
     /**
     * @param EmployeeEmailHandlerInterface[] $handlers
@@ -37,7 +33,8 @@ class GenerateEmployeeMonthlyWorkTimeReportHandler
         foreach ($this->handlers as $handler) {
             if ($handler->supports($message->getEmployeeEmailType())) {
                 $handler->handle($message);
-                
+                $this->logger->info("Handled by: " . get_class($handler));
+
                 return;
             }
         }
