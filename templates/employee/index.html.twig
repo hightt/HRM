@@ -27,8 +27,6 @@
 				<th>Imię i nazwisko</th>
 				<th>Stanowisko</th>
 				<th>Dział</th>
-				<th></th>
-				<th></th>
 			</tr>
 		</thead>
 	</table>
@@ -43,24 +41,10 @@
 	                { data: 'name' },
 	                { data: 'position' },
 	                { data: 'department' },
-	                {
-	                    data: 'editUrl',
-	                    render: function (data, type, row) {
-	                        return '<a href="' + data + '" class="btn purple-strong">Edytuj</a>';
-	                    }
-	                },
 	            ],
 	            lengthChange: false,
 	            info: false,
-	            language: {
-	                paginate: { next: 'Następna', previous: 'Poprzednia' },
-	                search: '',
-	                lengthMenu: 'Pokaż _MENU_ wpisów na stronę',
-	                info: 'Pokazuje _START_ do _END_ z _TOTAL_ wpisów',
-	                infoEmpty: 'Brak wpisów do wyświetlenia',
-	                infoFiltered: '(filtrowanie z _MAX_ wpisów)',
-	                zeroRecords: 'Brak wyników'
-	            },
+				language: datatableTranslations,
 	            initComplete: function() {
 	                $('.dataTables_filter input').attr('placeholder', 'Wyszukaj...');
 	            }

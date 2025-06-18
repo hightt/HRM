@@ -156,7 +156,6 @@ final class EmployeeController extends AbstractController
                 'name'         => sprintf('%s %s', $employee->getFirstName(), $employee->getLastName()),
                 'position'     => $employee->getPosition(),
                 'department'   => $employee->getDepartment()?->getName(),
-                'editUrl'      => $this->generateUrl('app_employee_edit', ['id' => $employee->getId()]),
                 'showUrl'      => $this->generateUrl('app_employee_show', ['id' => $employee->getId()]),
             ];
         }, $employees);
