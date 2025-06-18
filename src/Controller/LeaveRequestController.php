@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\LeaveRequest;
+use App\Form\LeaveRequestDecideFormType;
 use App\Form\LeaveRequestType;
+use App\Form\LeaveRequestFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\LeaveRequestRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +17,7 @@ use App\Service\LeaveRequest\LeaveRequestService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 
 #[Route('/leave_request')]
 final class LeaveRequestController extends AbstractController
@@ -31,7 +34,7 @@ final class LeaveRequestController extends AbstractController
         LeaveRequestService $leaveRequestService,
     ): Response {
         $leaveRequest = new LeaveRequest();
-        $form = $this->createForm(LeaveRequestType::class, $leaveRequest);
+        $form = $this->createForm(LeaveRequestFormType::class, $leaveRequest);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -61,7 +64,7 @@ final class LeaveRequestController extends AbstractController
         EntityManagerInterface $entityManager
     ): Response
     {
-        $form = $this->createForm(LeaveRequestType::class, $leaveRequest);
+        $form = $this->createForm(LeaveRequestFormType::class, $leaveRequest);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -90,6 +93,36 @@ final class LeaveRequestController extends AbstractController
 
         return $this->redirectToRoute('app_leave_request_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/decide/{id}', name: 'app_leave_request_decide', methods: [Request::METHOD_GET, REQUEST::METHOD_POST])]
+    public function decide(
+        Request                $request, 
+        LeaveRequest           $leaveRequest, 
+        EntityManagerInterface $entityManager,
+        Security               $security,
+    ): Response
+    {
+        /** @var User $currentUser */
+        $currentUser = $security->getUser();
+        if (!in_array($currentUser->getEmployee()->getId(), [$leaveRequest->getEmployee()->getId(), $leaveRequest->getEmployee()->getManager()?->getId()])) {
+            $this->denyAccessUnlessGranted('ROLE_ACCOUNTING');
+        }
+
+        $form = $this->createForm(LeaveRequestDecideFormType::class, $leaveRequest);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_leave_request_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('leave_request/decide.html.twig', [
+            'leave_request' => $leaveRequest,
+            'form'          => $form,
+        ]);
+    }
+
 
     #[Route('/list', name: 'app_leave_request_list', methods: [REQUEST::METHOD_GET])]
     public function list(
@@ -129,7 +162,6 @@ final class LeaveRequestController extends AbstractController
 
         $data = array_map(function ($leaveRequest) use ($translatorInterface) {
             return [
-                'id'                    => $leaveRequest->getId(),
                 'employeeName'          => $leaveRequest->getEmployee()->getFullName(),
                 'reviewedByManagerName' => $leaveRequest->getReviewedBy()?->getFullName(),
                 'leaveType'             => $leaveRequest->getLeaveType()->label($translatorInterface),
