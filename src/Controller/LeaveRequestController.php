@@ -100,11 +100,12 @@ final class LeaveRequestController extends AbstractController
         LeaveRequest           $leaveRequest, 
         EntityManagerInterface $entityManager,
         Security               $security,
+        LeaveRequestService     $leaveRequestService,
     ): Response
     {
         /** @var User $currentUser */
         $currentUser = $security->getUser();
-        if (!in_array($currentUser->getEmployee()->getId(), [$leaveRequest->getEmployee()->getId(), $leaveRequest->getEmployee()->getManager()?->getId()])) {
+        if (!in_array($currentUser->getEmployee()->getId(), [$leaveRequest->getEmployee()->getId(), $leaveRequestService->getAcceptingPerson($leaveRequest->getEmployee())?->getId()])) {
             $this->denyAccessUnlessGranted('ROLE_ACCOUNTING');
         }
 
