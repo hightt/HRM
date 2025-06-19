@@ -5,8 +5,8 @@ namespace App\Controller;
 
 use App\Entity\Employee;
 use Psr\Log\LoggerInterface;
+use App\Model\Email\EmailType;
 use App\Form\MonthlyWorkLogType;
-use App\Model\LeaveRequest\EmployeeEmail;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,7 +64,7 @@ final class TimeSheetController extends AbstractController
 
         $logger->info(sprintf('Starting generate montly work time report employee: %s [ID: %d]', $employee->getFullName(), $employee->getId()));
 
-        $employeeReportMessage = new GenerateEmployeeReportMessage($employee->getUser()->getEmail(), $employee, EmployeeEmail::MONTHLY_WORK_TIME_REPORT);
+        $employeeReportMessage = new GenerateEmployeeReportMessage($employee->getUser()->getEmail(), $employee, EmailType::EMPLOYEE_MONTHLY_WORK_TIME_REPORT);
         $bus->dispatch($employeeReportMessage);
         $employeeWorkReportForCurrentMonth = $employeeTimeSheetService->getEmployeeMonthWorkReport($employee);
         $this->addFlash('success', '✅ Generowanie raportu rozpoczęte! Sprawdź e-mail.');

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\DTO\EmployeeDTO;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Repository\DepartmentRepository;
 use App\Entity\Department;
+use App\Model\Employee\EmployeeModel;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -93,7 +93,7 @@ class NewEmployeeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => EmployeeDTO::class,
+            'data_class' => EmployeeModel::class,
         ]);
     }
 }

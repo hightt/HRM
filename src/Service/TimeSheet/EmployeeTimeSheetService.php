@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace App\Service\TimeSheet;
 
-use App\DTO\WorkReportDTO;
-use App\Entity\Employee;
+use DateTime;
 use DateTimeImmutable;
 use App\Entity\WorkLog;
+use App\Entity\Employee;
+use App\Model\TimeSheet\WorkReportModel;
 use App\Repository\WorkLogRepository;
-use App\Service\TimeSheet\WorkDaysService;
 use Doctrine\ORM\EntityManagerInterface;
-use DateTime;
+use App\Service\TimeSheet\WorkDaysService;
 
 class EmployeeTimeSheetService
 {
@@ -94,12 +94,12 @@ class EmployeeTimeSheetService
         return $workLog;
     }
 
-    public function getEmployeeMonthWorkReport(Employee $employee): WorkReportDTO
+    public function getEmployeeMonthWorkReport(Employee $employee): WorkReportModel
     {
         $employeeWorkLogsInCurrentMonth = $this->workLogRepository->findEmployeeWorkLogsByCurrentMonth($employee->getId());
 
         if (empty($employeeWorkLogsInCurrentMonth)) {
-            return new WorkReportDTO(0, 0, 0);
+            return new WorkReportModel(0, 0, 0);
         }
 
         $workedHours = 0;
@@ -112,7 +112,7 @@ class EmployeeTimeSheetService
             $absentDays    += $workLogInCurrentMonth->getAbsenceSymbol() ? 1 : 0;
         }
 
-        return new WorkReportDTO($workedHours, $overtimeHours, $absentDays);
+        return new WorkReportModel($workedHours, $overtimeHours, $absentDays);
     }
 
     public function getEmployeeMonthlyWorkTimeSummary(int $employeeId)

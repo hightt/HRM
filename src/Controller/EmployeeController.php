@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\User;
-use App\DTO\EmployeeDTO;
+use App\Model\Employee\EmployeeModel;
 use App\Entity\Employee;
 use App\Form\EmployeeType;
 use App\Form\NewEmployeeType;
@@ -38,12 +38,12 @@ final class EmployeeController extends AbstractController
         Request                      $request,
         CreateEmployeeAndUserService $createEmployeeAndUserService,
     ): Response {
-        $employeeDTO = new EmployeeDTO();
-        $form = $this->createForm(NewEmployeeType::class, $employeeDTO);
+        $employeeModel = new EmployeeModel();
+        $form = $this->createForm(NewEmployeeType::class, $employeeModel);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $createEmployeeAndUserService->createEmployeeAndUserAfterFormSend($employeeDTO);
+            $createEmployeeAndUserService->createEmployeeAndUserAfterFormSend($employeeModel);
             $this->addFlash('success', 'Pomyślnie dodano nowego pracownika');
 
             return $this->redirectToRoute('app_employee_index', [], Response::HTTP_SEE_OTHER);
