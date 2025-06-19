@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\MessageHandler;
 
-use App\Message\GenerateDepartmentReportMessage;
 use DateTime;
 use Exception;
 use Dompdf\Dompdf;
@@ -14,8 +13,9 @@ use Symfony\Component\Mime\Email;
 use App\Repository\WorkLogRepository;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Mailer\MailerInterface;
-use App\Service\Employee\EmployeeDocumentGeneratorService;
 use App\Service\TimeSheet\EmployeeTimeSheetService;
+use App\Model\Message\GenerateDepartmentReportMessage;
+use App\Service\Employee\EmployeeDocumentGeneratorService;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

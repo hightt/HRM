@@ -25,11 +25,9 @@
 	<table id="main-table" class="table text-left">
 		<thead>
 			<tr>
-				<th>ID</th>
 				<th>Nazwa działu</th>
 				<th>Kierownik/Manager</th>
 				<th>Lokalizacja</th>
-				<th></th>
 			</tr>
 		</thead>
 	</table>
@@ -42,9 +40,6 @@ $(document).ready(function () {
         ajax: '{{ path("app_department_list") }}',
         columns: [
             {
-                data: 'id'
-            },
-            {
                 data: 'name'
             },
             {
@@ -53,28 +48,10 @@ $(document).ready(function () {
             {
                 data: 'location'
             },
-            {
-                data: 'editUrl',
-                render: function (data, type, row) {
-                    return '<a href="' + data + '" class="btn purple-strong">Edytuj</a>';
-                }
-            }
-
         ],
         lengthChange: false,
         info: false,
-        language: {
-            paginate: {
-                next: 'Następna',
-                previous: 'Poprzednia'
-            },
-            search: '',
-            lengthMenu: 'Pokaż _MENU_ wpisów na stronę',
-            info: 'Pokazuje _START_ do _END_ z _TOTAL_ wpisów',
-            infoEmpty: 'Brak wpisów do wyświetlenia',
-            infoFiltered: '(filtrowanie z _MAX_ wpisów)',
-            zeroRecords: 'Brak wyników'
-        },
+        language: datatableTranslations,
         initComplete: function() {
             $('.dataTables_filter').css({
                 "text-align": "right",
