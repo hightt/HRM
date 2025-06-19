@@ -17,26 +17,26 @@ use App\Service\TimeSheet\EmployeeTimeSheetService;
 use App\Model\Message\GenerateDepartmentReportMessage;
 use App\Service\Employee\EmployeeDocumentGeneratorService;
 use App\MessageHandler\GenerateDepartmentMonthlyWorkTimeReportHandler;
-
+use PHPUnit\Framework\MockObject;
 class GenerateDepartmentMonthlyWorkTimeReportHandlerTest extends TestCase
 {
-    /** @var WorkLogRepository&MockObject */
+    /** @var WorkLogRepository&\PHPUnit\Framework\MockObject\MockObject */
     private WorkLogRepository $workLogRepository;
 
-    /** @var EmployeeDocumentGeneratorService&MockObject */
+    /** @var EmployeeDocumentGeneratorService&\PHPUnit\Framework\MockObject\MockObject */
     private EmployeeDocumentGeneratorService $employeeDocumentGeneratorService;
 
-    /** @var MailerInterface&MockObject */
-    private MailerInterface $mailer;
+    /** @var MailerInterface&\PHPUnit\Framework\MockObject\MockObject */
+    private $mailer;
 
-    /** @var Environment&MockObject */
+    /** @var Environment&\PHPUnit\Framework\MockObject\MockObject */
     private Environment $twig;
 
-    /** @var LoggerInterface&MockObject */
+    /** @var LoggerInterface&\PHPUnit\Framework\MockObject\MockObject */
     private LoggerInterface $logger;
 
-    /** @var EmployeeTimeSheetService&MockObject */
-    private EmployeeTimeSheetService $timeSheetService;
+    /** @var EmployeeTimeSheetService&\PHPUnit\Framework\MockObject\MockObject */
+    private $timeSheetService;
 
     /** @var GenerateDepartmentMonthlyWorkTimeReportHandler&MockObject */
     private GenerateDepartmentMonthlyWorkTimeReportHandler $handler;
