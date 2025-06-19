@@ -24,14 +24,12 @@
 	<table id="main-table" class="table text-left">
 		<thead>
 			<tr>
-				<th>{{ 'leave_request.table.id'|trans}}</th>
 				<th>{{ 'leave_request.table.employee'|trans}}</th>
 				<th>{{ 'leave_request.table.manager'|trans}}</th>
 				<th>{{ 'leave_request.table.type'|trans}}</th>
 				<th>{{ 'leave_request.table.date_from'|trans}}</th>
 				<th>{{ 'leave_request.table.date_to'|trans}}</th>
 				<th>{{ 'leave_request.table.status'|trans}}</th>
-				<th></th>
 			</tr>
 		</thead>
 	</table>
@@ -43,19 +41,12 @@
 	            serverSide: true,
 	            ajax: '{{ path("app_leave_request_list") }}',
 	            columns: [
-	                { data: 'id' },
 	                { data: 'employeeName' },
 	                { data: 'reviewedByManagerName' },
 	                { data: 'leaveType' },
 	                { data: 'dateFrom' },
 	                { data: 'dateTo' },
 	                { data: 'status' },
-	                {
-	                    data: 'editUrl',
-	                    render: function (data, type, row) {
-	                        return '<a href="' + data + '" class="btn purple-strong">' + "{{ 'common.actions.edit'|trans|e('js') }}" + '</a>';
-	                    }
-	                },
 	            ],
 	            lengthChange: false,
 	            info: false,

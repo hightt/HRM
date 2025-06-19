@@ -14,8 +14,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Model\LeaveRequest\LeaveRequestType as LeaveRequestEnum;
+use App\Model\LeaveRequest\LeaveRequestType;
 
-class LeaveRequestType extends AbstractType
+class LeaveRequestFormType extends AbstractType
 {
     public function __construct(
         private TranslatorInterface $translator
@@ -25,7 +26,9 @@ class LeaveRequestType extends AbstractType
     {
         $builder
             ->add('leaveType', ChoiceType::class, [
-                'choices' => LeaveRequestEnum::choices($this->translator),
+                'choices' => LeaveRequestType::cases(),
+                'choice_label' => fn(LeaveRequestType $choice) => $choice->label($this->translator),
+                'choice_value' => fn(?LeaveRequestType $choice) => $choice?->value,
             ])
             ->add('dateFrom', null, [
                 'widget' => 'single_text',

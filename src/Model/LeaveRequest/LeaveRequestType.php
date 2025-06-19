@@ -19,6 +19,11 @@ enum LeaveRequestType: string
         return $translator->trans('leave_request.type.' . $this->value);
     }
 
+    public function getTranslationKey(): string
+    {
+        return 'leave_request.type.' . $this->value;
+    }
+
     public static function choices(TranslatorInterface $translator): array
     {
         $choices = [];

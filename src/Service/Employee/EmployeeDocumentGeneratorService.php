@@ -11,13 +11,14 @@ class EmployeeDocumentGeneratorService
     public function __construct() 
     {}
 
-    public function createDocumentName(Employee $employee, string $documentPrefix)
+    public function createDocumentName(Employee $employee, string $documentPrefix, string $fileExtension = 'pdf')
     {
-        return sprintf('%s_%s_%s_%s', 
+        return sprintf('%s_%s_%s_%s.%s', 
             (new Datetime())->format('Ymd'),
             $employee->getLastName(),
             $employee->getFirstName(),
-            $documentPrefix
+            $documentPrefix,
+            $fileExtension
         );
     }
 }

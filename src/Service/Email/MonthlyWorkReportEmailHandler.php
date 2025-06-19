@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\MessageHandler;
+namespace App\Service\Email;
 
-use App\Message\GenerateEmployeeReportMessage;
 use DateTime;
 use Exception;
 use Dompdf\Dompdf;
@@ -12,23 +12,31 @@ use Twig\Environment;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mime\Email;
 use App\Repository\WorkLogRepository;
+use App\Model\LeaveRequest\EmployeeEmail;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Mailer\MailerInterface;
+use App\Model\Message\GenerateEmployeeReportMessage;
 use App\Service\Employee\EmployeeDocumentGeneratorService;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 
-#[AsMessageHandler]
-class GenerateEmployeeMonthlyWorkTimeReportHandler
+#[AsTaggedItem('app.employee_email_handler')]
+class MonthlyWorkReportEmailHandler implements EmployeeEmailHandlerInterface
 {
     public function __construct(
         private MailerInterface                  $mailer,
         private WorkLogRepository                $workLogRepository,
         private EmployeeDocumentGeneratorService $employeeDocumentGeneratorService,
-        private Environment                      $twig, 
+        private Environment                      $twig,
         private LoggerInterface                  $logger,
+        private string $mailerFromAddress,
     ) {}
 
-    public function __invoke(GenerateEmployeeReportMessage $message)
+    public function supports(EmployeeEmail $type): bool
+    {
+        return $type === EmployeeEmail::MONTHLY_WORK_TIME_REPORT;
+    }
+
+    public function handle(GenerateEmployeeReportMessage $message): void
     {
         try {
             $email = $message->getEmail();
@@ -47,21 +55,21 @@ class GenerateEmployeeMonthlyWorkTimeReportHandler
                 'workLogs' => $employeeWorkLogsInCurrentMonth,
                 'employee' => $employee,
             ]);
-            
+
             $dompdf->loadHtml($html);
             $dompdf->setPaper('A4', 'portrait');
             $dompdf->render();
             $pdfContent = $dompdf->output();
             $filesystem = new Filesystem();
-            $filePath = sys_get_temp_dir() . "/$documentName.pdf";
+            $filePath = sys_get_temp_dir() . "/monthly_work_time_report.pdf";
             $filesystem->dumpFile($filePath, $pdfContent);
 
             $emailMessage = (new Email())
-                ->from('noreply@yourdomain.com')
+                ->from($this->mailerFromAddress)
                 ->to($email)
                 ->subject('Twój raport')
                 ->text('Załączamy wygenerowany raport.')
-                ->attachFromPath($filePath, 'Raport.pdf', 'application/pdf');
+                ->attachFromPath($filePath, $documentName, 'application/pdf');
 
             $this->mailer->send($emailMessage);
 
@@ -69,8 +77,7 @@ class GenerateEmployeeMonthlyWorkTimeReportHandler
 
             $this->logger->info('Employee report has been send to e-mail: ' . $email);
         } catch (Exception $e) {
-            $this->logger->error("Error during generating monthly employee work time report. Exception: " . print_r($e));
-            echo "❌ Error during generating monthly employee work: " . $e->getMessage() . "\n";
+            $this->logger->error("Error during generating monthly employee work time report. Exception: " . $e->getMessage());
         }
     }
 }

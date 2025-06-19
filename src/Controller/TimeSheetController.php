@@ -6,14 +6,15 @@ namespace App\Controller;
 use App\Entity\Employee;
 use Psr\Log\LoggerInterface;
 use App\Form\MonthlyWorkLogType;
+use App\Model\LeaveRequest\EmployeeEmail;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
-use App\Message\GenerateEmployeeReportMessage;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Service\TimeSheet\EmployeeTimeSheetService;
+use App\Model\Message\GenerateEmployeeReportMessage;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
 
 #[Route('/time_sheet')]
 final class TimeSheetController extends AbstractController
@@ -63,7 +64,8 @@ final class TimeSheetController extends AbstractController
 
         $logger->info(sprintf('Starting generate montly work time report employee: %s [ID: %d]', $employee->getFullName(), $employee->getId()));
 
-        $bus->dispatch(new GenerateEmployeeReportMessage($employee->getUser()->getEmail(), $employee));
+        $employeeReportMessage = new GenerateEmployeeReportMessage($employee->getUser()->getEmail(), $employee, EmployeeEmail::MONTHLY_WORK_TIME_REPORT);
+        $bus->dispatch($employeeReportMessage);
         $employeeWorkReportForCurrentMonth = $employeeTimeSheetService->getEmployeeMonthWorkReport($employee);
         $this->addFlash('success', '✅ Generowanie raportu rozpoczęte! Sprawdź e-mail.');
         

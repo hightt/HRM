@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace App\Entity;
 
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\LeaveRequestRepository;
@@ -25,10 +27,10 @@ class LeaveRequest
     private ?LeaveRequestType $leaveType = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $dateFrom = null;
+    private ?DateTimeInterface $dateFrom = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $dateTo = null;
+    private ?DateTimeInterface $dateTo = null;
 
     #[ORM\Column(length: 255, enumType: LeaveRequestStatus::class)]
     private ?LeaveRequestStatus $status = null;
@@ -40,7 +42,7 @@ class LeaveRequest
     private ?string $managerComment = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'reviewedLeaveRequests')]
     private ?Employee $reviewedBy = null;
@@ -74,24 +76,24 @@ class LeaveRequest
         return $this;
     }
 
-    public function getDateFrom(): ?\DateTimeInterface
+    public function getDateFrom(): ?DateTimeInterface
     {
         return $this->dateFrom;
     }
 
-    public function setDateFrom(\DateTimeInterface $dateFrom): static
+    public function setDateFrom(DateTimeInterface $dateFrom): static
     {
         $this->dateFrom = $dateFrom;
 
         return $this;
     }
 
-    public function getDateTo(): ?\DateTimeInterface
+    public function getDateTo(): ?DateTimeInterface
     {
         return $this->dateTo;
     }
 
-    public function setDateTo(\DateTimeInterface $dateTo): static
+    public function setDateTo(DateTimeInterface $dateTo): static
     {
         $this->dateTo = $dateTo;
 
@@ -134,12 +136,12 @@ class LeaveRequest
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 
