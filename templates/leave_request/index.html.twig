@@ -1,6 +1,6 @@
 {% extends 'index.html.twig' %}
 
-{% block title %}Lista pracowników{% endblock %}
+{% block title %}Lista wniosków urlopowych{% endblock %}
 
 {% block content %}
 	 <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
@@ -14,7 +14,7 @@
 
 					<span class="navbar-brand mb-0 h1"></span>
 					<div class="ms-auto">
-						<a href="{{ path('app_employee_new')}} " type="button" class="btn purple-strong">Dodaj pracownika</a>
+						<a href="{{ path('app_leave_request_new')}} " type="button" class="btn purple-strong">{{ 'leave_request.actions.create'|trans }}</a>
 					</div>
 				</div>
 			</nav>
@@ -24,9 +24,12 @@
 	<table id="main-table" class="table text-left">
 		<thead>
 			<tr>
-				<th>Imię i nazwisko</th>
-				<th>Stanowisko</th>
-				<th>Dział</th>
+				<th>{{ 'leave_request.table.employee'|trans}}</th>
+				<th>{{ 'leave_request.table.manager'|trans}}</th>
+				<th>{{ 'leave_request.table.type'|trans}}</th>
+				<th>{{ 'leave_request.table.date_from'|trans}}</th>
+				<th>{{ 'leave_request.table.date_to'|trans}}</th>
+				<th>{{ 'leave_request.table.status'|trans}}</th>
 			</tr>
 		</thead>
 	</table>
@@ -36,17 +39,20 @@
 	        var table = $('#main-table').DataTable({
 	            processing: true,
 	            serverSide: true,
-	            ajax: '{{ path("app_employee_list") }}',
+	            ajax: '{{ path("app_leave_request_list") }}',
 	            columns: [
-	                { data: 'name' },
-	                { data: 'position' },
-	                { data: 'department' },
+	                { data: 'employeeName' },
+	                { data: 'reviewedByManagerName' },
+	                { data: 'leaveType' },
+	                { data: 'dateFrom' },
+	                { data: 'dateTo' },
+	                { data: 'status' },
 	            ],
 	            lengthChange: false,
 	            info: false,
-				language: datatableTranslations,
+	            language: datatableTranslations,
 	            initComplete: function() {
-	                $('.dataTables_filter input').attr('placeholder', 'Wyszukaj...');
+	                $('.dataTables_filter input').attr('placeholder', "{{ 'datatable.search'|trans|e('js') }}");
 	            }
 	        });
 	

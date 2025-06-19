@@ -4,5 +4,5 @@ framework:
             async: '%env(MESSENGER_TRANSPORT_DSN)%'
  
         routing:
-            'App\Message\GenerateEmployeeReportMessage': async
-            'App\Message\GenerateDepartmentReportMessage': async
+            'App\Model\Message\GenerateEmployeeReportMessage': async
+            'App\Model\Message\GenerateDepartmentReportMessage': async

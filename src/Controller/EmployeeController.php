@@ -27,13 +27,9 @@ final class EmployeeController extends AbstractController
 {
     #[IsGranted('ROLE_ACCOUNTING')]
     #[Route(name: 'app_employee_index', methods: ['GET'])]
-    public function index(
-        EmployeeRepository $employeeRepository
-    ): Response {
+    public function index(): Response {
 
-        return $this->render('employee/index.html.twig', [
-            'employees' => $employeeRepository->findAll(),
-        ]);
+        return $this->render('employee/index.html.twig', []);
     }
 
     #[IsGranted('ROLE_ACCOUNTING')]
@@ -71,6 +67,7 @@ final class EmployeeController extends AbstractController
         if ($currentUser->getEmployee()->getId() !== $employee->getId()) {
             $this->denyAccessUnlessGranted('ROLE_ACCOUNTING');
         }
+        
         $employeeWorkReportForCurrentMonth = $employeeTimeSheetService->getEmployeeMonthWorkReport($employee);
 
         return $this->render('employee/show.html.twig', [
@@ -159,7 +156,6 @@ final class EmployeeController extends AbstractController
                 'name'         => sprintf('%s %s', $employee->getFirstName(), $employee->getLastName()),
                 'position'     => $employee->getPosition(),
                 'department'   => $employee->getDepartment()?->getName(),
-                'editUrl'      => $this->generateUrl('app_employee_edit', ['id' => $employee->getId()]),
                 'showUrl'      => $this->generateUrl('app_employee_show', ['id' => $employee->getId()]),
             ];
         }, $employees);

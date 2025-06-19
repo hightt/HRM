@@ -29,6 +29,7 @@ class EmployeeTimeSheetServiceTest extends TestCase
     /** @var EntityManagerInterface&MockObject */
     private EntityManagerInterface $entityManagerInterface;
 
+    /** @var EmployeeTimeSheetService&MockObject */
     private EmployeeTimeSheetService $service;
 
     protected function setUp(): void

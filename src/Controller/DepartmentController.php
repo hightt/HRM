@@ -12,9 +12,9 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Message\GenerateDepartmentReportMessage;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Messenger\MessageBusInterface;
+use App\Model\Message\GenerateDepartmentReportMessage;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -100,8 +100,8 @@ final class DepartmentController extends AbstractController
     #[IsGranted('ROLE_ACCOUNTING')]
     #[Route('/list', name: 'app_department_list', methods: ['GET'])]
     public function list(
-        DepartmentRepository    $departmentRepository,
-        Request                 $request,
+        DepartmentRepository $departmentRepository,
+        Request              $request,
     ) {
         $draw = $request->query->getInt('draw');
         $start = $request->query->getInt('start', 0);
@@ -134,11 +134,9 @@ final class DepartmentController extends AbstractController
 
         $data = array_map(function ($department) {
             return [
-                'id'          => $department->getId(),
                 'name'        => $department->getName(),
                 'managerName' => $department->getManagerName(),
                 'location'    => $department->getLocation(),
-                'editUrl'     => $this->generateUrl('app_department_edit', ['id' => $department->getId()]),
                 'showUrl'     => $this->generateUrl('app_department_show', ['id' => $department->getId()]),
             ];
         }, $departments);
