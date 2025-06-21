@@ -69,3 +69,43 @@ datatable:
   infoEmpty: "Brak wpisów do wyświetlenia"
   infoFiltered: "(filtrowanie z _MAX_ wpisów)"
   zeroRecords: "Brak wyników"
+
+department:
+  form:
+    name: "Nazwa działu"
+    manager: "Manager"
+    location: "Lokalizacja"
+  table:
+    id: "ID działu"
+    name: "Nazwa działu"
+    manager: "Manager działu"
+    actions: ""
+  actions:
+    index:
+      name: "Lista działów"
+    create:
+      name: "Utwórz dział"
+      manager: "Wybierz managera działu"
+      success: "Dział został utworzony pomyślnie"
+    view: 
+      name: "Szczegóły działu"
+      employee_salary_month_summary: "Miesięcznie podsumowanie wynagrodzeń pracowników"
+      current_time_sheet: "Aktualna ewidencja godzin"
+      employees_in_department: "Pracownicy w dziale"
+      employees:
+        name: "Imię i nazwisko"
+        position: "Stanowisko"
+    edit: 
+      name: "Edytuj dział"
+      success: "Dane działu zostały zaktualizowane pomyślnie"
+    delete: "Usuń dział"
+    generate_report:
+      success: "Generowanie raportu rozpoczęte! Sprawdź swój adres e-mail"
+  views:
+    create:
+      name: "Nazwa działu"
+      manager: "Manager działu"
+    show:
+      details: "Szczegóły działu"
+      name: "Nazwa działu"
+      manager: "Manager"

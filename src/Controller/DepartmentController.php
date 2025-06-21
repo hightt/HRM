@@ -17,6 +17,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use App\Model\Message\GenerateDepartmentReportMessage;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/department')]
 final class DepartmentController extends AbstractController
@@ -32,6 +33,7 @@ final class DepartmentController extends AbstractController
     public function new(
         Request                $request,
         EntityManagerInterface $entityManager,
+        TranslatorInterface    $translator,
     ): Response {
         $department = new Department();
         $form = $this->createForm(DepartmentType::class, $department);
@@ -40,7 +42,7 @@ final class DepartmentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($department);
             $entityManager->flush();
-            $this->addFlash('success', sprintf('Pomyślnie dodano dział: %s', $department->getName()));
+            $this->addFlash('success', $translator->trans('department.actions.create.success'));
 
             return $this->redirectToRoute('app_department_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -79,6 +81,7 @@ final class DepartmentController extends AbstractController
         Request                $request,
         Department             $department,
         EntityManagerInterface $entityManager,
+        TranslatorInterface    $translator,
     ): Response {
         $form = $this->createForm(DepartmentType::class, $department);
         $form->handleRequest($request);
@@ -86,7 +89,7 @@ final class DepartmentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($department);
             $entityManager->flush();
-            $this->addFlash('success', 'Pomyślnie edytowano dane działu');
+            $this->addFlash('success', $translator->trans('department.actions.edit.success'));
 
             return $this->redirectToRoute('app_department_index');
         }
@@ -155,13 +158,14 @@ final class DepartmentController extends AbstractController
         LoggerInterface     $logger,
         MessageBusInterface $bus,
         Security            $security,
+        TranslatorInterface $translator,
     ): Response {
         $logger->info(sprintf('Starting generate montly work time report for department: %s [ID: %d]', $department->getName(), $department->getId()));
         
         /** @var User $currentUser */
         $currentUser = $security->getUser();
         $bus->dispatch(new GenerateDepartmentReportMessage($currentUser->getEmail(), $department));
-        $this->addFlash('success', 'Generowanie raportu rozpoczęte! Sprawdź swój adres e-mail.');
+        $this->addFlash('success', $translator->trans('department.actions.generate_report.success'));
         
         return $this->render('department/show.html.twig', [
             'department' => $department,

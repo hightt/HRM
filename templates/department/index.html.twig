@@ -1,7 +1,6 @@
 {% extends 'index.html.twig' %}
 
-{% block title %}Lista działów
-{% endblock %}
+{% block title %} {{ 'department.actions.index.name'|trans }} {% endblock %}
 
 {% block content %}
 	 <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
@@ -15,7 +14,7 @@
 
 					<span class="navbar-brand mb-0 h1"></span>
 					<div class="ms-auto">
-						<a href="{{ path('app_department_new')}} " type="button" class="btn purple-strong">Dodaj dział</a>
+						<a href="{{ path('app_department_new')}} " type="button" class="btn purple-strong">{{ 'department.actions.create.name'|trans }}</a>
 					</div>
 				</div>
 			</nav>
@@ -25,9 +24,9 @@
 	<table id="main-table" class="table text-left">
 		<thead>
 			<tr>
-				<th>Nazwa działu</th>
-				<th>Kierownik/Manager</th>
-				<th>Lokalizacja</th>
+				<th>{{ 'department.form.name'|trans }}</th>
+				<th>{{ 'department.form.manager'|trans }}</th>
+				<th>Lo{{ 'department.form.location'|trans }}</th>
 			</tr>
 		</thead>
 	</table>
