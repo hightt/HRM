@@ -20,7 +20,8 @@ use App\Service\TimeSheet\EmployeeTimeSheetService;
 use App\Service\Employee\CreateEmployeeAndUserService;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/employee')]
 final class EmployeeController extends AbstractController
@@ -37,6 +38,7 @@ final class EmployeeController extends AbstractController
     public function new(
         Request                      $request,
         CreateEmployeeAndUserService $createEmployeeAndUserService,
+        TranslatorInterface          $translator,
     ): Response {
         $employeeModel = new EmployeeModel();
         $form = $this->createForm(NewEmployeeType::class, $employeeModel);
@@ -44,7 +46,7 @@ final class EmployeeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $createEmployeeAndUserService->createEmployeeAndUserAfterFormSend($employeeModel);
-            $this->addFlash('success', 'Pomyślnie dodano nowego pracownika');
+            $this->addFlash('success', $translator->trans('employee.actions.create.success'));
 
             return $this->redirectToRoute('app_employee_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -82,13 +84,14 @@ final class EmployeeController extends AbstractController
         Request                $request,
         Employee               $employee,
         EntityManagerInterface $entityManager,
+        TranslatorInterface    $translator,
     ): Response {
         $form = $this->createForm(EmployeeType::class, $employee);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-            $this->addFlash('success', 'Pomyślnie edytowano dane pracownika');
+            $this->addFlash('success', $translator->trans('employee.actions.edit.success'));
             
             return $this->redirectToRoute('app_employee_edit', ['id' => $form->getData()->getId()]);
         }
@@ -105,11 +108,12 @@ final class EmployeeController extends AbstractController
         Request                 $request,
         Employee                $employee,
         EntityManagerInterface  $entityManager,
+        TranslatorInterface     $translator,
     ): Response {
         if ($this->isCsrfTokenValid('delete' . $employee->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($employee);
             $entityManager->flush();
-            $this->addFlash('success', 'Pomyślnie usunięto pracownika');
+            $this->addFlash('success', $translator->trans('employee.actions.delete.success'));
         }
 
         return $this->redirectToRoute('app_employee_index', [], Response::HTTP_SEE_OTHER);

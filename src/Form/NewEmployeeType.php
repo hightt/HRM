@@ -23,50 +23,50 @@ class NewEmployeeType extends AbstractType
     {
         $builder
             ->add('firstName', TextType::class, [
-                'label' => 'Imię',
-                'attr' => ['class' => 'form-control', 'placeholder' => 'Wpisz imię']
+                'label' => 'employee.form.first_name',
+                'attr' => ['class' => 'form-control', 'placeholder' => 'employee.form.first_name_placeholder']
             ])
             ->add('lastName', TextType::class, [
-                'label' => 'Nazwisko',
-                'attr' => ['class' => 'form-control', 'placeholder' => 'Wpisz nazwisko']
+                'label' => 'employee.form.last_name',
+                'attr' => ['class' => 'form-control', 'placeholder' => 'employee.form.last_name_placeholder']
             ])
             ->add('birthdayDate', DateType::class, [
-                'label' => 'Data urodzenia',
+                'label' => 'employee.form.birthday_date',
                 'widget' => 'single_text',
                 'html5' => true,
                 'attr' => ['class' => 'form-control']
             ])
             ->add('pesel', TextType::class, [
-                'label' => 'PESEL',
-                'attr' => ['class' => 'form-control', 'placeholder' => 'Wpisz numer PESEL']
+                'label' => 'employee.form.pesel',
+                'attr' => ['class' => 'form-control', 'placeholder' => 'employee.form.pesel_placeholder']
             ])
             ->add('position', TextType::class, [
-                'label' => 'Stanowisko',
-                'attr' => ['class' => 'form-control', 'placeholder' => 'Podaj stanowisko']
+                'label' => 'employee.form.position',
+                'attr' => ['class' => 'form-control', 'placeholder' => 'employee.form.position_placeholder']
             ])
             ->add('phoneNumber', TextType::class, [
-                'label' => 'Numer telefonu',
-                'attr' => ['class' => 'form-control', 'placeholder' => 'Podaj numer telefonu']
+                'label' => 'employee.form.phone_number',
+                'attr' => ['class' => 'form-control', 'placeholder' => 'employee.form.phone_number_placeholder']
             ])
             ->add('address', TextType::class, [
-                'label' => 'Adres',
-                'attr' => ['class' => 'form-control', 'placeholder' => 'Podaj adres']
+                'label' => 'employee.form.address',
+                'attr' => ['class' => 'form-control', 'placeholder' => 'employee.form.address_placeholder']
             ])
             ->add('salary', NumberType::class, [
-                'label' => 'Wynagrodzenie',
-                'attr' => ['class' => 'form-control', 'placeholder' => 'Podaj pensję']
+                'label' => 'employee.form.salary',
+                'attr' => ['class' => 'form-control', 'placeholder' => 'employee.form.salary_placeholder']
             ])
             ->add('gender', ChoiceType::class, [
-                'label' => 'Płeć',
+                'label' => 'employee.form.gender',
                 'choices' => [
-                    'Kobieta' => 'K',
-                    'Mężczyzna' => 'M',
+                    'employee.form.gender_female' => 'K',
+                    'employee.form.gender_male' => 'M',
                 ],
-                'placeholder' => 'Wybierz płeć',
+                'placeholder' => 'employee.placeholder.gender',
                 'attr' => ['class' => 'form-control']
             ])
             ->add('department', EntityType::class, [
-                'label' => 'Dział',
+                'label' => 'employee.form.department',
                 'class' => Department::class,
                 'query_builder' => function (DepartmentRepository $departmentRepository) {
                     return $departmentRepository->createQueryBuilder('d')
@@ -74,18 +74,18 @@ class NewEmployeeType extends AbstractType
                         ->orderBy('d.name', 'ASC');
                 },
                 'choice_label' => 'name',
-                'placeholder' => 'Wybierz dział',
+                'placeholder' => 'employee.placeholder.department',
                 'attr' => ['class' => 'form-control']
             ])
             ->add('employmentDate', DateType::class, [
-                'label' => 'Data zatrudnienia',
+                'label' => 'employee.form.employment_date',
                 'widget' => 'single_text',
                 'html5' => true,
                 'attr' => ['class' => 'form-control']
             ])
             ->add('email', EmailType::class, [
-                'label' => 'E-mail',
-                'attr' => ['class' => 'form-control', 'placeholder' => 'Wymagany do utworzenia konta pracownika']
+                'label' => 'employee.form.email',
+                'attr' => ['class' => 'form-control', 'placeholder' => 'employee.form.email_placeholder']
             ])
         ;
     }
@@ -94,6 +94,7 @@ class NewEmployeeType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => EmployeeModel::class,
+            'translation_domain' => 'messages',
         ]);
     }
 }

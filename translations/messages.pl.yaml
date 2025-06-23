@@ -73,8 +73,11 @@ datatable:
 department:
   form:
     name: "Nazwa działu"
+    name_placeholder: "Wprowadź nazwę działu"
     manager: "Manager"
+    manager_placeholder: "Wybierz managera działu"
     location: "Lokalizacja"
+    location_placeholder: "Wprowadź lokalizację działu"
   table:
     id: "ID działu"
     name: "Nazwa działu"
@@ -87,15 +90,15 @@ department:
       name: "Utwórz dział"
       manager: "Wybierz managera działu"
       success: "Dział został utworzony pomyślnie"
-    view: 
+    view:
       name: "Szczegóły działu"
-      employee_salary_month_summary: "Miesięcznie podsumowanie wynagrodzeń pracowników"
+      employee_salary_month_summary: "Miesięczne podsumowanie wynagrodzeń pracowników"
       current_time_sheet: "Aktualna ewidencja godzin"
       employees_in_department: "Pracownicy w dziale"
       employees:
         name: "Imię i nazwisko"
         position: "Stanowisko"
-    edit: 
+    edit:
       name: "Edytuj dział"
       success: "Dane działu zostały zaktualizowane pomyślnie"
     delete: "Usuń dział"
@@ -109,3 +112,79 @@ department:
       details: "Szczegóły działu"
       name: "Nazwa działu"
       manager: "Manager"
+
+employee:
+  details: "Szczegóły pracownika"
+  department: "Oddział"
+  manager: "Przełożony"
+  work_report_this_month: "Ewidencja w tym miesiącu"
+  worked_hours: "Przepracowanych godzin"
+  overtime_hours: "Nadgodzin"
+  absent_days: "Dni nieobecności"
+  current_report_link: "Aktualna ewidencja godzin"
+  timesheets: "Ewidencja"
+  edit_basic_data: "Edytuj dane podstawowe"
+  first_name: "Imię"
+  last_name: "Nazwisko"
+  email: "E-mail"
+  birthday: "Data urodzenia"
+  pesel: "PESEL"
+  employment_date: "Data zatrudnienia"
+  gender: "Płeć"
+  female: "Kobieta"
+  male: "Mężczyzna"
+  phone_number: "Numer telefonu"
+  address: "Adres"
+  salary: "Wynagrodzenie"
+  status: "Status"
+  active: "Aktywny"
+  inactive: "Nieaktywny"
+
+time_sheet:
+  actions:
+    edit:
+      success: "Ewidencja godzin została zaktualizowana pomyślnie"
+    generate_monthly_work_report:
+      success: "Generowanie raportu rozpoczęte! Sprawdź e-mail."
+  form:
+    save_time_sheet: "Zapisz ewidencję godzin"
+
+registration:
+  form:
+    email: "E-mail"
+    email_placeholder: "Wpisz adres e-mail"
+    agree_terms: "Akceptuję regulamin"
+    agree_terms_error: "Musisz zaakceptować regulamin."
+    plain_password: "Hasło"
+    plain_password_placeholder: "Wpisz hasło"
+    plain_password_not_blank: "Proszę podać hasło"
+    plain_password_min_length: "Hasło powinno mieć co najmniej {{ limit }} znaków"
+  email:
+    welcome_title: "Witamy na pokładzie!"
+    greeting: "Cześć %firstName%,"
+    account_created_info: "Miło nam poinformować, że Twoje konto w systemie zarządzania zasobami ludzkimi (HRM) zostało właśnie utworzone."
+    you_can_now: "Od teraz możesz:"
+    features:
+      register_time: "Rejestrować swój czas pracy,"
+      view_reports: "Przeglądać ewidencje i raporty,"
+      download_pdf: "Pobierać miesięczne zestawienia w formacie PDF,"
+      manage_contact: "Zarządzać swoimi danymi kontaktowymi."
+    login_data: "Dane logowania:"
+    email_address: "Adres e-mail"
+    password: "Hasło"
+    password_note: "ustawione podczas pierwszego logowania lub przesłane osobno"
+    login_link_text: "Kliknij tutaj, aby się zalogować"
+    contact_hr: "W razie pytań skontaktuj się z działem HR lub administratorem systemu."
+    signature: "Pozdrawiamy,\nZespół HRM"
+
+work_log:
+  form:
+    date: "Data"
+    hour_start: "Godzina rozpoczęcia"
+    hour_end: "Godzina zakończenia"
+    hour_placeholder: "hh:mm"
+    is_day_off: "Dzień wolny"
+    absence_symbol: "Powód nieobecności"
+    absence_symbol_placeholder: "Wybierz powód nieobecności"
+    notes: "Uwagi"
+    notes_placeholder: "Dodatkowe uwagi..."

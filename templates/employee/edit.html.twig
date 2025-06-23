@@ -1,11 +1,10 @@
 {% extends 'index.html.twig' %}
 
-{% block title %}Edytuj pracownika
-{% endblock %}
+{% block title %}{{ 'employee.actions.edit.name'|trans }}{% endblock %}
 
 {% block content %}
-	<div class="row">
-		<div class="col-12">
+<div class="row">
+    <div class="col-12">
 			<nav class="navbar navbar-light ">
 				<div class="container-fluid">
 					<div class="me-auto">
@@ -14,137 +13,136 @@
 								<div class="text-center">
 									<i class="fa-solid fa-circle-user"></i>
 								</div>
-								<div class="text-center">Szczegóły</div>
+								<div class="text-center">{{ 'employee.form.action_details'|trans }}</div>
 							</div>
 						</a>
 						<form method="post" action="{{ path('app_employee_delete', {'id': employee.id}) }}" onsubmit="return confirm('Czy na pewno chcesz usunąć tego pracownika?');">
 							<input
 							type="hidden" name="_token" value="{{ csrf_token('delete' ~ employee.id) }}">
 
-							<!-- Przycisk submit z ikoną i tekstem -->
 							<button type="submit" class="tool" style="border: none; background: transparent; cursor: pointer;">
 								<div class="text-center">
 									<i class="fa-solid fa-trash-can text-danger"></i>
 								</div>
-								<div class="text-center">Usuń pracownika</div>
+								<div class="text-center">{{ 'employee.form.action_delete'|trans }}</div>
 							</button>
 						</form>
 					</div>
 				</div>
 			</nav>
-		</div>
-	</div>
-	{{ form_start(form) }}
-	<div class="row">
-		<ul class="nav nav-tabs" id="hrmTabs" role="tablist">
-			<li class="nav-item" role="presentation">
-				<button class="nav-link active" id="pracownicy-tab" data-bs-toggle="tab" data-bs-target="#pracownicy" type="button" role="tab">
-					<i class="fa-solid fa-person"></i>
-					Dane osobowe
-				</button>
-			</li>
-			<li class="nav-item" role="presentation">
-				<button class="nav-link" id="urlopy-tab" data-bs-toggle="tab" data-bs-target="#urlopy" type="button" role="tab">
-					<i class="fa-solid fa-handshake"></i>
-					Dane do umowy o pracę
-				</button>
-			</li>
-		</ul>
+    </div>
+</div>
 
-		<div class="tab-content p-3 border border-top-0" id="hrmTabsContent">
-			<div class="tab-pane fade show active" id="pracownicy" role="tabpanel">
-				<div class="row">
-					<div class="col-6">
-						<div class="mb-3 ms-3 me-3">
-							<label>Imię</label>
-							{{ form_widget(form.firstName, { 'attr': {'class': 'form-control'} }) }}
-							{{ form_errors(form.firstName) }}
-						</div>
-						<div class="mb-3 ms-3 me-3">
-							<label>Nazwisko</label>
-							{{ form_widget(form.lastName, { 'attr': {'class': 'form-control'} }) }}
-							{{ form_errors(form.lastName) }}
-						</div>
-						<div class="mb-3 ms-3 me-3">
-							<label>Data urodzin</label>
-							{{ form_widget(form.birthdayDate, { 'attr': {'class': 'form-control', 'type': 'date'} }) }}
-							{{ form_errors(form.birthdayDate) }}
-						</div>
-						<div class="mb-3 ms-3 me-3">
-							<label>PESEL</label>
-							{{ form_widget(form.pesel, { 'attr': {'class': 'form-control'} }) }}
-							{{ form_errors(form.pesel) }}
-						</div>
-					</div>
-					<div class="col-6">
-						<div class="mb-3 ms-3 me-3">
-							<label>Numer telefonu</label>
-							{{ form_widget(form.phoneNumber, { 'attr': {'class': 'form-control'} }) }}
-							{{ form_errors(form.phoneNumber) }}
-						</div>
-						<div class="mb-3 ms-3 me-3">
-							<label>Adres</label>
-							{{ form_widget(form.address, { 'attr': {'class': 'form-control'} }) }}
-							{{ form_errors(form.address) }}
-						</div>
-						<div class="mb-3 ms-3 me-3">
-							<label>Płeć</label>
-							{{ form_widget(form.gender, { 'attr': {'class': 'form-control'} }) }}
-							{{ form_errors(form.gender) }}
-						</div>
-						<div class="mb-3 ms-3 me-3">
-							<label>Aktywny</label>
-							{{ form_widget(form.status, { 'attr': {'class': 'form-control'} }) }}
-							{{ form_errors(form.status) }}
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="tab-pane fade" id="urlopy" role="tabpanel">
-				<div class="row">
-					<div class="col-6">
-						<div class="mb-3 ms-3 me-3">
-							<label>Stanowisko</label>
-							{{ form_widget(form.position, { 'attr': {'class': 'form-control'} }) }}
-							{{ form_errors(form.position) }}
-						</div>
-						<div class="mb-3 ms-3 me-3">
-							<label>Dział</label>
-							{{ form_widget(form.department, { 'attr': {'class': 'form-control'} }) }}
-							{{ form_errors(form.department) }}
-						</div>
-						<div class="mb-3 ms-3 me-3">
-							<label>Wynagrodzenie zł brutto</label>
-							{{ form_widget(form.salary, { 'attr': {'class': 'form-control'} }) }}
-							{{ form_errors(form.salary) }}
-						</div>
-					</div>
-					<div class="col-6">
-						<div class="mb-3 ms-3 me-3">
-							<label>Rodzaj umowy</label>
-							{{ form_widget(form.contractType, { 'attr': {'class': 'form-control'} }) }}
-							{{ form_errors(form.contractType) }}
-						</div>
-						<div class="mb-3 ms-3 me-3">
-							<label>Wymiar czasu pracy</label>
-							{{ form_widget(form.amountOfWorkingTime, { 'attr': {'class': 'form-control'} }) }}
-							{{ form_errors(form.amountOfWorkingTime) }}
-						</div>
-						<div class="mb-3 ms-3 me-3">
-							<label>Data zatrudnienia</label>
-							{{ form_widget(form.employmentDate, { 'attr': {'class': 'form-control'} }) }}
-							{{ form_errors(form.employmentDate) }}
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+{{ form_start(form) }}
 
+<div class="row">
+    <ul class="nav nav-tabs" id="hrmTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="personal-data-tab" data-bs-toggle="tab" data-bs-target="#personal-data" type="button" role="tab" aria-controls="personal-data" aria-selected="true">
+                <i class="fa-solid fa-person"></i> {{ 'employee.form.tab_personal_data'|trans }}
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="contract-data-tab" data-bs-toggle="tab" data-bs-target="#contract-data" type="button" role="tab" aria-controls="contract-data" aria-selected="false">
+                <i class="fa-solid fa-handshake"></i> {{ 'employee.form.tab_contract_data'|trans }}
+            </button>
+        </li>
+    </ul>
 
-	</div>
+    <div class="tab-content p-3 border border-top-0" id="hrmTabsContent">
+        <div class="tab-pane fade show active" id="personal-data" role="tabpanel" aria-labelledby="personal-data-tab">
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label>{{ 'employee.form.first_name'|trans }}</label>
+                        {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.firstName) }}
+                    </div>
+                    <div class="mb-3">
+                        <label>{{ 'employee.form.last_name'|trans }}</label>
+                        {{ form_widget(form.lastName, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.lastName) }}
+                    </div>
+                    <div class="mb-3">
+                        <label>{{ 'employee.form.birthday_date'|trans }}</label>
+                        {{ form_widget(form.birthdayDate, {'attr': {'class': 'form-control', 'type': 'date'}}) }}
+                        {{ form_errors(form.birthdayDate) }}
+                    </div>
+                    <div class="mb-3">
+                        <label>{{ 'employee.form.pesel'|trans }}</label>
+                        {{ form_widget(form.pesel, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.pesel) }}
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label>{{ 'employee.form.phone_number'|trans }}</label>
+                        {{ form_widget(form.phoneNumber, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.phoneNumber) }}
+                    </div>
+                    <div class="mb-3">
+                        <label>{{ 'employee.form.address'|trans }}</label>
+                        {{ form_widget(form.address, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.address) }}
+                    </div>
+                    <div class="mb-3">
+                        <label>{{ 'employee.form.gender'|trans }}</label>
+                        {{ form_widget(form.gender, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.gender) }}
+                    </div>
+                    <div class="mb-3">
+                        <label>{{ 'employee.form.status'|trans }}</label>
+                        {{ form_widget(form.status, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.status) }}
+                    </div>
+                </div>
+            </div>
+        </div>
 
-	<div class="text-center">
-		<button type="submit" class="btn purple-strong">Zapisz dane pracownika</button>
-	</div>
-	{{ form_end(form) }}
+        <div class="tab-pane fade" id="contract-data" role="tabpanel" aria-labelledby="contract-data-tab">
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label>{{ 'employee.form.position'|trans }}</label>
+                        {{ form_widget(form.position, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.position) }}
+                    </div>
+                    <div class="mb-3">
+                        <label>{{ 'employee.form.department'|trans }}</label>
+                        {{ form_widget(form.department, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.department) }}
+                    </div>
+                    <div class="mb-3">
+                        <label>{{ 'employee.form.salary'|trans }}</label>
+                        {{ form_widget(form.salary, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.salary) }}
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label>{{ 'employee.form.contract_type'|trans }}</label>
+                        {{ form_widget(form.contractType, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.contractType) }}
+                    </div>
+                    <div class="mb-3">
+                        <label>{{ 'employee.form.amount_of_working_time'|trans }}</label>
+                        {{ form_widget(form.amountOfWorkingTime, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.amountOfWorkingTime) }}
+                    </div>
+                    <div class="mb-3">
+                        <label>{{ 'employee.form.employment_date'|trans }}</label>
+                        {{ form_widget(form.employmentDate, {'attr': {'class': 'form-control', 'type': 'date'}}) }}
+                        {{ form_errors(form.employmentDate) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    <button type="submit" class="btn purple-strong">{{ 'common.actions.save'|trans }}</button>
+</div>
+
+{{ form_end(form) }}
 {% endblock %}
