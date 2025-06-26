@@ -102,7 +102,7 @@ class EmployeeType extends AbstractType
                     'employee.form.gender_female' => 'W',
                     'employee.form.gender_male' => 'M',
                 ],
-                'placeholder' => 'employee.placeholder.gender',
+                'placeholder' => 'employee.form.gender',
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('status', ChoiceType::class, [
@@ -123,7 +123,7 @@ class EmployeeType extends AbstractType
                         ->orderBy('d.name', 'ASC');
                 },
                 'choice_label' => 'name',
-                'placeholder' => 'employee.placeholder.department',
+                'placeholder' => 'employee.form.department',
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('employmentDate', DateType::class, [

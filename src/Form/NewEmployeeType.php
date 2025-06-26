@@ -62,7 +62,7 @@ class NewEmployeeType extends AbstractType
                     'employee.form.gender_female' => 'K',
                     'employee.form.gender_male' => 'M',
                 ],
-                'placeholder' => 'employee.placeholder.gender',
+                'placeholder' => 'employee.form.gender',
                 'attr' => ['class' => 'form-control']
             ])
             ->add('department', EntityType::class, [
@@ -74,7 +74,7 @@ class NewEmployeeType extends AbstractType
                         ->orderBy('d.name', 'ASC');
                 },
                 'choice_label' => 'name',
-                'placeholder' => 'employee.placeholder.department',
+                'placeholder' => 'employee.form.department',
                 'attr' => ['class' => 'form-control']
             ])
             ->add('employmentDate', DateType::class, [

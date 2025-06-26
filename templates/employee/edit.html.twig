@@ -1,6 +1,6 @@
 {% extends 'index.html.twig' %}
 
-{% block title %}{{ 'employee.actions.edit.name'|trans }}{% endblock %}
+{% block title %}{{ 'employee.actions.edit'|trans }}{% endblock %}
 
 {% block content %}
 <div class="row">
@@ -13,7 +13,7 @@
 								<div class="text-center">
 									<i class="fa-solid fa-circle-user"></i>
 								</div>
-								<div class="text-center">{{ 'employee.form.action_details'|trans }}</div>
+								<div class="text-center">{{ 'employee.actions.employee_details'|trans }}</div>
 							</div>
 						</a>
 						<form method="post" action="{{ path('app_employee_delete', {'id': employee.id}) }}" onsubmit="return confirm('Czy na pewno chcesz usunąć tego pracownika?');">
@@ -24,7 +24,7 @@
 								<div class="text-center">
 									<i class="fa-solid fa-trash-can text-danger"></i>
 								</div>
-								<div class="text-center">{{ 'employee.form.action_delete'|trans }}</div>
+								<div class="text-center">{{ 'employee.actions.delete'|trans }}</div>
 							</button>
 						</form>
 					</div>
@@ -39,12 +39,12 @@
     <ul class="nav nav-tabs" id="hrmTabs" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="personal-data-tab" data-bs-toggle="tab" data-bs-target="#personal-data" type="button" role="tab" aria-controls="personal-data" aria-selected="true">
-                <i class="fa-solid fa-person"></i> {{ 'employee.form.tab_personal_data'|trans }}
+                <i class="fa-solid fa-person"></i> {{ 'employee.form.personal_data_tab'|trans }}
             </button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="contract-data-tab" data-bs-toggle="tab" data-bs-target="#contract-data" type="button" role="tab" aria-controls="contract-data" aria-selected="false">
-                <i class="fa-solid fa-handshake"></i> {{ 'employee.form.tab_contract_data'|trans }}
+                <i class="fa-solid fa-handshake"></i> {{ 'employee.form.contract_data_tab'|trans }}
             </button>
         </li>
     </ul>

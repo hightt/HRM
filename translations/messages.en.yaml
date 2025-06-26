@@ -1,0 +1,384 @@
+common:
+  actions:
+    edit: "Edit"
+    delete: "Delete"
+    save: "Save"
+    cancel: "Cancel"
+    confirm: "Confirm"
+    back: "Back"
+    view: "View"
+  errors:
+    not_found: "Not found"
+    forbidden: "You do not have permission to perform this action"
+    server_error: "Server error, please try again later"
+
+leave_request:
+  form:
+    input_date: "Request submission date"
+    applicant: "Applicant"
+    manager: "Approving manager"
+    end_date: "End date"
+    start_date: "Start date"
+    status: "Request status"
+    applicant_comments: "Applicant comments"
+    manager_comments: "Manager comments"
+  status:
+    approved: "Approved"
+    rejected: "Rejected"
+    pending: "Pending"
+    cancelled: "Cancelled"
+  type:
+    vacation: "Vacation leave"
+    on_demand: "On-demand leave"
+    unpaid: "Unpaid leave"
+    occasional: "Occasional leave"
+    child_care: "Parental leave"
+    other: "Other"
+  table:
+    id: "Request ID"
+    employee: "Employee"
+    manager: "Approving manager"
+    type: "Type of leave"
+    date_from: "From"
+    date_to: "To"
+    status: "Status"
+    actions: ""
+  actions:
+    create: "Create leave request"
+    view: "View request"
+    edit: "Edit request"
+    delete: "Delete request"
+    approve: "Approve request"
+    reject: "Reject request"
+    cancel: "Cancel request"
+    accept_or_decline: "Accept / Reject request"
+    list: "List of leave requests"
+  views:
+    create:
+      data: "Leave request data"
+      type: "Type of leave"
+      from: "Start date"
+      to: "End date"
+      additional_comments: "Additional comments"
+    show:
+      details: "Leave request details"
+      employee: "Employee"
+      manager: "Manager"
+      type: "Type of leave"
+      date_from: "Start date"
+      date_to: "End date"
+      status: "Status"
+      additional_comments: "Additional comments"
+
+datatable:
+  paginate:
+    next: "Next"
+    previous: "Previous"
+  search: "Search..."
+  lengthMenu: "Show _MENU_ entries per page"
+  info: "Showing _START_ to _END_ of _TOTAL_ entries"
+  infoEmpty: "No entries to display"
+  infoFiltered: "(filtered from _MAX_ entries)"
+  zeroRecords: "No matching records found"
+
+department:
+  form:
+    name: "Department name"
+    name_placeholder: "Enter department name"
+    manager: "Manager"
+    manager_placeholder: "Select department manager"
+    location: "Location"
+    location_placeholder: "Enter department location"
+  table:
+    id: "Department ID"
+    name: "Department name"
+    manager: "Department manager"
+    actions: ""
+  actions:
+    index:
+      name: "Department list"
+    create:
+      name: "Create department"
+      manager: "Select department manager"
+      success: "Department created successfully"
+    view:
+      name: "Department details"
+      employee_salary_month_summary: "Monthly employee salary summary"
+      current_time_sheet: "Current timesheet"
+      employees_in_department: "Employees in department"
+      employees:
+        name: "Name"
+        position: "Position"
+    edit:
+      name: "Edit department"
+      success: "Department data updated successfully"
+    delete: "Delete department"
+    generate_report:
+      success: "Report generation started! Check your email"
+  views:
+    create:
+      name: "Department name"
+      manager: "Department manager"
+    show:
+      details: "Department details"
+      name: "Department name"
+      manager: "Manager"
+
+employee:
+  name: "Name"
+  position: "Position"
+  department: "Department"
+  first_name: "First name"
+  last_name: "Last name"
+  email: "Email"
+  birthday: "Date of birth"
+  pesel: "PESEL"
+  employment_date: "Employment date"
+  gender: "Gender"
+  phone_number: "Phone number"
+  address: "Address"
+  salary: "Salary"
+  status: "Status"
+  manager: "Manager"
+  work_report_this_month: "Timesheet for this month"
+  worked_hours: "Worked hours"
+  overtime_hours: "Overtime hours"
+  absent_days: "Absent days"
+  current_report_link: "Current timesheet"
+  timesheets: "Timesheets"
+  edit_basic_data: "Edit basic data"
+  active: "Active"
+  inactive: "Inactive"
+  form:
+    details: "Employee details"
+    department: "Department"
+    manager: "Manager"
+    work_report_this_month: "Timesheet for this month"
+    worked_hours: "Worked hours"
+    overtime_hours: "Overtime hours"
+    absent_days: "Absent days"
+    current_report_link: "Current timesheet"
+    timesheets: "Timesheets"
+    edit_basic_data: "Edit basic data"
+    first_name: "First name"
+    last_name: "Last name"
+    email: "Email"
+    birthday: "Date of birth"
+    pesel: "PESEL"
+    employment_date: "Employment date"
+    gender: "Gender"
+    female: "Female"
+    male: "Male"
+    phone_number: "Phone number"
+    address: "Address"
+    salary: "Salary"
+    status: "Status"
+    active: "Active"
+    inactive: "Inactive"
+    personal_data_tab: "Personal data"
+    contract_data_tab: "Contract data"
+    gender_male: "Male"
+    gender_female: "Female"
+    birthday_date: "Date of birth"
+    active_yes: "Active"
+    active_no: "Inactive"
+    status_placeholder: "Select status"
+    contract_type: "Contract type"
+    amount_of_working_time: "Working time"
+    amount_of_working_time_placeholder: "Select working time"
+    contract_type_employment: "Employment contract"
+    contract_type_b2b: "B2B contract"
+    contract_type_commission: "Commission contract"
+    contract_type_work: "Contract of work"
+    position: "Position"
+  actions:
+    employee_details: "Employee details"
+    delete: "Delete employee"
+    edit: "Edit employee"
+    add: "Add employee"
+    list: "Employee list"
+    search: "Search employee"
+
+time_sheet:
+  actions:
+    edit:
+      success: "Timesheet updated successfully"
+    generate_monthly_work_report:
+      success: "Report generation started! Check your email."
+  form:
+    save_time_sheet: "Save timesheet"
+    name: "Work timesheet"
+    date: "Date"
+    day_of_week: "Day of week"
+    start: "Start time"
+    end: "End time"
+    is_day_off: "Day off?"
+    absence_symbol: "Absence reason"
+    notes: "Notes"
+    notes_2: "Remarks"
+    save: "Save timesheet"
+    back: "Back"
+    time_of_work: "Work time"
+
+registration:
+  title: "Registration"
+  form:
+    email: "Email"
+    email_placeholder: "Enter your email"
+    agree_terms: "I accept the terms of service"
+    agree_terms_error: "You must accept the terms of service."
+    plain_password: "Password"
+    plain_password_placeholder: "Enter password"
+    plain_password_not_blank: "Please enter a password"
+    plain_password_min_length: "Password must be at least {{ limit }} characters"
+    register: "Register"
+    already_registered: "Already have an account? Log in"
+    login: "Log in"
+  email:
+    welcome_title: "Welcome aboard!"
+    greeting: "Hello %firstName%,"
+    account_created_info: "We are pleased to inform you that your account in the HRM system has been created."
+    you_can_now: "You can now:"
+    features:
+      register_time: "Log your working time,"
+      view_reports: "View timesheets and reports,"
+      download_pdf: "Download monthly summaries in PDF format,"
+      manage_contact: "Manage your contact information."
+    login_data: "Login details:"
+    email_address: "Email address"
+    password: "Password"
+    password_note: "set during first login or sent separately"
+    login_link_text: "Click here to log in"
+    contact_hr: "If you have any questions, contact the HR department or the system administrator."
+    signature: "Best regards,\nHRM Team"
+
+work_log:
+  form:
+    date: "Date"
+    hour_start: "Start time"
+    hour_end: "End time"
+    hour_placeholder: "hh:mm"
+    is_day_off: "Day off"
+    absence_symbol: "Absence reason"
+    absence_symbol_placeholder: "Select absence reason"
+    notes: "Notes"
+    notes_placeholder: "Additional notes..."
+
+pdf:
+  department_monthly_time_sheet_of_employees:
+    summary: "Summary of employees' working time"
+    generated_date: "Generated on"
+    name: "Name"
+    worked_hours: "Worked hours"
+    oveertime_hours: "Overtime"
+    absent_days: "Absent days"
+  employee_monthly_time_sheet:
+    name: "Monthly work time report"
+    generated_date: "Generated on"
+    date: "Date"
+    start: "Start"
+    end: "End"
+    is_day_off: "Day off?"
+    absence_symbol_code: "Absence code"
+    notes: "Notes"
+
+login:
+  title: "Login"
+  form:
+    email: "Email"
+    email_placeholder: "Enter your email"
+    password: "Password"
+    password_placeholder: "Enter password"
+    login: "Log in"
+    forgot_password: "Forgot your password?"
+    remember_me: "Remember me"
+    click_here: "click here"
+  errors:
+    invalid_credentials: "Invalid email or password"
+    account_not_active: "Account is not active. Please contact the administrator."
+
+dashboard:
+  main_site: "Main site"
+  hello: "Hello"
+  worked_hours: "Worked hours"
+  worked_hours_extended: "Total worked hours this month"
+  vacation: "Leave"
+  vacation_extended: "Upcoming leave approved by manager"
+  events: "Events"
+  events_extended: "Latest company events"
+  time_sheet: "Work time record"
+  submitted_application: "Submitted request"
+  total: "Total"
+  last_joined: "Recently joined"
+  no_new_employees: "No new employees"
+  employees_number_in_departments: "Number of employees per department"
+
+menu:
+  navigation: "Navigation"
+  dashboard: "Dashboard"
+  your_account: "Your account"
+  your_department: "Your department"
+  leave_request: "Leave requests"
+  administration: "Administration"
+  employees_list: "Employee list"
+  departments: "Departments"
+  company_data: "Company data"
+  settings: "Settings"
+  logout: "Logout"
+
+months:
+  january: January
+  february: February
+  march: March
+  april: April
+  may: May
+  june: June
+  july: July
+  august: August
+  september: September
+  october: October
+  november: November
+  december: December
+
+days:
+  monday: Monday
+  tuesday: Tuesday
+  wednesday: Wednesday
+  thursday: Thursday
+  friday: Friday
+  saturday: Saturday
+  sunday: Sunday
+
+landing_page:
+  hello: "Welcome"
+  page_title: HRM - Human Resource Management
+  hero:
+    subtitle: Modern human resource management
+  button:
+    login: Login
+    register: Register
+  features:
+    title: What does HRM offer?
+    employees:
+      title: Employee management
+      desc: A comprehensive employee database with editing and viewing capabilities.
+    timesheet:
+      title: Time tracking
+      desc: Track attendance, work hours, and absences in real time.
+    reports:
+      title: Statistics and reports
+      desc: Data visualizations and automatic performance reports.
+  why:
+    title: Why choose HRM?
+    security:
+      title: Data security
+      desc: Your data is safe – we use JWT and modern security standards.
+    flexibility:
+      title: System flexibility
+      desc: Easy integration with other tools and full control over features.
+  call_to_action: Ready to streamline your team management?
+  footer:
+    rights: All rights reserved.
+
+welcome_email:
+  subject: "Welcome to the HRM system"

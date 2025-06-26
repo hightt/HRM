@@ -1,6 +1,6 @@
 {% extends 'index.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %} {{'login.title'|trans }}{% endblock %}
 
 {% block body %}
 <style>
@@ -11,20 +11,20 @@
 <form method="post">
     <div class="row justify-content-center">
         <div class="col-lg-6 mt-lg-4 col-md-12 login-box">
-            <h3 class="text-center" style="color: #393939;">Zaloguj się</h3>
+            <h3 class="text-center" style="color: #393939;">{{ 'login.form.login'|trans }}</h3>
             <div class="mb-3">
-                <label for="inputEmail">E-mail</label>
+                <label for="inputEmail"> {{ 'login.form.email'|trans }}</label>
                 <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
             </div>
 
             <div class="mb-3">
-                <label for="inputPassword">Hasło</label>
+                <label for="inputPassword"> {{'login.form.password'|trans }}</label>
                 <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
             </div>
 
             <div class="mb-3">
                 <label>
-                    <input type="checkbox" name="_remember_me"> Zapamiętaj mnie
+                    <input type="checkbox" name="_remember_me"> {{ 'login.form.remember_me'|trans }}
                 </label>
             </div>
 
@@ -32,9 +32,9 @@
         
             <div class="text-center">
                 <button class="btn" type="submit" style="background-color: #7E60BF; color: white;">
-                    Zaloguj się
+                    {{ 'login.form.login'|trans }}
                 </button>
-                <p class="mt-2">Nie pamiętasz hasła?<a href="{{path('app_login')}}"> Kliknij tutaj</a></p>
+                <p class="mt-2">{{ 'login.form.forgot_password'|trans }}<a href="{{path('app_login')}}"> {{ 'login.form.click_here'|trans }}</a></p>
             </div>
 
         {% if error %}

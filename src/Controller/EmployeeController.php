@@ -20,7 +20,6 @@ use App\Service\TimeSheet\EmployeeTimeSheetService;
 use App\Service\Employee\CreateEmployeeAndUserService;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/employee')]
