@@ -11,7 +11,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 class GenerateEmployeeEmailHandler
 {
     /**
-    * @param EmployeeEmailHandlerInterface[] $handlers
+    * @param ReportEmailHandlerInterface[] $handlers
     */
     public function __construct(
         private LoggerInterface                  $logger,
@@ -21,7 +21,7 @@ class GenerateEmployeeEmailHandler
     public function __invoke(GenerateEmployeeReportMessage $message)
     {
         foreach ($this->handlers as $handler) {
-            if ($handler->supports($message->getEmployeeEmailType())) {
+            if ($handler->supports($message->getEmailType())) {
                 $handler->handle($message);
                 $this->logger->info("Handled by: " . get_class($handler));
 

@@ -1,27 +1,20 @@
 {% extends 'index.html.twig' %}
 
-{% block title %}Ewidencja godzin{% endblock %}
+{% block title %} {{'time_sheet.form.name'|trans }}{% endblock %}
 
 {% block content %}
-    {% set months = {
-        'January': 'Styczeń', 'February': 'Luty', 'March': 'Marzec',
-        'April': 'Kwiecień', 'May': 'Maj', 'June': 'Czerwiec',
-        'July': 'Lipiec', 'August': 'Sierpień', 'September': 'Wrzesień',
-        'October': 'Październik', 'November': 'Listopad', 'December': 'Grudzień'
-    } %}
-
     <div class="d-flex justify-content-between align-items-center mb-4">
         <a href="{{ path('app_employee_show', {'id': form.vars.value.employee.id}) }}"
            class="btn  ms-2 purple-strong">
-            <i class="fas fa-arrow-left me-2"></i>Powrót
+            <i class="fas fa-arrow-left me-2"></i>{{ 'time_sheet.form.back'|trans }}
         </a>
         <div class="text-center flex-grow-1">
-            <h4 class="fw-normal mb-1">Ewidencja godzin pracy: <strong>{{ form.vars.value.employee.getFullName }}</strong></h4>
+            <h4 class="fw-normal mb-1">{{ 'time_sheet.form.name'|trans }}: <strong>{{ form.vars.value.employee.getFullName }}</strong></h4>
             <div class="text-muted small">
-                {{ months["now"|date("F")] }}, {{ "now"|date("Y") }}
+                {{ ('months.' ~ "now"|date("F")|lower) | trans }}, {{ "now"|date("Y") }}
             </div>
         </div>
-        <div class="w-25"></div> {# filler dla wyśrodkowania #}
+        <div class="w-25"></div> 
     </div>
 
     {% for message in app.flashes('success') %}
@@ -36,12 +29,12 @@
         <table class="table table-bordered table-hover align-middle text-center">
             <thead class="table-light">
                 <tr>
-                    <th>Data</th>
-                    <th>Godzina rozpoczęcia</th>
-                    <th>Godzina zakończenia</th>
-                    <th>Dzień wolny?</th>
-                    <th>Powód nieobecności</th>
-                    <th>Notatki</th>
+                    <th>{{ 'time_sheet.form.date'|trans }}</th>
+                    <th>{{ 'time_sheet.form.start'|trans }}</th>
+                    <th>{{ 'time_sheet.form.end'|trans }}</th>
+                    <th>{{ 'time_sheet.form.is_day_off'|trans }}</th>
+                    <th>{{ 'time_sheet.form.absence_symbol'|trans }}</th>
+                    <th>{{ 'time_sheet.form.notes'|trans }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -76,7 +69,6 @@
                             {{ form_widget(workLogForm.notes, {'attr': {'class': 'form-control', 'style': 'height: 40px; width: 200px;'}}) }}
                         </td>
 
-                        {# Ukryte pola techniczne #}
                         {{ form_widget(workLogForm.hoursNumber) }}
                         {{ form_widget(workLogForm.overtimeNumber) }}
                     </tr>
@@ -89,7 +81,7 @@
 
     <div class="text-center mt-3">
         <button type="submit" class="btn px-4 purple-strong" >
-            <i class="fas fa-save me-2"></i>Zapisz ewidencję
+            <i class="fas fa-save me-2"></i>{{ 'time_sheet.form.save'|trans }}
         </button>
     </div>
     {{ form_end(form, {'render_rest': false}) }}

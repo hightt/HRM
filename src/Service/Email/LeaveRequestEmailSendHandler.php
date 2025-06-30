@@ -6,16 +6,18 @@ namespace App\Service\Email;
 
 use Twig\Environment;
 use Psr\Log\LoggerInterface;
+use InvalidArgumentException;
+use App\Model\Email\EmailType;
 use Symfony\Component\Mime\Email;
 use App\Repository\WorkLogRepository;
-use App\Model\LeaveRequest\EmployeeEmail;
 use Symfony\Component\Mailer\MailerInterface;
+use App\Model\Message\AbstractGenerateEmailMessage;
 use App\Model\Message\GenerateEmployeeReportMessage;
 use App\Service\Employee\EmployeeDocumentGeneratorService;
 use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 
 #[AsTaggedItem('app.employee_email_handler')]
-class LeaveRequestEmailSendHandler implements EmployeeEmailHandlerInterface
+class LeaveRequestEmailSendHandler implements ReportEmailHandlerInterface
 {
     public function __construct(
         private MailerInterface                  $mailer,
@@ -26,13 +28,17 @@ class LeaveRequestEmailSendHandler implements EmployeeEmailHandlerInterface
         private string $mailerFromAddress,
     ) {}
 
-    public function supports(EmployeeEmail $type): bool
+    public function supports(EmailType $type): bool
     {
-        return $type === EmployeeEmail::LEAVE_REQUEST_SUBMIT;
+        return $type === EmailType::LEAVE_REQUEST_SUBMIT;
     }
 
-    public function handle(GenerateEmployeeReportMessage $message): void
+    public function handle(AbstractGenerateEmailMessage $message): void
     {
+        if (!$message instanceof GenerateEmployeeReportMessage) {
+            throw new InvalidArgumentException('Invalid message type for DepartmentMonthlyWorkReportEmailHandler');
+        }
+
         $email = $message->getEmail();
         $employee = $message->getEmployee();
         $this->logger->info('Start processing employee report for: ' . $employee->getFullName());

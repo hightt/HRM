@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\DTO;
+namespace App\Model\TimeSheet;
 
-class WorkReportDTO
+class WorkReportModel
 {
     public function __construct(
         private float $workedHours, 

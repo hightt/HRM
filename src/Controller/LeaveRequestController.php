@@ -6,7 +6,6 @@ namespace App\Controller;
 
 use App\Entity\LeaveRequest;
 use App\Form\LeaveRequestDecideFormType;
-use App\Form\LeaveRequestType;
 use App\Form\LeaveRequestFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\LeaveRequestRepository;

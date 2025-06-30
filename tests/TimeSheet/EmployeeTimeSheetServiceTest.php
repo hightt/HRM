@@ -141,7 +141,7 @@ class EmployeeTimeSheetServiceTest extends TestCase
             ->willReturn($workLogs)
         ;
 
-        /** @var WorkReportDTO $employeeMonthWorkReport */
+        /** @var WorkReportModel $employeeMonthWorkReport */
         $employeeMonthWorkReport = $this->service->getEmployeeMonthWorkReport($employee);
         $this->assertEquals(28.00, $employeeMonthWorkReport->getWorkedHours());
         $this->assertEquals(4.00, $employeeMonthWorkReport->getOvertimeHours());
@@ -158,7 +158,7 @@ class EmployeeTimeSheetServiceTest extends TestCase
             ->willReturn([])
         ;
 
-        /** @var WorkReportDTO $employeeMonthWorkReport */
+        /** @var WorkReportModel $employeeMonthWorkReport */
         $employeeMonthWorkReport = $this->service->getEmployeeMonthWorkReport($employee);
         $this->assertEquals(0.00, $employeeMonthWorkReport->getWorkedHours());
         $this->assertEquals(0.00, $employeeMonthWorkReport->getOvertimeHours());

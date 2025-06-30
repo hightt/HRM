@@ -1,6 +1,6 @@
 {% extends 'root.html.twig' %}
 
-{% block title %}HRM - Human Resource Management{% endblock %}
+{% block title %}{{ 'landing_page.page_title'|trans }}{% endblock %}
 
 {% block body %}
 <style>
@@ -28,31 +28,31 @@
     <div class="hero-overlay"></div>
     <div class="container hero-content">
         <h1 class="display-3 fw-bold">HRM</h1>
-        <p class="lead fs-4">Nowoczesne zarządzanie zasobami ludzkimi</p>
-        <a href="{{ path('app_login') }}" class="btn btn-lg btn-primary mt-4 purple-strong border-0" >
-            <i class="fas fa-sign-in-alt me-2" ></i>Zaloguj się
+        <p class="lead fs-4">{{ 'landing_page.hero.subtitle'|trans }}</p>
+        <a href="{{ path('app_login') }}" class="btn btn-lg btn-primary mt-4 purple-strong border-0">
+            <i class="fas fa-sign-in-alt me-2"></i>{{ 'landing_page.button.login'|trans }}
         </a>
     </div>
 </section>
 
 <section class="py-5 bg-light">
     <div class="container text-center">
-        <h2 class="mb-4">Co oferuje HRM?</h2>
+        <h2 class="mb-4">{{ 'landing_page.features.title'|trans }}</h2>
         <div class="row">
             <div class="col-md-4">
                 <i class="fas fa-users fa-3x text-primary mb-3"></i>
-                <h5>Zarządzanie pracownikami</h5>
-                <p>Kompleksowa baza danych pracowników z możliwością edycji i przeglądania.</p>
+                <h5>{{ 'landing_page.features.employees.title'|trans }}</h5>
+                <p>{{ 'landing_page.features.employees.desc'|trans }}</p>
             </div>
             <div class="col-md-4">
                 <i class="fas fa-calendar-check fa-3x text-success mb-3"></i>
-                <h5>Ewidencja czasu pracy</h5>
-                <p>Śledź obecność, czas pracy i absencje w czasie rzeczywistym.</p>
+                <h5>{{ 'landing_page.features.timesheet.title'|trans }}</h5>
+                <p>{{ 'landing_page.features.timesheet.desc'|trans }}</p>
             </div>
             <div class="col-md-4">
                 <i class="fas fa-chart-line fa-3x text-warning mb-3"></i>
-                <h5>Statystyki i raporty</h5>
-                <p>Wizualizacje danych i automatyczne raportowanie wyników pracy.</p>
+                <h5>{{ 'landing_page.features.reports.title'|trans }}</h5>
+                <p>{{ 'landing_page.features.reports.desc'|trans }}</p>
             </div>
         </div>
     </div>
@@ -60,17 +60,17 @@
 
 <section class="py-5">
     <div class="container text-center">
-        <h2 class="mb-4">Dlaczego warto wybrać HRM?</h2>
+        <h2 class="mb-4">{{ 'landing_page.why.title'|trans }}</h2>
         <div class="row">
             <div class="col-md-6 mb-4">
                 <i class="fas fa-shield-alt fa-2x text-info mb-2"></i>
-                <h6>Bezpieczeństwo danych</h6>
-                <p>Twoje dane są bezpieczne – wykorzystujemy JWT i nowoczesne standardy bezpieczeństwa.</p>
+                <h6>{{ 'landing_page.why.security.title'|trans }}</h6>
+                <p>{{ 'landing_page.why.security.desc'|trans }}</p>
             </div>
             <div class="col-md-6 mb-4">
                 <i class="fas fa-cogs fa-2x text-danger mb-2"></i>
-                <h6>Elastyczność systemu</h6>
-                <p>Łatwa integracja z innymi narzędziami i pełna kontrola nad funkcjonalnościami.</p>
+                <h6>{{ 'landing_page.why.flexibility.title'|trans }}</h6>
+                <p>{{ 'landing_page.why.flexibility.desc'|trans }}</p>
             </div>
         </div>
     </div>
@@ -78,16 +78,16 @@
 
 <section class="text-white py-5 text-center" style="background-color: #7E60BF;">
     <div class="container">
-        <h2 class="mb-3">Gotowy, aby usprawnić zarządzanie zespołem?</h2>
+        <h2 class="mb-3">{{ 'landing_page.call_to_action'|trans }}</h2>
         <a href="{{ path('app_register') }}" class="btn btn-light btn-lg">
-            <i class="fas fa-user-plus me-2"></i>Zarejestruj się
+            <i class="fas fa-user-plus me-2"></i>{{ 'landing_page.button.register'|trans }}
         </a>
     </div>
 </section>
 
 <footer class="bg-dark text-white py-3 text-center">
     <div class="container">
-        <small>&copy; {{ "now"|date("Y") }} HRM. Wszelkie prawa zastrzeżone.</small>
+        <small>&copy; {{ "now"|date("Y") }} HRM. {{ 'landing_page.footer.rights'|trans }}</small>
     </div>
 </footer>
 {% endblock %}

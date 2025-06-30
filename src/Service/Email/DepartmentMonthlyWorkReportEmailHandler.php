@@ -1,7 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\MessageHandler;
+namespace App\Service\Email;
 
 use DateTime;
 use Exception;
@@ -9,29 +10,42 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use Twig\Environment;
 use Psr\Log\LoggerInterface;
+use InvalidArgumentException;
+use App\Model\Email\EmailType;
 use Symfony\Component\Mime\Email;
 use App\Repository\WorkLogRepository;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Mailer\MailerInterface;
+use App\Model\Message\AbstractGenerateEmailMessage;
 use App\Service\TimeSheet\EmployeeTimeSheetService;
+use App\Model\Message\GenerateEmployeeReportMessage;
 use App\Model\Message\GenerateDepartmentReportMessage;
 use App\Service\Employee\EmployeeDocumentGeneratorService;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 
-#[AsMessageHandler]
-class GenerateDepartmentMonthlyWorkTimeReportHandler
+#[AsTaggedItem('app.employee_email_handler')]
+class DepartmentMonthlyWorkReportEmailHandler implements ReportEmailHandlerInterface
 {
     public function __construct(
         private MailerInterface                  $mailer,
         private WorkLogRepository                $workLogRepository,
         private EmployeeDocumentGeneratorService $employeeDocumentGeneratorService,
-        private Environment                      $twig, 
+        private Environment                      $twig,
         private LoggerInterface                  $logger,
         private EmployeeTimeSheetService         $employeeTimeSheetService,
     ) {}
 
-    public function __invoke(GenerateDepartmentReportMessage $message)
+    public function supports(EmailType $type): bool
     {
+        return $type === EmailType::DEPARTMENT_MONTHLY_WORK_TIME_REPORT;
+    }
+
+    public function handle(AbstractGenerateEmailMessage $message): void
+    {
+        if (!$message instanceof GenerateDepartmentReportMessage) {
+            throw new InvalidArgumentException('Invalid message type for DepartmentMonthlyWorkReportEmailHandler');
+        }
+
         try {
             $department = $message->getDepartment();
             $departmentEmployees = $department->getEmployees();
@@ -41,11 +55,10 @@ class GenerateDepartmentMonthlyWorkTimeReportHandler
                 $employeesWorkTime[$i] = $this->employeeTimeSheetService->getEmployeeMonthlyWorkTimeSummary($departmentEmployee->getId());
                 $employeesWorkTime[$i]['employee'] =  $departmentEmployee;
             }
-            
+
             $options = (new Options())
                 ->set('defaultFont', 'DejaVu Sans')
-                ->set('isHtml5ParserEnabled', true)
-            ;
+                ->set('isHtml5ParserEnabled', true);
             $dompdf = new Dompdf($options);
             $html = $this->twig->render('pdf/department_monthly_time_sheet_of_employees.twig', [
                 'date'             => new DateTime(),
@@ -65,8 +78,7 @@ class GenerateDepartmentMonthlyWorkTimeReportHandler
                 ->to($message->getEmail())
                 ->subject('Twój raport')
                 ->text('Załączamy wygenerowany raport.')
-                ->attachFromPath($filePath, 'department_report.pdf', 'application/pdf')
-            ;
+                ->attachFromPath($filePath, 'department_report.pdf', 'application/pdf');
             $this->mailer->send($emailMessage);
 
             $filesystem->remove($filePath);

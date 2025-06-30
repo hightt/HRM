@@ -31,7 +31,7 @@ services:
             $handlers: !tagged_iterator app.employee_email_handler
             
     # Tagowanie implementacji
-    App\Service\Email\MonthlyWorkReportEmailHandler:
+    App\Service\Email\EmployeeMonthlyWorkReportEmailHandler:
         arguments:
             $mailerFromAddress: '%env(MAILER_FROM_ADDRESS)%'
         tags: ['app.employee_email_handler']
@@ -40,3 +40,7 @@ services:
         arguments:
             $mailerFromAddress: '%env(MAILER_FROM_ADDRESS)%'
         tags: ['app.employee_email_handler']
+
+    App\EventSubscriber\LocaleSubscriber:
+        tags:
+            - { name: kernel.event_subscriber }

@@ -10,17 +10,19 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use Twig\Environment;
 use Psr\Log\LoggerInterface;
+use InvalidArgumentException;
+use App\Model\Email\EmailType;
 use Symfony\Component\Mime\Email;
 use App\Repository\WorkLogRepository;
-use App\Model\LeaveRequest\EmployeeEmail;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Mailer\MailerInterface;
+use App\Model\Message\AbstractGenerateEmailMessage;
 use App\Model\Message\GenerateEmployeeReportMessage;
 use App\Service\Employee\EmployeeDocumentGeneratorService;
 use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 
 #[AsTaggedItem('app.employee_email_handler')]
-class MonthlyWorkReportEmailHandler implements EmployeeEmailHandlerInterface
+class EmployeeMonthlyWorkReportEmailHandler implements ReportEmailHandlerInterface
 {
     public function __construct(
         private MailerInterface                  $mailer,
@@ -31,13 +33,17 @@ class MonthlyWorkReportEmailHandler implements EmployeeEmailHandlerInterface
         private string $mailerFromAddress,
     ) {}
 
-    public function supports(EmployeeEmail $type): bool
+    public function supports(EmailType $type): bool
     {
-        return $type === EmployeeEmail::MONTHLY_WORK_TIME_REPORT;
+        return $type === EmailType::EMPLOYEE_MONTHLY_WORK_TIME_REPORT;
     }
 
-    public function handle(GenerateEmployeeReportMessage $message): void
+    public function handle(AbstractGenerateEmailMessage $message): void
     {
+        if (!$message instanceof GenerateEmployeeReportMessage) {
+            throw new InvalidArgumentException('Invalid message type for DepartmentMonthlyWorkReportEmailHandler');
+        }
+
         try {
             $email = $message->getEmail();
             $employee = $message->getEmployee();

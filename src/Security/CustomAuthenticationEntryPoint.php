@@ -13,6 +13,6 @@ class CustomAuthenticationEntryPoint implements AuthenticationEntryPointInterfac
 {
     public function start(Request $request, AuthenticationException $authException = null): RedirectResponse
     {
-        return new RedirectResponse('/landing-page');
+        return new RedirectResponse('/login');
     }
 }

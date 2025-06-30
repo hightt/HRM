@@ -22,6 +22,7 @@ class WorkLogType extends AbstractType
     {
         $builder
             ->add('date', DateType::class, [
+                'label' => 'work_log.form.date',
                 'attr' => [
                     'class'    => 'form-control',
                     'readonly' => 'readonly',
@@ -31,22 +32,24 @@ class WorkLogType extends AbstractType
                 'html5' => false,
             ])
             ->add('hourStart', TimeType::class, [
+                'label'  => 'work_log.form.hour_start',
                 'widget'  => 'choice',
                 'minutes' => [0, 15, 30, 45],
                 'attr' => [
                     'class' => 'input-select-work-log',
                     'style' => 'width: 120px;',
-                    'placeholder' => 'hh:mm'
+                    'placeholder' => 'work_log.form.hour_placeholder',
                 ],
                 'required' => false,
             ])
             ->add('hourEnd', TimeType::class, [
+                'label'  => 'work_log.form.hour_end',
                 'widget'  => 'choice',
                 'minutes' => [0, 15, 30, 45],
                 'attr' => [
                     'class' => 'input-select-work-log',
                     'style' => 'width: 120px;',
-                    'placeholder' => 'hh:mm'
+                    'placeholder' => 'work_log.form.hour_placeholder',
                 ],
                 'required' => false,
             ])
@@ -57,12 +60,13 @@ class WorkLogType extends AbstractType
                 'required' => false,
             ])
             ->add('isDayOff', CheckboxType::class, [
+                'label'    => 'work_log.form.is_day_off',
                 'required' => false,
                 'attr'     => ['class' => 'form-check-input']
             ])
             ->add('absenceSymbol', EntityType::class, [
                 'required' => false,
-                'label'    => 'Powód nieobecności',
+                'label'    => 'work_log.form.absence_symbol',
                 'class'    => AbsenceSymbol::class,
                 'query_builder' => function (AbsenceSymbolRepository $absenceSymbolRepository) {
                     return $absenceSymbolRepository->createQueryBuilder('a')
@@ -71,14 +75,15 @@ class WorkLogType extends AbstractType
                 'choice_label' => function (AbsenceSymbol $absenceSymbol) {
                     return sprintf('%s - %s', $absenceSymbol->getName(), $absenceSymbol->getDescription());
                 },
-                'placeholder' => 'Wybierz powód nieobecności',
+                'placeholder' => 'work_log.form.absence_symbol_placeholder',
                 'attr' => ['class' => 'form-select']
             ])
             ->add('notes', TextareaType::class, [
+                'label' => 'work_log.form.notes',
                 'required' => false,
                 'attr' => [
                     'class'       => 'form-control',
-                    'placeholder' => 'Dodatkowe uwagi...',
+                    'placeholder' => 'work_log.form.notes_placeholder',
                     'style'       => 'width: 200px; height: 40px;'
                 ]
             ]);

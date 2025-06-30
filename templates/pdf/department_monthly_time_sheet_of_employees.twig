@@ -2,9 +2,9 @@
 
 {% block body %}
 <div class="container-fluid">
-    <h3>Podsumowanie czasu pracy pracowników</h3>
+    <h3>{{ 'pdf.department_monthly_time_sheet_of_employees.summary'|trans }}</h3>
     <div style="text-align: center; font-weight: bold; margin-top: -10px;">{{department.name}}</div>
-    <p class="date">Data wygenerowania: {{ date|date('Y-m-d') }}</p>
+    <p class="date">{{ 'pdf.department_monthly_time_sheet_of_employees.generated_date'|trans }}: {{ date|date('Y-m-d') }}</p>
     <style>
         body {
             font-size: 14px;
@@ -54,10 +54,10 @@
     <table class="table">
         <thead>
             <tr>
-                <th style="width: 145px;">Imię i nazwisko</th>
-                <th style="width: 150px;">Liczba przepracowanych godzin</th>
-                <th style="width: 60px;">Nadgodziny</th>
-                <th style="width: 60px;">Dni nieobecności</th>
+                <th style="width: 145px;">{{ 'pdf.department_monthly_time_sheet_of_employees.name'|trans }}</th>
+                <th style="width: 150px;">{{ 'pdf.department_monthly_time_sheet_of_employees.worked_hours'|trans }}</th>
+                <th style="width: 60px;">{{ 'pdf.department_monthly_time_sheet_of_employees.oveertime_hours'|trans }}</th>
+                <th style="width: 60px;">{{ 'pdf.department_monthly_time_sheet_of_employees.absent_days'|trans }}</th>
             </tr>
         </thead>
         <tbody>

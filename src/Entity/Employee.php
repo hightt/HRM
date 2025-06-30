@@ -7,6 +7,7 @@ use DateTimeInterface;
 use App\Entity\LeaveRequest;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Model\Employee\ContractType;
 use App\Repository\EmployeeRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -66,8 +67,8 @@ class Employee
     #[ORM\OneToMany(targetEntity: WorkLog::class, mappedBy: 'employee')]
     private Collection $workLogs;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $contractType = null;
+    #[ORM\Column(type: 'string', enumType: ContractType::class)]
+    private ContractType $contractType;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $amountOfWorkingTime = null;
@@ -287,18 +288,6 @@ class Employee
         return $this;
     }
 
-    public function getContractType(): ?string
-    {
-        return $this->contractType;
-    }
-
-    public function setContractType(?string $contractType): static
-    {
-        $this->contractType = $contractType;
-
-        return $this;
-    }
-
     public function getAmountOfWorkingTime(): ?string
     {
         return $this->amountOfWorkingTime;
@@ -367,6 +356,18 @@ class Employee
                 $reviewedLeaveRequest->setReviewedBy(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getContractType(): ContractType
+    {
+        return $this->contractType;
+    }
+
+    public function setContractType(ContractType $contractType): static
+    {
+        $this->contractType = $contractType;
 
         return $this;
     }

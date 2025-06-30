@@ -1,7 +1,6 @@
 {% extends 'index.html.twig' %}
 
-{% block title %}Szczegóły pracownika
-{% endblock %}
+{% block title %}{{ 'employee.details'|trans }}{% endblock %}
 
 {% block content %}
 	<style>
@@ -22,14 +21,14 @@
 
 				<div class="p-3 mt-2" style="background-color: #fff; border-radius: 8px;">
 					<div style="font-weight: bold;">
-						Oddział
+						{{ 'employee.department'|trans }}
 					</div>
 					<div class="mt-2">{{employee.department.name}}</div>
 				</div>
 
 				<div class="p-3 mt-2" style="background-color: #fff; border-radius: 8px;">
 					<div style="font-weight: bold;">
-						Przełożony
+						{{ 'employee.manager'|trans }}
 					</div>
 					<div class="mt-2">
 						{% if employee.department and employee.department.manager %}
@@ -41,26 +40,26 @@
 
 				<div class="p-3 mt-2" style="background-color: #fff; border-radius: 8px;">
 					<div style="font-weight: bold;">
-						Ewidencja w tym miesiącu
+						{{ 'employee.work_report_this_month'|trans }}
 					</div>
 					<div class="mb-3 mt-3">
-						<span>Przepracowanych godzin:
+						<span>{{ 'employee.worked_hours'|trans }}:
 							{{workReport.getWorkedHours}}</span>
 					</div>
 					<hr>
 					<div class="mb-3 mt-3">
-						<span>Nadgodzin:
+						<span>{{ 'employee.overtime_hours'|trans }}:
 							{{workReport.getOvertimeHours}}</span>
 					</div>
 					<hr>
 					<div class="mb-3 mt-3">
-						<span>Dni nieobecności:
+						<span>{{ 'employee.absent_days'|trans }}:
 							{{workReport.getAbsentDays}}</span>
 					</div>
 					<div>
-						<a href="{{ path('app_time_sheet_employee_generate_work_time_report_for_current_month', {'id': employee.id}) }}" alt="Aktualna ewidencja godzin">
+						<a href="{{ path('app_time_sheet_employee_generate_work_time_report_for_current_month', {'id': employee.id}) }}" alt="{{ 'employee.current_report_link'|trans }}">
 							<i class="fa-solid fa-file-pdf me-2" style="font-size: 25px; color: #d3624f;"></i>
-							Aktualna ewidencja godzin
+							{{ 'employee.current_report_link'|trans }}
 						</a>
 					</div>
 				</div>
@@ -75,7 +74,7 @@
 										<div class="text-center">
 											<i class="fa-solid fa-book-open"></i>
 										</div>
-										<div class="text-center">Ewidencja</div>
+										<div class="text-center">{{ 'employee.timesheets'|trans }}</div>
 									</div>
 								</a>
 								{% if is_granted('ROLE_ACCOUNTING') %}
@@ -84,7 +83,7 @@
 										<div class="text-center">
 											<i class="fa-solid fa-circle-user"></i>
 										</div>
-										<div class="text-center">Edytuj dane podstawowe</div>
+										<div class="text-center">{{ 'employee.edit_basic_data'|trans }}</div>
 									</div>
 								</a>
 								{% endif %}
@@ -93,52 +92,52 @@
 					</div>
 					<div>
 						<div class="mb-3">
-							<span style="font-weight: bold;">Imię</span>
+							<span style="font-weight: bold;">{{ 'employee.first_name'|trans }}</span>
 							<div class="mt-1">{{employee.firstName}}</div>
 						</div>
 						<hr>
 						<div class="mb-3">
-							<span style="font-weight: bold;">Nazwisko</span>
+							<span style="font-weight: bold;">{{ 'employee.last_name'|trans }}</span>
 							<div class="mt-1">{{employee.lastName}}</div>
 						</div>
 						<hr>
 						<div class="mb-3">
 							<span style="font-weight: bold;">
 								<i class="fa-regular fa-envelope"></i>
-								E-mail</span>
+								{{ 'employee.email'|trans }}</span>
 							{# <div class="mt-1">{{employee.user.email}}</div> #}
 						</div>
 						<hr>
 						<div class="mb-3">
 							<span style="font-weight: bold;">
 								<i class="fa-solid fa-cake-candles"></i>
-								Data urodzenia</span>
+								{{ 'employee.birthday'|trans }}</span>
 							<div class="mt-1">{{employee.birthdayDate|date('d.m.Y')}}</div>
 						</div>
 						<hr>
 						<div class="mb-3">
 							<span style="font-weight: bold;">
 								<i class="fa-regular fa-id-card"></i>
-								PESEL</span>
+								{{ 'employee.pesel'|trans }}</span>
 							<div class="mt-1">{{employee.pesel}}</div>
 						</div>
 						<hr>
 						<div class="mb-3">
 							<span style="font-weight: bold;">
 								<i class="fa-regular fa-calendar"></i>
-								Data zatrudnienia</span>
+								{{ 'employee.employment_date'|trans }}</span>
 							<div class="mt-1">{{employee.employmentDate|date('d.m.Y')}}</div>
 						</div>
 						<hr>
 						<div class="mb-3">
 							<span style="font-weight: bold;">
 								<i class="fa-solid fa-venus-mars"></i>
-								Płeć</span>
+								{{ 'employee.gender'|trans }}</span>
 							<div class="mt-1">
 								{% if employee.gender == 'K' %}
-									Kobieta
+									{{ 'employee.female'|trans }}
 								{% else %}
-									Mężczyzna
+									{{ 'employee.male'|trans }}
 								{% endif %}
 							</div>
 						</div>
@@ -146,32 +145,31 @@
 						<div class="mb-3">
 							<span style="font-weight: bold;">
 								<i class="fa-solid fa-phone"></i>
-								Numer telefonu</span>
+								{{ 'employee.phone_number'|trans }}</span>
 							<div class="mt-1">563 241 421</div>
 						</div>
 						<hr>
 						<div class="mb-3">
 							<span style="font-weight: bold;">
 								<i class="fa-solid fa-location-dot"></i>
-								Adres</span>
+								{{ 'employee.address'|trans }}</span>
 							<div class="mt-1">{{employee.address}}</div>
 						</div>
 						<hr>
 						<div class="mb-3">
 							<span style="font-weight: bold;">
 								<i class="fa-solid fa-money-bill"></i>
-								Wynagrodzenie</span>
-							<div class="mt-1">{{employee.salary}}
-								zł</div>
+								{{ 'employee.salary'|trans }}</span>
+							<div class="mt-1">{{employee.salary}} zł</div>
 						</div>
 						<hr>
 						<div class="mb-3">
-							<span style="font-weight: bold;">Status</span>
+							<span style="font-weight: bold;">{{ 'employee.status'|trans }}</span>
 							<div class="mt-1">
 								{% if employee.status == true %}
-									<span style="color: green">Aktywny</span>
+									<span style="color: green">{{ 'employee.active'|trans }}</span>
 								{% else %}
-									<span style="color: red">Nieaktywny</span>
+									<span style="color: red">{{ 'employee.inactive'|trans }}</span>
 								{% endif %}
 							</div>
 						</div>
