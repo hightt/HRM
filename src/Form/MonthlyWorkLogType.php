@@ -8,7 +8,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class MonthlyWorkLogType extends AbstractType
 {
@@ -22,7 +21,7 @@ class MonthlyWorkLogType extends AbstractType
             ])
             ->add('save', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-success btn-lg w-100'],
-                'label' => 'Zapisz ewidencję'
+                'label' => 'time_sheet.form.save_time_sheet'
             ])
         ;
     }

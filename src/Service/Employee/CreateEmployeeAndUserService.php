@@ -4,9 +4,9 @@ declare(strict_types = 1);
 namespace App\Service\Employee;
 
 use App\Entity\User;
-use App\DTO\EmployeeDTO;
 use App\Entity\Employee;
 use App\Event\UserCreatedEvent;
+use App\Model\Employee\EmployeeModel;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -19,41 +19,41 @@ class CreateEmployeeAndUserService
         private EventDispatcherInterface    $eventDispatcher,
     ) {}
 
-    public function createEmployeeAndUserAfterFormSend(EmployeeDTO $employeeDTO)
+    public function createEmployeeAndUserAfterFormSend(EmployeeModel $employeeModel): void
     {
-        $employeeEntity = $this->createEmployeeEntity($employeeDTO);
-        $userEntity = $this->createUserEntityWithDefaultPassword($employeeDTO, $employeeEntity->getPesel());
+        $employeeEntity = $this->createEmployeeEntity($employeeModel);
+        $userEntity = $this->createUserEntityWithDefaultPassword($employeeModel, $employeeEntity->getPesel());
         $employeeEntity->setUser($userEntity);
         $this->entityManager->flush();
 
         $this->eventDispatcher->dispatch(new UserCreatedEvent($userEntity));
     }
 
-    private function createEmployeeEntity(EmployeeDTO $employeeDTO): Employee
+    private function createEmployeeEntity(EmployeeModel $employeeModel): Employee
     {
         $employee = (new Employee())
-            ->setFirstName($employeeDTO->getFirstName())
-            ->setLastName($employeeDTO->getLastName())
-            ->setBirthdayDate($employeeDTO->getBirthdayDate())
-            ->setPesel($employeeDTO->getPesel())
-            ->setEmploymentDate($employeeDTO->getEmploymentDate())
-            ->setPosition($employeeDTO->getPosition())
-            ->setPhoneNumber($employeeDTO->getPhoneNumber())
-            ->setAddress($employeeDTO->getAddress())
-            ->setSalary($employeeDTO->getSalary())
+            ->setFirstName($employeeModel->getFirstName())
+            ->setLastName($employeeModel->getLastName())
+            ->setBirthdayDate($employeeModel->getBirthdayDate())
+            ->setPesel($employeeModel->getPesel())
+            ->setEmploymentDate($employeeModel->getEmploymentDate())
+            ->setPosition($employeeModel->getPosition())
+            ->setPhoneNumber($employeeModel->getPhoneNumber())
+            ->setAddress($employeeModel->getAddress())
+            ->setSalary($employeeModel->getSalary())
             ->setStatus(true)
-            ->setGender($employeeDTO->getGender())
-            ->setDepartment($employeeDTO->getDepartment())
+            ->setGender($employeeModel->getGender())
+            ->setDepartment($employeeModel->getDepartment())
         ;
         $this->entityManager->persist($employee);
 
         return $employee;
     }
 
-    private function createUserEntityWithDefaultPassword(EmployeeDTO $employeeDTO, string $pesel): User
+    private function createUserEntityWithDefaultPassword(EmployeeModel $employeeModel, string $pesel): User
     {
         $user = new User();
-        $user->setEmail($employeeDTO->getEmail());
+        $user->setEmail($employeeModel->getEmail());
 
         $hashedPassword = $this->passwordHasher->hashPassword($user, $pesel);
         $user->setPassword($hashedPassword);

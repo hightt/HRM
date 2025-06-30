@@ -2,29 +2,29 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Witamy na pokładzie!</title>
+    <title>{{ 'registration.email.welcome_title'|trans }}</title>
 </head>
 <body style="font-family: Arial, sans-serif; line-height: 1.6;">
-    <h2>Cześć {{ user.firstName|default('') }},</h2>
+    <h2>{{ 'registration.email.greeting'|trans({'%firstName%': user.firstName|default('')}) }}</h2>
 
-    <p>Miło nam poinformować, że Twoje konto w systemie zarządzania zasobami ludzkimi (HRM) zostało właśnie utworzone.</p>
+    <p>{{ 'registration.email.account_created_info'|trans }}</p>
 
-    <p>Od teraz możesz:</p>
+    <p>{{ 'registration.email.you_can_now'|trans }}</p>
     <ul>
-        <li>Rejestrować swój czas pracy,</li>
-        <li>Przeglądać ewidencje i raporty,</li>
-        <li>Pobierać miesięczne zestawienia w formacie PDF,</li>
-        <li>Zarządzać swoimi danymi kontaktowymi.</li>
+        <li>{{ 'registration.email.features.register_time'|trans }}</li>
+        <li>{{ 'registration.email.features.view_reports'|trans }}</li>
+        <li>{{ 'registration.email.features.download_pdf'|trans }}</li>
+        <li>{{ 'registration.email.features.manage_contact'|trans }}</li>
     </ul>
 
-    <h3>🔐 Dane logowania:</h3>
-    <p><strong>Adres e-mail:</strong> {{ user.email }}<br>
-    <strong>Hasło:</strong> (ustawione podczas pierwszego logowania lub przesłane osobno)</p>
+    <h3>🔐 {{ 'registration.email.login_data'|trans }}</h3>
+    <p><strong>{{ 'registration.email.email_address'|trans }}:</strong> {{ user.email }}<br>
+    <strong>{{ 'registration.email.password'|trans }}:</strong> ({{ 'registration.email.password_note'|trans }})</p>
 
-    <p>🌐 <a href="{{ loginUrl }}">Kliknij tutaj, aby się zalogować</a></p>
+    <p>🌐 <a href="{{ loginUrl }}">{{ 'registration.email.login_link_text'|trans }}</a></p>
 
-    <p>W razie pytań skontaktuj się z działem HR lub administratorem systemu.</p>
+    <p>{{ 'registration.email.contact_hr'|trans }}</p>
 
-    <p>Pozdrawiamy,<br><strong>Zespół HRM</strong></p>
+    <p>{{ 'registration.email.signature'|trans }}</p>
 </body>
 </html>

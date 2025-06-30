@@ -1,13 +1,13 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\DTO;
+namespace App\Model\Employee;
 
 use App\Entity\User;
 use DateTimeInterface;
 use App\Entity\Department;
 
-class EmployeeDTO 
+class EmployeeModel 
 {
     private ?int $id = null;
 

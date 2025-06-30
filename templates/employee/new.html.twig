@@ -1,8 +1,6 @@
 {% extends 'index.html.twig' %}
 
-{% block title %}Dodaj pracownika
-{% endblock %}
-
+{% block title %}{{ 'employee.actions.create'|trans({}, 'messages') }}{% endblock %}
 
 {% block content %}
 	<div class="row">
@@ -25,78 +23,78 @@
 	<div class="row">
 		<div class="col-12">
 			<div class="mb-3 ms-3 me-3">
-				<span style="font-size: 23px;">Dane osobowe</span>
+				<span style="font-size: 23px;">{{ 'employee.form.personal_data_tab'|trans }}</span>
 				<hr class="p-0 mt-1">
 			</div>
 		</div>
 		<div class="col-6">
 			<div class="mb-3 ms-3 me-3">
-				<label>Imię</label>
+				<label>{{ 'employee.form.first_name'|trans }}</label>
 				{{ form_widget(form.firstName, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.firstName) }}
 			</div>
 			<div class="mb-3 ms-3 me-3">
-				<label>Nazwisko</label>
+				<label>{{ 'employee.form.last_name'|trans }}</label>
 				{{ form_widget(form.lastName, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.lastName) }}
 			</div>
 			<div class="mb-3 ms-3 me-3">
-				<label>Data urodzin</label>
+				<label>{{ 'employee.form.birthday_date'|trans }}</label>
 				{{ form_widget(form.birthdayDate, { 'attr': {'class': 'form-control', 'type': 'date', 'placeholder': 'dd-mm-yyyy'} }) }}
 				{{ form_errors(form.birthdayDate) }}
 			</div>
 			<div class="mb-3 ms-3 me-3">
-				<label>PESEL</label>
+				<label>{{ 'employee.form.pesel'|trans }}</label>
 				{{ form_widget(form.pesel, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.pesel) }}
 			</div>
 			<div class="mb-3 ms-3 me-3">
-				<label>Numer telefonu</label>
+				<label>{{ 'employee.form.phone_number'|trans }}</label>
 				{{ form_widget(form.phoneNumber, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.phoneNumber) }}
 			</div>
 			<div class="mb-3 ms-3 me-3">
-				<label>Adres</label>
+				<label>{{ 'employee.form.address'|trans }}</label>
 				{{ form_widget(form.address, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.address) }}
 			</div>
 			<div class="mb-3 ms-3 me-3">
-				<label>Płeć</label>
+				<label>{{ 'employee.form.gender'|trans }}</label>
 				{{ form_widget(form.gender, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.gender) }}
 			</div>
 		</div>
 		<div class="col-6">
 			<div class="mb-3 ms-3 me-3">
-				<label>Stanowisko</label>
+				<label>{{ 'employee.form.position'|trans }}</label>
 				{{ form_widget(form.position, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.position) }}
 			</div>
 			<div class="mb-3 ms-3 me-3">
-				<label>Dział</label>
+				<label>{{ 'employee.form.department'|trans }}</label>
 				{{ form_widget(form.department, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.department) }}
 			</div>
 			<div class="mb-3 ms-3 me-3">
-				<label>Wynagrodzenie zł brutto</label>
+				<label>{{ 'employee.form.salary'|trans }}</label>
 				{{ form_widget(form.salary, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.salary) }}
 			</div>
 			<div class="mb-3 ms-3 me-3">
-				<label>Data zatrudnienia</label>
+				<label>{{ 'employee.form.employment_date'|trans }}</label>
 				{{ form_widget(form.employmentDate, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.employmentDate) }}
 			</div>
 		</div>
 		<div class="col-12">
 			<div class="mb-3 ms-3 me-3">
-				<span style="font-size: 23px;">Dane logowania</span>
+				<span style="font-size: 23px;">{{ 'registration.email.login_data'|trans }}</span>
 				<hr class="p-0 mt-1">
 			</div>
-		</div>
+		</div>	
 		<div class="col-6">
 			<div class="mb-3 ms-3 me-3">
-				<label>E-mail wymagany do logowania</label>
+				<label>{{ 'employee.form.email'|trans({}, 'messages') }}</label>
 				{{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.email) }}
 			</div>
@@ -104,7 +102,7 @@
 	</div>
 
 	<div class="text-center">
-		<button type="submit" class="btn purple-strong">Dodaj pracownika</button>
+		<button type="submit" class="btn purple-strong">{{ 'common.actions.save'|trans({}, 'messages') }}</button>
 	</div>
 	{{ form_end(form) }}
 

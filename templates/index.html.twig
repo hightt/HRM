@@ -10,61 +10,61 @@
 					</div>
 					<hr>
 
-					<h6 class="text-uppercase text-muted ps-3 mb-2">Nawigacja</h6>
+					<h6 class="text-uppercase text-muted ps-3 mb-2">{{ 'menu.navigation'|trans }}</h6>
 					<ul class="nav nav-pills flex-column mb-3">
 						<li class="nav-item">
 							<a href="{{ path('app_homecontroller') }}" class="nav-link d-flex align-items-center {% if app.request.attributes.get('_route') == 'app_homecontroller' %}main-menu-link-active{% else %}link-dark{% endif %}">
 								<i class="fa-solid fa-chart-line me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
-								<span>Dashboard</span>
+								<span>{{ 'menu.dashboard'|trans }}</span>
 							</a>
 						</li>
 						<li class="nav-item">
 							<a href="{{ path('app_employee_show', { id: app.user.employee.id }) }}" class="nav-link d-flex align-items-center {% if app.request.attributes.get('_route') == 'app_employee_show' %}main-menu-link-active{% else %}link-dark{% endif %}">
 								<i class="fa-solid fa-user me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
-								<span>Twoje konto</span>
+								<span>{{ 'menu.your_account'|trans }}</span>
 							</a>
 						</li>
 						<li class="nav-item">
 							<a href="{{ path('app_department_show', { id: app.user.employee.department.id }) }}" class="nav-link d-flex align-items-center {% if app.request.attributes.get('_route') == 'app_department_show' %}main-menu-link-active{% else %}link-dark{% endif %}">
 								<i class="fa-solid fa-building-user me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
-								<span>Twój dział</span>
+								<span>{{ 'menu.your_department'|trans }}</span>
 							</a>
 						</li>
 						<li class="nav-item"> 
 							<a href="{{ path('app_leave_request_index') }}" class="nav-link d-flex align-items-center link-dark">
 								<i class="fa-solid fa-plane me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
-								<span>Wnioski urlopowe</span>
+								<span>{{ 'menu.leave_request'|trans }}</span>
 							</a>
 						</li>
 					</ul>
 
 					{% if is_granted('ROLE_ACCOUNTING') %}
-						<h6 class="text-uppercase text-muted ps-3 mb-2">Administracja</h6>
+						<h6 class="text-uppercase text-muted ps-3 mb-2">{{ 'menu.administration'|trans }}</h6>
 						<ul class="nav nav-pills flex-column mb-3">
 							<li>
 								<a href="{{ path('app_employee_index') }}" class="nav-link d-flex align-items-center {% if app.request.attributes.get('_route') == 'app_employee_index' %}main-menu-link-active{% else %}link-dark{% endif %}">
 									<i class="fa-solid fa-users me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
-									<span>Lista pracowników</span>
+									<span>{{ 'menu.employees_list'|trans }}</span>
 								</a>
 							</li>
 							<li>
 								<a href="{{ path('app_department_index') }}" class="nav-link d-flex align-items-center {% if app.request.attributes.get('_route') == 'app_department_index' %}main-menu-link-active{% else %}link-dark{% endif %}">
 									<i class="fa-solid fa-building me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
-									<span>Działy</span>
+									<span>{{ 'menu.departments'|trans }}</span>
 								</a>
 							</li>
-							<li>
+							{# <li>
 								<a href="#" class="nav-link link-dark d-flex align-items-center">
 									<i class="fa-solid fa-house me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
-									<span>Dane firmy</span>
+									<span>{{ 'menu.company_data'|trans }}</span>
 								</a>
-							</li>
-							<li>
+							</li> #}
+							{# <li>
 								<a href="#" class="nav-link link-dark d-flex align-items-center">
 									<i class="fa-solid fa-gear me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
-									<span>Ustawienia</span>
+									<span>{{ 'menu.settings'|trans }}</span>
 								</a>
-							</li>
+							</li> #}
 						</ul>
 					{% endif %}
 
@@ -74,7 +74,7 @@
 							<form action="{{ path('app_logout') }}" method="post">
 								<button type="submit" class="nav-link d-flex align-items-center link-dark" style="background: none; border: none; width: 100%; text-align: left;">
 									<i class="fa-solid fa-right-from-bracket me-2 flex-shrink-0" style="width: 20px; text-align: center;"></i>
-									<span>Wyloguj</span>
+									<span>{{ 'menu.logout'|trans }}</span>
 								</button>
 							</form>
 						</li>

@@ -1,6 +1,6 @@
 {% extends 'index.html.twig' %}
 
-{% block title %}Lista pracowników{% endblock %}
+{% block title %}{{ 'employee.actions.list'|trans}} {% endblock %}
 
 {% block content %}
 	 <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
@@ -14,7 +14,7 @@
 
 					<span class="navbar-brand mb-0 h1"></span>
 					<div class="ms-auto">
-						<a href="{{ path('app_employee_new')}} " type="button" class="btn purple-strong">Dodaj pracownika</a>
+						<a href="{{ path('app_employee_new')}} " type="button" class="btn purple-strong">{{ 'employee.actions.add'|trans }}</a>
 					</div>
 				</div>
 			</nav>
@@ -24,9 +24,9 @@
 	<table id="main-table" class="table text-left">
 		<thead>
 			<tr>
-				<th>Imię i nazwisko</th>
-				<th>Stanowisko</th>
-				<th>Dział</th>
+				<th>{{ 'employee.name'|trans }}</th>
+				<th>{{ 'employee.position'|trans }}</th>
+				<th>{{ 'employee.department'|trans }}</th>
 			</tr>
 		</thead>
 	</table>
@@ -46,7 +46,7 @@
 	            info: false,
 				language: datatableTranslations,
 	            initComplete: function() {
-	                $('.dataTables_filter input').attr('placeholder', 'Wyszukaj...');
+	                $('.dataTables_filter input').attr('placeholder', '{{ 'employee.actions.search'|trans }}');
 	            }
 	        });
 	

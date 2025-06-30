@@ -7,11 +7,12 @@ namespace App\tests\MessageHandler;
 use App\Entity\Employee;
 use Psr\Log\LoggerInterface;
 use PHPUnit\Framework\TestCase;
-use App\Model\LeaveRequest\EmployeeEmail;
 use App\Service\Email\LeaveRequestEmailSendHandler;
 use App\Model\Message\GenerateEmployeeReportMessage;
 use App\Service\Email\MonthlyWorkReportEmailHandler;
 use App\MessageHandler\GenerateEmployeeEmailHandler;
+use App\Model\Email\EmailType;
+use App\Service\Email\EmployeeMonthlyWorkReportEmailHandler;
 
 class GenerateEmployeeEmailHandlerTest extends TestCase
 {
@@ -19,13 +20,13 @@ class GenerateEmployeeEmailHandlerTest extends TestCase
     {
         $message = $this->createMock(GenerateEmployeeReportMessage::class);
         $message->method('getEmployee')->willReturn($this->createMock(Employee::class));
-        $message->method('getEmployeeEmailType')->willReturn(EmployeeEmail::MONTHLY_WORK_TIME_REPORT);
+        $message->method('getEmailType')->willReturn(EmailType::EMPLOYEE_MONTHLY_WORK_TIME_REPORT);
         $message->method('getEmail')->willReturn('test@o2.pl');
 
         $handlers = [];
-        $monthlyWorkReportEmailHandler = $this->createMock(MonthlyWorkReportEmailHandler::class);
+        $monthlyWorkReportEmailHandler = $this->createMock(EmployeeMonthlyWorkReportEmailHandler::class);
         $monthlyWorkReportEmailHandler->method('supports')
-            ->with(EmployeeEmail::MONTHLY_WORK_TIME_REPORT)
+            ->with(EmailType::EMPLOYEE_MONTHLY_WORK_TIME_REPORT)
             ->willReturn(true);
         $monthlyWorkReportEmailHandler->expects($this->once())
             ->method('handle')
@@ -33,7 +34,7 @@ class GenerateEmployeeEmailHandlerTest extends TestCase
 
         $leaveRequestEmailSendHandler = $this->createMock(LeaveRequestEmailSendHandler::class);
         $leaveRequestEmailSendHandler->method('supports')
-            ->with(EmployeeEmail::LEAVE_REQUEST_SUBMIT)
+            ->with(EmailType::LEAVE_REQUEST_SUBMIT)
             ->willReturn(true);
 
         $handlers = [
@@ -55,7 +56,7 @@ class GenerateEmployeeEmailHandlerTest extends TestCase
     {
         $message = $this->createMock(GenerateEmployeeReportMessage::class);
         $message->method('getEmployee')->willReturn($this->createMock(Employee::class));
-        $message->method('getEmployeeEmailType')->willReturn(EmployeeEmail::MONTHLY_WORK_TIME_REPORT);
+        $message->method('getEmailType')->willReturn(EmailType::EMPLOYEE_MONTHLY_WORK_TIME_REPORT);
         $message->method('getEmail')->willReturn('test@o2.pl');
 
         $handlers = [];

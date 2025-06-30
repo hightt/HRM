@@ -31,7 +31,7 @@ class SendWelcomeEmailListener
         $email = (new Email())
         ->from(new Address('noreply@your-hrm-app.com', 'HRM App'))
         ->to($user->getEmail())
-        ->subject('Witamy na pokładzie!')
+        ->subject('welcome_email.subject!')
         ->html($this->twig->render('emails/welcome_email.html.twig', [
             'user' => $user,
             'loginUrl' => $loginUrl,

@@ -13,7 +13,6 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use App\Model\LeaveRequest\LeaveRequestType as LeaveRequestEnum;
 use App\Model\LeaveRequest\LeaveRequestType;
 
 class LeaveRequestFormType extends AbstractType
