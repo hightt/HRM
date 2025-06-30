@@ -191,6 +191,7 @@ git clone https://github.com/hightt/HRM
 composer install
 npm ci
 npm run prod
+```
 
 ## License
 
