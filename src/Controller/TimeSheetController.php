@@ -5,8 +5,8 @@ namespace App\Controller;
 
 use App\Entity\Employee;
 use Psr\Log\LoggerInterface;
+use App\Model\Email\EmailType;
 use App\Form\MonthlyWorkLogType;
-use App\Model\LeaveRequest\EmployeeEmail;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +15,8 @@ use App\Service\TimeSheet\EmployeeTimeSheetService;
 use App\Model\Message\GenerateEmployeeReportMessage;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/time_sheet')]
 final class TimeSheetController extends AbstractController
@@ -25,6 +27,7 @@ final class TimeSheetController extends AbstractController
         Employee                 $employee,
         EmployeeTimeSheetService $employeeTimeSheetService,
         Security                 $security,
+        TranslatorInterface      $translator
     ): Response {
         /** @var User $currentUser */
         $currentUser = $security->getUser();
@@ -38,7 +41,7 @@ final class TimeSheetController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $employeeTimeSheetService->saveTimeSheet($form->getData()['workLogs']);
-            $this->addFlash('success', 'Pomyślnie edytowano dane ewidencje czasu pracy');
+            $this->addFlash('success', $translator->trans('time_sheet.actions.edit.success'));
 
             return $this->redirectToRoute('app_time_sheet_index', ['id' => $employee->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -55,6 +58,7 @@ final class TimeSheetController extends AbstractController
         EmployeeTimeSheetService $employeeTimeSheetService,
         LoggerInterface          $logger,
         Security                 $security,
+        TranslatorInterface      $translator
     ): Response {
         /** @var User $currentUser */
         $currentUser = $security->getUser();
@@ -64,10 +68,10 @@ final class TimeSheetController extends AbstractController
 
         $logger->info(sprintf('Starting generate montly work time report employee: %s [ID: %d]', $employee->getFullName(), $employee->getId()));
 
-        $employeeReportMessage = new GenerateEmployeeReportMessage($employee->getUser()->getEmail(), $employee, EmployeeEmail::MONTHLY_WORK_TIME_REPORT);
+        $employeeReportMessage = new GenerateEmployeeReportMessage($employee->getUser()->getEmail(), $employee, EmailType::EMPLOYEE_MONTHLY_WORK_TIME_REPORT);
         $bus->dispatch($employeeReportMessage);
         $employeeWorkReportForCurrentMonth = $employeeTimeSheetService->getEmployeeMonthWorkReport($employee);
-        $this->addFlash('success', '✅ Generowanie raportu rozpoczęte! Sprawdź e-mail.');
+        $this->addFlash('success', $translator->trans('time_sheet.actions.generate_montly_work_report.success'));
         
         return $this->render('employee/show.html.twig', [
             'employee'   => $employee,

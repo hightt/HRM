@@ -4,8 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>
-			{% block title %}Welcome!
-			{% endblock %}
+			{% block title %}{{ 'landing_page.hello'|trans }}!{% endblock %}
 		</title>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,7 +33,7 @@
 	            next: '{{ "datatable.paginate.next"|trans|e('js') }}',
 	            previous: '{{ "datatable.paginate.previous"|trans|e('js') }}',
 	        },
-	        search: '{{ "datatable.search"|trans|e('js') }}',
+	        search: '',
 	        lengthMenu: '{{ "datatable.lengthMenu"|trans|e('js') }}',
 	        info: '{{ "datatable.info"|trans|e('js') }}',
 	        infoEmpty: '{{ "datatable.infoEmpty"|trans|e('js') }}',

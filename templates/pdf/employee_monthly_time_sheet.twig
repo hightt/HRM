@@ -1,91 +1,101 @@
 {% extends 'root.html.twig' %}
 
 {% block body %}
-<div class="container-fluid">
-    <h3>Miesięczny raport przepracowanego czasu</h3>
-    <div style="text-align: center; font-weight: bold; margin-top: -10px;">{{employee.getFullName}}</div>
-    <p class="date">Data wygenerowania: {{ date|date('Y-m-d') }}</p>
-    <style>
-        body {
-            font-size: 14px;
-        }
+	<div class="container-fluid">
+		<h3>{{ 'pdf.employee_monthly_time_sheet.name'|trans }}</h3>
+		<div style="text-align: center; font-weight: bold; margin-top: -10px;">{{employee.getFullName}}</div>
+		<p class="date">{{ 'pdf.employee_monthly_time_sheet.generated_date'|trans }}:
+			{{ date|date('Y-m-d') }}</p>
+		<style>
+			body {
+				font-size: 14px;
+			}
 
-        h3 {
-            color: #4A90E2;
-            text-align: center;
-        }
+			h3 {
+				color: #4A90E2;
+				text-align: center;
+			}
 
-        .date {
-            font-style: italic;
-            text-align: center;
-        }
+			.date {
+				font-style: italic;
+				text-align: center;
+			}
 
-        .content {
-            text-align: justify;
-        }
+			.content {
+				text-align: justify;
+			}
 
-        table {
-            font-size: 12px;
-            width: 100%;
-            border-collapse: collapse;
-        }
+			table {
+				font-size: 12px;
+				width: 100%;
+				border-collapse: collapse;
+			}
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 4px;
-            text-align: center;
-        }
+			th,
+			td {
+				border: 1px solid #ddd;
+				padding: 4px;
+				text-align: center;
+			}
 
-        th {
-            background-color: #4A90E2;
-            color: white;
-            font-weight: bold;
-        }
+			th {
+				background-color: #4A90E2;
+				color: white;
+				font-weight: bold;
+			}
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+			tr:nth-child(even) {
+				background-color: #f2f2f2;
+			}
 
-        tr:hover {
-            background-color: #ddd;
-        }
-    </style>
+			tr:hover {
+				background-color: #ddd;
+			}
+		</style>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th style="width: 100px;">Data</th>
-                <th style="width: 75px;">Rozpoczęcie</th>
-                <th style="width: 75px;">Zakończenie</th>
-                <th style="width: 100px;">Dzień wolny?</th>
-                <th>Kod nieobecności</th>
-                <th>Dodatkowe uwagi</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for workLog in workLogs %}
-            <tr>
-                <td>{{ workLog.date|date('Y-m-d') }}</td>
-                <td>{% if workLog.getHourStart != null  %} {{ workLog.getHourStart|date('H:i') }} {% endif %}</td>
-                 <td>{% if workLog.getHourEnd != null  %} {{ workLog.getHourEnd|date('H:i') }} {% endif %}</td>
-                <td>
-                    {% if workLog.isDayOff %}
-                        Tak
-                    {% else %}
-                        Nie
-                    {% endif %}
-                </td>
-                <td>
-                    {% if workLog.absenceSymbol is not null %}
-                        {{ workLog.absenceSymbol.name }}
-                    {% else %}
-                        -
-                    {% endif %}
-                </td>
-                <td></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th style="width: 100px;">{{ 'pdf.employee_monthly_time_sheet.date'|trans }}</th>
+					<th style="width: 75px;">{{ 'pdf.employee_monthly_time_sheet.start'|trans }}</th>
+					<th style="width: 75px;">{{ 'pdf.employee_monthly_time_sheet.end'|trans }}</th>
+					<th style="width: 100px;">{{ 'pdf.employee_monthly_time_sheet.is_day_off'|trans }}</th>
+					<th>{{ 'pdf.employee_monthly_time_sheet.absence_symbol_code'|trans }}</th>
+					<th>{{ 'pdf.employee_monthly_time_sheet.notes'|trans }}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for workLog in workLogs %}
+					<tr>
+						<td>{{ workLog.date|date('Y-m-d') }}</td>
+						<td>
+							{% if workLog.getHourStart != null  %}
+								{{ workLog.getHourStart|date('H:i') }}
+							{% endif %}
+						</td>
+						<td>
+							{% if workLog.getHourEnd != null  %}
+								{{ workLog.getHourEnd|date('H:i') }}
+							{% endif %}
+						</td>
+						<td>
+							{% if workLog.isDayOff %}
+								Tak
+							{% else %}
+								Nie
+							{% endif %}
+						</td>
+						<td>
+							{% if workLog.absenceSymbol is not null %}
+								{{ workLog.absenceSymbol.name }}
+							{% else %}
+								-
+							{% endif %}
+						</td>
+						<td></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
 {% endblock %}

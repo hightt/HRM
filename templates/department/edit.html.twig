@@ -1,6 +1,6 @@
 {% extends 'index.html.twig' %}
 
-{% block title %}Edytuj dział{% endblock %}
+{% block title %}{{'department.actions.edit.name'|trans}}{% endblock %}
 
 {% block content %}
 	<div class="row">
@@ -23,19 +23,19 @@
 	<div class="row">
 		<div class="col-6">
 			<div class="mb-3 ms-3 me-3">
-				<label>Nazwa działu</label>
+				<label>{{'department.form.name'|trans}}</label>
 				{{ form_widget(form.name, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.name) }}
 			</div>
 			<div class="mb-3 ms-3 me-3">
-				<label>Manager / Kierownik</label>
+				<label>{{'department.form.manager'|trans}}</label>
 				{{ form_widget(form.manager, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.manager) }}
 			</div>
 		</div>
 		<div class="col-6">
 			<div class="mb-3 ms-3 me-3">
-				<label>Lokalizacja</label>
+				<label>{{'department.form.location'|trans}}</label>
 				{{ form_widget(form.location, { 'attr': {'class': 'form-control'} }) }}
 				{{ form_errors(form.location) }}
 			</div>
@@ -44,7 +44,7 @@
 
 
 		<div class="text-center">
-			<button type="submit" class="btn purple-strong">Edytuj dane</button>
+			<button type="submit" class="btn purple-strong">{{'common.actions.save'|trans}}</button>
 		</div>
 		{{ form_end(form) }}
 

@@ -13,6 +13,15 @@ common:
     server_error: "Błąd serwera, spróbuj ponownie później"
 
 leave_request:
+  form:
+    input_date: "Data wpływu wniosku"
+    applicant: "Wnioskujący"
+    manager: "Manager rozpatrujący wniosek"
+    end_date: "Data zakończenia"
+    start_date: "Data rozpoczęcia"
+    status: "Status wniosku"
+    applicant_comments: "Uwagi wnioskującego"
+    manager_comments: "Uwagi managera rozpatrującego wniosek"
   status:
     approved: "Zatwierdzony"
     rejected: "Odrzucony"
@@ -42,6 +51,8 @@ leave_request:
     approve: "Zatwierdź wniosek"
     reject: "Odrzuć wniosek"
     cancel: "Anuluj wniosek"
+    accept_or_decline: "Akceptuj / Odrzuć wniosek"
+    list: "Lista wniosków urlopowych"
   views:
     create:
       data: "Dane do wniosku urlopowego"
@@ -69,3 +80,309 @@ datatable:
   infoEmpty: "Brak wpisów do wyświetlenia"
   infoFiltered: "(filtrowanie z _MAX_ wpisów)"
   zeroRecords: "Brak wyników"
+
+department:
+  form:
+    name: "Nazwa działu"
+    name_placeholder: "Wprowadź nazwę działu"
+    manager: "Manager"
+    manager_placeholder: "Wybierz managera działu"
+    location: "Lokalizacja"
+    location_placeholder: "Wprowadź lokalizację działu"
+  table:
+    id: "ID działu"
+    name: "Nazwa działu"
+    manager: "Manager działu"
+    actions: ""
+  actions:
+    index:
+      name: "Lista działów"
+    create:
+      name: "Utwórz dział"
+      manager: "Wybierz managera działu"
+      success: "Dział został utworzony pomyślnie"
+    view:
+      name: "Szczegóły działu"
+      employee_salary_month_summary: "Miesięczne podsumowanie wynagrodzeń pracowników"
+      current_time_sheet: "Aktualna ewidencja godzin"
+      employees_in_department: "Pracownicy w dziale"
+      employees:
+        name: "Imię i nazwisko"
+        position: "Stanowisko"
+    edit:
+      name: "Edytuj dział"
+      success: "Dane działu zostały zaktualizowane pomyślnie"
+    delete: "Usuń dział"
+    generate_report:
+      success: "Generowanie raportu rozpoczęte! Sprawdź swój adres e-mail"
+  views:
+    create:
+      name: "Nazwa działu"
+      manager: "Manager działu"
+    show:
+      details: "Szczegóły działu"
+      name: "Nazwa działu"
+      manager: "Manager"
+
+employee:
+  name: "Imię i nazwisko"
+  position: "Stanowisko"
+  department: "Dział"
+  first_name: "Imię"
+  last_name: "Nazwisko"
+  email: "E-mail"
+  birthday: "Data urodzenia"
+  pesel: "PESEL"
+  employment_date: "Data zatrudnienia"
+  gender: "Płeć"
+  phone_number: "Numer telefonu"
+  address: "Adres"
+  salary: "Wynagrodzenie"
+  status: "Status"
+  manager: "Przełożony"
+  work_report_this_month: "Ewidencja w tym miesiącu"
+  worked_hours: "Przepracowanych godzin"
+  overtime_hours: "Nadgodzin"
+  absent_days: "Dni nieobecności"
+  current_report_link: "Aktualna ewidencja godzin"
+  timesheets: "Ewidencja"
+  edit_basic_data: "Edytuj dane podstawowe"
+  active: "Aktywny"
+  inactive: "Nieaktywny"
+  form:
+    details: "Szczegóły pracownika"
+    department: "Oddział"
+    manager: "Przełożony"
+    work_report_this_month: "Ewidencja w tym miesiącu"
+    worked_hours: "Przepracowanych godzin"
+    overtime_hours: "Nadgodzin"
+    absent_days: "Dni nieobecności"
+    current_report_link: "Aktualna ewidencja godzin"
+    timesheets: "Ewidencja"
+    edit_basic_data: "Edytuj dane podstawowe"
+    first_name: "Imię"
+    last_name: "Nazwisko"
+    email: "E-mail"
+    birthday: "Data urodzenia"
+    pesel: "PESEL"
+    employment_date: "Data zatrudnienia"
+    gender: "Płeć"
+    female: "Kobieta"
+    male: "Mężczyzna"
+    phone_number: "Numer telefonu"
+    address: "Adres"
+    salary: "Wynagrodzenie"
+    status: "Status"
+    active: "Aktywny"
+    inactive: "Nieaktywny"
+    personal_data_tab: 'Dane osobowe'
+    contract_data_tab: 'Dane umowy'
+    gender_male: "Mężczyzna"
+    gender_female: "Kobieta"
+    birthday_date: "Data urodzenia"
+    active_yes: "Aktywny"
+    active_no: "Nieaktywny"
+    status_placeholder: "Wybierz status"
+    contract_type: "Rodzaj umowy"
+    amount_of_working_time: "Wymiar czasu pracy"
+    amount_of_working_time_placeholder: "Wybierz wymiar czasu pracy"
+    contract_type_employment: "Umowa o pracę"
+    contract_type_b2b: "Umowa B2B"
+    contract_type_commission: "Umowa zlecenie"
+    contract_type_work: "Umowa o dzieło"
+    position: "Stanowisko"
+    
+  actions:
+    employee_details: "Szczegóły pracownika"
+    delete: "Usuń pracownika"
+    edit: "Edytuj pracownika"
+    add: "Dodaj pracownika"
+    list: "Lista pracowników"
+    search: "Szukaj pracownika"
+
+time_sheet:
+  actions:
+    edit:
+      success: "Ewidencja godzin została zaktualizowana pomyślnie"
+    generate_monthly_work_report:
+      success: "Generowanie raportu rozpoczęte! Sprawdź e-mail."
+  form:
+    save_time_sheet: "Zapisz ewidencję godzin"
+    name: "Ewidencja godzin pracy"
+    date: "Data"
+    day_of_week: "Dzień tygodnia"
+    start: "Godzina rozpoczęcia"
+    end: "Godzina zakończenia"
+    is_day_off: "Dzień wolny?"
+    absence_symbol: "Powód nieobecności"
+    notes: "Notatki"
+    notes_2: "Uwagi"
+    save: "Zapisz ewidencję"
+    back: "Powrót"
+    time_of_work: "Czas pracy"
+
+registration:
+  title: "Rejestracja"
+  form:
+    email: "E-mail"
+    email_placeholder: "Wpisz adres e-mail"
+    agree_terms: "Akceptuję regulamin"
+    agree_terms_error: "Musisz zaakceptować regulamin."
+    plain_password: "Hasło"
+    plain_password_placeholder: "Wpisz hasło"
+    plain_password_not_blank: "Proszę podać hasło"
+    plain_password_min_length: "Hasło powinno mieć co najmniej {{ limit }} znaków"
+    register: "Zarejestruj się"
+    already_registered: "Masz już konto?"
+    login: "Zaloguj się"
+  email:
+    welcome_title: "Witamy na pokładzie!"
+    greeting: "Cześć %firstName%,"
+    account_created_info: "Miło nam poinformować, że Twoje konto w systemie zarządzania zasobami ludzkimi (HRM) zostało właśnie utworzone."
+    you_can_now: "Od teraz możesz:"
+    features:
+      register_time: "Rejestrować swój czas pracy,"
+      view_reports: "Przeglądać ewidencje i raporty,"
+      download_pdf: "Pobierać miesięczne zestawienia w formacie PDF,"
+      manage_contact: "Zarządzać swoimi danymi kontaktowymi."
+    login_data: "Dane logowania:"
+    email_address: "Adres e-mail"
+    password: "Hasło"
+    password_note: "ustawione podczas pierwszego logowania lub przesłane osobno"
+    login_link_text: "Kliknij tutaj, aby się zalogować"
+    contact_hr: "W razie pytań skontaktuj się z działem HR lub administratorem systemu."
+    signature: "Pozdrawiamy,\nZespół HRM"
+
+work_log:
+  form:
+    date: "Data"
+    hour_start: "Godzina rozpoczęcia"
+    hour_end: "Godzina zakończenia"
+    hour_placeholder: "hh:mm"
+    is_day_off: "Dzień wolny"
+    absence_symbol: "Powód nieobecności"
+    absence_symbol_placeholder: "Wybierz powód nieobecności"
+    notes: "Uwagi"
+    notes_placeholder: "Dodatkowe uwagi..."
+
+pdf:
+  department_monthly_time_sheet_of_employees:
+    summary: "Podsumowanie czasu pracy pracowników"
+    generated_date: "Data wygenerowania"
+    name: "Imię i nazwisko"
+    worked_hours: "Ilość przepracowanych godzin"
+    oveertime_hours: "Nadgodziny"
+    absent_days: "Dni nieobecności"
+  employee_monthly_time_sheet:
+    name: "Miesięczny raport przepracowanego czasu"
+    generated_date: "Data wygenerowania"
+    date: "Data"
+    start: "Rozpoczęcie"
+    end: "Zakończenie"
+    is_day_off: "Dzień wolny?"
+    absence_symbol_code: "Kod nieobecności"
+    notes: "Uwagi"
+
+login:
+  title: "Logowanie"
+  form:
+    email: "E-mail"
+    email_placeholder: "Wpisz adres e-mail"
+    password: "Hasło"
+    password_placeholder: "Wpisz hasło"
+    login: "Zaloguj się"
+    forgot_password: "Zapomniałeś hasła?"
+    remember_me: "Zapamiętaj mnie"
+    click_here: "kliknij tutaj"
+    you_dont_have_account: "Nie masz jeszcze konta?"
+    register: "Zarejestruj się"
+  errors:
+    invalid_credentials: "Nieprawidłowy e-mail lub hasło"
+    account_not_active: "Konto nie jest aktywne. Skontaktuj się z administratorem."
+
+dashboard:
+  main_site: "Strona główna"
+  hello: "Witaj"
+  worked_hours: "Przepracowanych godziny"
+  worked_hours_extended: "Ilość przepracowanych godzin w aktualnym miesiącu"
+  vacation: "Urlop"
+  vacation_extended: "Najbliższy urlop zaakceptowany przez przełożonego"
+  events: "Wydarzenia"
+  events_extended: "Najnowsze firmowe wydarzenia"
+  time_sheet: "Ewidencja czasu pracy"
+  submitted_application: "Zgłoszony wniosek"
+  total: "Łącznie"
+  last_joined: "Ostatnio dołączyli"
+  no_new_employees: "Brak nowych pracowników"
+  employees_number_in_departments: "Liczba pracowników w działach"
+
+menu:
+  navigation: "Nawigacja"
+  dashboard: "Panel główny"
+  your_account: "Twoje konto"
+  your_department: "Twój dział"
+  leave_request: "Wnioski urlopowe"
+  administration: "Administracja"
+  employees_list: "Lista pracowników"
+  departments: "Działy"
+  company_data: "Dane firmy"
+  settings: "Ustawienia"
+  logout: "Wyloguj się"
+months:
+  january: Styczeń
+  february: Luty
+  march: Marzec
+  april: Kwiecień
+  may: Maj
+  june: Czerwiec
+  july: Lipiec
+  august: Sierpień
+  september: Wrzesień
+  october: Październik
+  november: Listopad
+  december: Grudzień
+
+days:
+  monday: Poniedziałek
+  tuesday: Wtorek
+  wednesday: Środa
+  thursday: Czwartek
+  friday: Piątek
+  saturday: Sobota
+  sunday: Niedziela
+
+
+
+landing_page:
+  hello: "Witamy"
+  page_title: HRM - Human Resource Management
+  hero:
+    subtitle: Nowoczesne zarządzanie zasobami ludzkimi
+  button:
+    login: Zaloguj się
+    register: Zarejestruj się
+  features:
+    title: Co oferuje HRM?
+    employees:
+      title: Zarządzanie pracownikami
+      desc: Kompleksowa baza danych pracowników z możliwością edycji i przeglądania.
+    timesheet:
+      title: Ewidencja czasu pracy
+      desc: Śledź obecność, czas pracy i absencje w czasie rzeczywistym.
+    reports:
+      title: Statystyki i raporty
+      desc: Wizualizacje danych i automatyczne raportowanie wyników pracy.
+  why:
+    title: Dlaczego warto wybrać HRM?
+    security:
+      title: Bezpieczeństwo danych
+      desc: Twoje dane są bezpieczne – wykorzystujemy JWT i nowoczesne standardy bezpieczeństwa.
+    flexibility:
+      title: Elastyczność systemu
+      desc: Łatwa integracja z innymi narzędziami i pełna kontrola nad funkcjonalnościami.
+  call_to_action: Gotowy, aby usprawnić zarządzanie zespołem?
+  footer:
+    rights: Wszelkie prawa zastrzeżone.
+
+welcome_email:
+  subject: "Witamy w systemie HRM"

@@ -7,8 +7,10 @@ namespace App\tests\MessageHandler;
 use Twig\Environment;
 use App\Entity\Employee;
 use App\Entity\Department;
+use App\Model\Email\EmailType;
 use Psr\Log\LoggerInterface;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject;
 use Symfony\Component\Mime\Email;
 use App\Repository\WorkLogRepository;
 use Symfony\Component\Mailer\MailerInterface;
@@ -16,8 +18,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use App\Service\TimeSheet\EmployeeTimeSheetService;
 use App\Model\Message\GenerateDepartmentReportMessage;
 use App\Service\Employee\EmployeeDocumentGeneratorService;
-use App\MessageHandler\GenerateDepartmentMonthlyWorkTimeReportHandler;
-use PHPUnit\Framework\MockObject;
+use App\Service\Email\DepartmentMonthlyWorkReportEmailHandler;
+
 class GenerateDepartmentMonthlyWorkTimeReportHandlerTest extends TestCase
 {
     /** @var WorkLogRepository&\PHPUnit\Framework\MockObject\MockObject */
@@ -38,8 +40,8 @@ class GenerateDepartmentMonthlyWorkTimeReportHandlerTest extends TestCase
     /** @var EmployeeTimeSheetService&\PHPUnit\Framework\MockObject\MockObject */
     private $timeSheetService;
 
-    /** @var GenerateDepartmentMonthlyWorkTimeReportHandler&MockObject */
-    private GenerateDepartmentMonthlyWorkTimeReportHandler $handler;
+    /** @var DepartmentMonthlyWorkReportEmailHandler&MockObject */
+    private DepartmentMonthlyWorkReportEmailHandler $handler;
 
     protected function setUp(): void
     {
@@ -49,15 +51,6 @@ class GenerateDepartmentMonthlyWorkTimeReportHandlerTest extends TestCase
         $this->twig = $this->createMock(Environment::class);
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->timeSheetService = $this->createMock(EmployeeTimeSheetService::class);
-
-        $this->handler = new GenerateDepartmentMonthlyWorkTimeReportHandler(
-            $this->mailer,
-            $this->workLogRepository,
-            $this->employeeDocumentGeneratorService,
-            $this->twig,
-            $this->logger,
-            $this->timeSheetService
-        );
     }
 
     public function testMonthlyWorkTimeReportGeneration(): void
@@ -90,6 +83,15 @@ class GenerateDepartmentMonthlyWorkTimeReportHandlerTest extends TestCase
                     $email->getSubject() === 'Twój raport';
             }));
 
-        ($this->handler)($message);
+        $handler = new DepartmentMonthlyWorkReportEmailHandler(
+            $this->mailer,
+            $this->workLogRepository,
+            $this->employeeDocumentGeneratorService,
+            $this->twig,
+            $this->logger,
+            $this->timeSheetService
+        );
+
+        $handler->handle($message);
     }
 }
