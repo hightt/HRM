@@ -24,11 +24,11 @@ class NewEmployeeType extends AbstractType
         $builder
             ->add('firstName', TextType::class, [
                 'label' => 'employee.form.first_name',
-                'attr' => ['class' => 'form-control', 'placeholder' => 'employee.form.first_name_placeholder']
+                'attr' => ['class' => 'form-control']
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'employee.form.last_name',
-                'attr' => ['class' => 'form-control', 'placeholder' => 'employee.form.last_name_placeholder']
+                'attr' => ['class' => 'form-control']
             ])
             ->add('birthdayDate', DateType::class, [
                 'label' => 'employee.form.birthday_date',
@@ -38,23 +38,23 @@ class NewEmployeeType extends AbstractType
             ])
             ->add('pesel', TextType::class, [
                 'label' => 'employee.form.pesel',
-                'attr' => ['class' => 'form-control', 'placeholder' => 'employee.form.pesel_placeholder']
+                'attr' => ['class' => 'form-control']
             ])
             ->add('position', TextType::class, [
                 'label' => 'employee.form.position',
-                'attr' => ['class' => 'form-control', 'placeholder' => 'employee.form.position_placeholder']
+                'attr' => ['class' => 'form-control']
             ])
             ->add('phoneNumber', TextType::class, [
                 'label' => 'employee.form.phone_number',
-                'attr' => ['class' => 'form-control', 'placeholder' => 'employee.form.phone_number_placeholder']
+                'attr' => ['class' => 'form-control']
             ])
             ->add('address', TextType::class, [
                 'label' => 'employee.form.address',
-                'attr' => ['class' => 'form-control', 'placeholder' => 'employee.form.address_placeholder']
+                'attr' => ['class' => 'form-control']
             ])
             ->add('salary', NumberType::class, [
                 'label' => 'employee.form.salary',
-                'attr' => ['class' => 'form-control', 'placeholder' => 'employee.form.salary_placeholder']
+                'attr' => ['class' => 'form-control']
             ])
             ->add('gender', ChoiceType::class, [
                 'label' => 'employee.form.gender',
@@ -85,7 +85,7 @@ class NewEmployeeType extends AbstractType
             ])
             ->add('email', EmailType::class, [
                 'label' => 'employee.form.email',
-                'attr' => ['class' => 'form-control', 'placeholder' => 'employee.form.email_placeholder']
+                'attr' => ['class' => 'form-control']
             ])
         ;
     }

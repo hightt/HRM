@@ -1,46 +1,74 @@
 {% extends 'index.html.twig' %}
 
-{% block title %} {{'login.title'|trans }}{% endblock %}
+{% block title %}
+	{{'login.title'|trans }}
+{% endblock %}
 
 {% block body %}
-<style>
-    body {
-        background-color: #f7f7f7;
-    }
-</style>
-<form method="post">
-    <div class="row justify-content-center">
-        <div class="col-lg-6 mt-lg-4 col-md-12 login-box">
-            <h3 class="text-center" style="color: #393939;">{{ 'login.form.login'|trans }}</h3>
-            <div class="mb-3">
-                <label for="inputEmail"> {{ 'login.form.email'|trans }}</label>
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-            </div>
+	<style>
+		body {
+			background-color: #f7f7f7;
+		}
+	</style>
+	<form method="post">
+		<div class="row justify-content-center">
+			<div class="col-lg-6 mt-lg-4 col-md-12 login-box">
+				<div class="text-center mb-3">
+					<h3 class="mb-0" style="color: #393939;">
+						{{ 'login.form.login'|trans }}
+					</h3>
+				</div>
 
-            <div class="mb-3">
-                <label for="inputPassword"> {{'login.form.password'|trans }}</label>
-                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-            </div>
+				<div class="text-end mb-4" style="font-size: 1.5rem;">
+					<a class="me-2" title="Polski" href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'lang': 'pl'})) }}">🇵🇱</a>
+					<a title="English" href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'lang': 'en'})) }}">🇬🇧</a>
+				</div>
 
-            <div class="mb-3">
-                <label>
-                    <input type="checkbox" name="_remember_me"> {{ 'login.form.remember_me'|trans }}
-                </label>
-            </div>
+				<div class="mb-3">
+					<label for="inputEmail">
+						{{ 'login.form.email'|trans }}</label>
+					<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+				</div>
 
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-        
-            <div class="text-center">
-                <button class="btn" type="submit" style="background-color: #7E60BF; color: white;">
-                    {{ 'login.form.login'|trans }}
-                </button>
-                <p class="mt-2">{{ 'login.form.forgot_password'|trans }}<a href="{{path('app_login')}}"> {{ 'login.form.click_here'|trans }}</a></p>
-            </div>
+				<div class="mb-3">
+					<label for="inputPassword">
+						{{ 'login.form.password'|trans }}</label>
+					<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+				</div>
 
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
-        </div>
-    </div>
-</form>
+				<div class="mb-3">
+					<label>
+						<input type="checkbox" name="_remember_me">
+						{{ 'login.form.remember_me'|trans }}
+					</label>
+				</div>
+
+				<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+				<div class="text-center">
+					<button class="btn" type="submit" style="background-color: #7E60BF; color: white;">
+						{{ 'login.form.login'|trans }}
+					</button>
+					<p class="mt-2">
+						{{ 'login.form.forgot_password'|trans }}
+						<a href="{{ path('app_login') }}">
+							{{ 'login.form.click_here'|trans }}</a>
+					</p>
+
+					<p class="mt-3">
+						{{ 'login.form.you_dont_have_account'|trans }}
+						<a href="{{ path('app_register') }}">{{ 'login.form.register'|trans }}</a>
+					</p>
+				</div>
+
+				{% if error %}
+					<div class="alert alert-danger mt-3">
+						{{ error.messageKey|trans(error.messageData, 'security') }}
+					</div>
+				{% endif %}
+
+			</div>
+		</div>
+	</form>
+
 {% endblock %}

@@ -40,3 +40,7 @@ services:
         arguments:
             $mailerFromAddress: '%env(MAILER_FROM_ADDRESS)%'
         tags: ['app.employee_email_handler']
+
+    App\EventSubscriber\LocaleSubscriber:
+        tags:
+            - { name: kernel.event_subscriber }

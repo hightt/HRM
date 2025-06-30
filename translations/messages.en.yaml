@@ -293,6 +293,8 @@ login:
     forgot_password: "Forgot your password?"
     remember_me: "Remember me"
     click_here: "click here"
+    you_dont_have_account: "Don't have an account yet?"
+    register: "Register here"
   errors:
     invalid_credentials: "Invalid email or password"
     account_not_active: "Account is not active. Please contact the administrator."

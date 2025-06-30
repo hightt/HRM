@@ -233,7 +233,7 @@ registration:
     plain_password_not_blank: "Proszę podać hasło"
     plain_password_min_length: "Hasło powinno mieć co najmniej {{ limit }} znaków"
     register: "Zarejestruj się"
-    already_registered: "Masz już konto? Zaloguj się"
+    already_registered: "Masz już konto?"
     login: "Zaloguj się"
   email:
     welcome_title: "Witamy na pokładzie!"
@@ -294,6 +294,8 @@ login:
     forgot_password: "Zapomniałeś hasła?"
     remember_me: "Zapamiętaj mnie"
     click_here: "kliknij tutaj"
+    you_dont_have_account: "Nie masz jeszcze konta?"
+    register: "Zarejestruj się"
   errors:
     invalid_credentials: "Nieprawidłowy e-mail lub hasło"
     account_not_active: "Konto nie jest aktywne. Skontaktuj się z administratorem."
