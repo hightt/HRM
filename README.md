@@ -43,28 +43,28 @@ Aplikacja webowa do zarządzania zasobami ludzkimi, napisana w PHP 8.3 i Symfony
 Poniżej znajdują się przykładowe zrzuty ekranu przedstawiające kluczowe funkcje aplikacji Human Resource Management.
 
 ### Ekran logowania
-![Ekran logowania](docs/login.png)
+![Ekran logowania](public/docs/login.png)
 
 ### Dashboard
-![Dashboard](docs/dashboard.png)
+![Dashboard](public/docs/dashboard.png)
 
 ### Lista pracowników
-![Lista pracowników](docs/employee_list.png)
+![Lista pracowników](public/docs/employee_list.png)
 
 ### Szczegóły pracownika
-![Szczegóły pracownika](docs/employee_details.png)
+![Szczegóły pracownika](public/docs/employee_details.png)
 
 ### Oddział
-![Oddział](docs/department_details.png)
+![Oddział](public/docs/department_details.png)
 
 ### Ewidencja czasu pracy
-![Ewidencja czasu pracy](docs/timesheet_form.png)
+![Ewidencja czasu pracy](public/docs/timesheet_form.png)
 
 ### Miesięczny raport pracy pracownika
-![Miesięczny raport pracy pracownika](docs/employee_report.png)
+![Miesięczny raport pracy pracownika](public/docs/employee_report.png)
 
 ### Wniosek urlopowy
-![Wniosek urlopowy](docs/leave_request_details.png)
+![Wniosek urlopowy](public/docs/leave_request_details.png)
 
 ### Wymagania
 
