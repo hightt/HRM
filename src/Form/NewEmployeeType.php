@@ -17,6 +17,9 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+/**
+ * @extends AbstractType<EmployeeModel>
+ */
 class NewEmployeeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

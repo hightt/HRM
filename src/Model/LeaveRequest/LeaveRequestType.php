@@ -24,6 +24,9 @@ enum LeaveRequestType: string
         return 'leave_request.type.' . $this->value;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public static function choices(TranslatorInterface $translator): array
     {
         $choices = [];

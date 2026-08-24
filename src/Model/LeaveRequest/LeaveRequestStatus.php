@@ -23,6 +23,9 @@ enum LeaveRequestStatus: string
     }
 
 
+    /**
+     * @return array<string, LeaveRequestStatus>
+     */
     public static function choices(TranslatorInterface $translator): array
     {
         $choices = [];

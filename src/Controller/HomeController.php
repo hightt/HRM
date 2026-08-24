@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Repository\WorkLogRepository;
+use App\Entity\User;
 use App\Repository\EmployeeRepository;
-use Symfony\Bundle\SecurityBundle\Security;
+use App\Repository\WorkLogRepository;
 use App\Service\Department\DepartmentService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {

@@ -1,13 +1,14 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace App\Model\Employee;
 
+use App\Entity\Department;
 use App\Entity\User;
 use DateTimeInterface;
-use App\Entity\Department;
 
-class EmployeeModel 
+class EmployeeModel
 {
     private ?int $id = null;
 
@@ -20,178 +21,178 @@ class EmployeeModel
     private ?string $position = null;
     private ?string $phoneNumber = null;
     private ?string $address = null;
-
     private ?string $gender = null;
+
     private ?Department $department = null;
-    private ?User $userId = null;
+    private ?User $user = null;
 
     private ?DateTimeInterface $birthdayDate = null;
     private ?DateTimeInterface $employmentDate = null;
 
-    public function getEmploymentDate()
+    public function getId(): ?int
     {
-        return $this->employmentDate;
+        return $this->id;
     }
 
-    public function setEmploymentDate($employmentDate)
+    public function setId(?int $id): self
     {
-        $this->employmentDate = $employmentDate;
+        $this->id = $id;
 
         return $this;
     }
 
-    public function getBirthdayDate()
-    {
-        return $this->birthdayDate;
-    }
-
-    public function setBirthdayDate($birthdayDate)
-    {
-        $this->birthdayDate = $birthdayDate;
-
-        return $this;
-    }
-
-    public function getUserId()
-    {
-        return $this->userId;
-    }
-
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
-
-        return $this;
-    }
-
-    public function getDepartment()
-    {
-        return $this->department;
-    }
-
-    public function setDepartment($department)
-    {
-        $this->department = $department;
-
-        return $this;
-    }
-
-    public function getGender()
-    {
-        return $this->gender;
-    }
-
-    public function setGender($gender)
-    {
-        $this->gender = $gender;
-
-        return $this;
-    }
-
-    public function getAddress()
-    {
-        return $this->address;
-    }
-
-    public function setAddress($address)
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
-    public function getPhoneNumber()
-    {
-        return $this->phoneNumber;
-    }
-
-    public function setPhoneNumber($phoneNumber)
-    {
-        $this->phoneNumber = $phoneNumber;
-
-        return $this;
-    }
-
-    public function getPosition()
-    {
-        return $this->position;
-    }
-
-    public function setPosition($position)
-    {
-        $this->position = $position;
-
-        return $this;
-    }
-
-    public function getPesel()
-    {
-        return $this->pesel;
-    }
-
-    public function setPesel($pesel)
-    {
-        $this->pesel = $pesel;
-
-        return $this;
-    }
-
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName($lastName)
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
-
-    public function setFirstName($firstName)
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getSalary()
+    public function getSalary(): ?float
     {
         return $this->salary;
     }
 
-    public function setSalary($salary)
+    public function setSalary(?float $salary): self
     {
         $this->salary = $salary;
 
         return $this;
     }
 
-    public function getId()
+    public function getEmail(): ?string
     {
-        return $this->id;
+        return $this->email;
     }
 
-    public function setId($id)
+    public function setEmail(?string $email): self
     {
-        $this->id = $id;
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(?string $firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(?string $lastName): self
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getPesel(): ?string
+    {
+        return $this->pesel;
+    }
+
+    public function setPesel(?string $pesel): self
+    {
+        $this->pesel = $pesel;
+
+        return $this;
+    }
+
+    public function getPosition(): ?string
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?string $position): self
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+
+    public function setPhoneNumber(?string $phoneNumber): self
+    {
+        $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?string $gender): self
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getDepartment(): ?Department
+    {
+        return $this->department;
+    }
+
+    public function setDepartment(?Department $department): self
+    {
+        $this->department = $department;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getBirthdayDate(): ?DateTimeInterface
+    {
+        return $this->birthdayDate;
+    }
+
+    public function setBirthdayDate(?DateTimeInterface $birthdayDate): self
+    {
+        $this->birthdayDate = $birthdayDate;
+
+        return $this;
+    }
+
+    public function getEmploymentDate(): ?DateTimeInterface
+    {
+        return $this->employmentDate;
+    }
+
+    public function setEmploymentDate(?DateTimeInterface $employmentDate): self
+    {
+        $this->employmentDate = $employmentDate;
 
         return $this;
     }

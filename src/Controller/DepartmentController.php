@@ -1,22 +1,24 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
 
 use App\Entity\Department;
+use App\Entity\User;
 use App\Form\DepartmentType;
-use Psr\Log\LoggerInterface;
+use App\Model\Message\GenerateDepartmentReportMessage;
 use App\Repository\DepartmentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Messenger\MessageBusInterface;
-use App\Model\Message\GenerateDepartmentReportMessage;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/department')]
@@ -49,7 +51,7 @@ final class DepartmentController extends AbstractController
 
         return $this->render('department/new.html.twig', [
             'department' => $department,
-            'form'       => $form,
+            'form' => $form,
         ]);
     }
 
@@ -64,13 +66,13 @@ final class DepartmentController extends AbstractController
             $this->denyAccessUnlessGranted('ROLE_ACCOUNTING');
         }
 
-        $employees = array_filter($department->getEmployees()->toArray(), function($employee) {
+        $employees = array_filter($department->getEmployees()->toArray(), function ($employee) {
             return $employee->isStatus() === true;
         });
 
         return $this->render('department/show.html.twig', [
             'department' => $department,
-            'employees'  => $employees,
+            'employees' => $employees,
         ]);
     }
 
@@ -96,7 +98,7 @@ final class DepartmentController extends AbstractController
 
         return $this->render('department/edit.html.twig', [
             'employee' => $department,
-            'form'     => $form,
+            'form' => $form,
         ]);
     }
 
@@ -105,7 +107,7 @@ final class DepartmentController extends AbstractController
     public function list(
         DepartmentRepository $departmentRepository,
         Request              $request,
-    ) {
+    ): JsonResponse {
         $draw = $request->query->getInt('draw');
         $start = $request->query->getInt('start', 0);
         $length = $request->query->getInt('length', 10);
@@ -137,18 +139,18 @@ final class DepartmentController extends AbstractController
 
         $data = array_map(function ($department) {
             return [
-                'name'        => $department->getName(),
+                'name' => $department->getName(),
                 'managerName' => $department->getManagerName(),
-                'location'    => $department->getLocation(),
-                'showUrl'     => $this->generateUrl('app_department_show', ['id' => $department->getId()]),
+                'location' => $department->getLocation(),
+                'showUrl' => $this->generateUrl('app_department_show', ['id' => $department->getId()]),
             ];
         }, $departments);
 
         return new JsonResponse([
-            'draw'            => $draw,
-            'recordsTotal'    => $totalRecords,
+            'draw' => $draw,
+            'recordsTotal' => $totalRecords,
             'recordsFiltered' => $recordsFiltered,
-            'data'            => $data,
+            'data' => $data,
         ]);
     }
 
@@ -161,12 +163,12 @@ final class DepartmentController extends AbstractController
         TranslatorInterface $translator,
     ): Response {
         $logger->info(sprintf('Starting generate montly work time report for department: %s [ID: %d]', $department->getName(), $department->getId()));
-        
+
         /** @var User $currentUser */
         $currentUser = $security->getUser();
         $bus->dispatch(new GenerateDepartmentReportMessage($currentUser->getEmail(), $department));
         $this->addFlash('success', $translator->trans('department.actions.generate_report.success'));
-        
+
         return $this->render('department/show.html.twig', [
             'department' => $department,
         ]);

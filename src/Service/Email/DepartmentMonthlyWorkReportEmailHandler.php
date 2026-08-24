@@ -13,14 +13,11 @@ use Psr\Log\LoggerInterface;
 use InvalidArgumentException;
 use App\Model\Email\EmailType;
 use Symfony\Component\Mime\Email;
-use App\Repository\WorkLogRepository;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Mailer\MailerInterface;
 use App\Model\Message\AbstractGenerateEmailMessage;
 use App\Service\TimeSheet\EmployeeTimeSheetService;
-use App\Model\Message\GenerateEmployeeReportMessage;
 use App\Model\Message\GenerateDepartmentReportMessage;
-use App\Service\Employee\EmployeeDocumentGeneratorService;
 use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 
 #[AsTaggedItem('app.employee_email_handler')]
@@ -28,8 +25,6 @@ class DepartmentMonthlyWorkReportEmailHandler implements ReportEmailHandlerInter
 {
     public function __construct(
         private MailerInterface                  $mailer,
-        private WorkLogRepository                $workLogRepository,
-        private EmployeeDocumentGeneratorService $employeeDocumentGeneratorService,
         private Environment                      $twig,
         private LoggerInterface                  $logger,
         private EmployeeTimeSheetService         $employeeTimeSheetService,

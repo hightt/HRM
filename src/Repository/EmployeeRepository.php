@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types = 1);
 
 namespace App\Repository;
@@ -8,6 +9,9 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use DateTime;
 
+/**
+ * @extends ServiceEntityRepository<Employee>
+ */
 class EmployeeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -15,6 +19,9 @@ class EmployeeRepository extends ServiceEntityRepository
         parent::__construct($registry, Employee::class);
     }
 
+    /**
+     * @return array<int, Employee>
+     */
        public function getRecentlyJoinedEmployees(int $daysRange): array
        {
             $dateThreshold = new DateTime();

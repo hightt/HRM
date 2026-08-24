@@ -123,7 +123,7 @@ final class EmployeeController extends AbstractController
     public function list(
         EmployeeRepository  $employeeRepository,
         Request             $request,
-    ) {
+    ): JsonResponse {
         $draw = $request->query->getInt('draw');
         $start = $request->query->getInt('start', 0);
         $length = $request->query->getInt('length', 10);

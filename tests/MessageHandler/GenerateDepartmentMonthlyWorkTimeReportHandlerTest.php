@@ -85,8 +85,6 @@ class GenerateDepartmentMonthlyWorkTimeReportHandlerTest extends TestCase
 
         $handler = new DepartmentMonthlyWorkReportEmailHandler(
             $this->mailer,
-            $this->workLogRepository,
-            $this->employeeDocumentGeneratorService,
             $this->twig,
             $this->logger,
             $this->timeSheetService

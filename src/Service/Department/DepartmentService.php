@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types = 1);
 
 namespace App\Service\Department;
@@ -11,7 +12,10 @@ class DepartmentService
         private DepartmentRepository $departmentRepository,
     )
     {}
-    
+
+    /**
+     * @return array{list<string>, list<int>}
+     */
     public function getEmployeesInDepartmentsStatistics(): array
     {
         $labels = [];
