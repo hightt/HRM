@@ -12,8 +12,11 @@ class DepartmentService
     )
     {}
     
-    public function getEmployeesInDepartmentsStatisitcs(): array
+    public function getEmployeesInDepartmentsStatistics(): array
     {
+        $labels = [];
+        $employeeNumbers = [];
+
         foreach ($this->departmentRepository->findAll() as $department) {
             $activeEmployees = array_filter($department->getEmployees()->toArray(), function ($employee) {
                 return true === $employee->isStatus();
