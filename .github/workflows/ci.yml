@@ -8,6 +8,8 @@ jobs:
     phpstan:
         name: PHPStan
         runs-on: ubuntu-latest
+        env:
+            APP_ENV: test
 
         steps:
             - name: Checkout
@@ -54,6 +56,8 @@ jobs:
     phpunit:
         name: PHPUnit
         runs-on: ubuntu-latest
+        env:
+            APP_ENV: test
 
         steps:
             - name: Checkout
