@@ -8,8 +8,6 @@ jobs:
     phpstan:
         name: PHPStan
         runs-on: ubuntu-latest
-        env:
-            APP_ENV: test
 
         steps:
             - name: Checkout
@@ -48,7 +46,7 @@ jobs:
                       ${{ runner.os }}-php-8.4-composer-
 
             - name: Install dependencies
-              run: composer install --no-interaction --prefer-dist --no-progress
+              run: composer install --no-interaction --prefer-dist --no-progress --no-scripts
 
             - name: PHPStan
               run: vendor/bin/phpstan analyse
@@ -56,8 +54,6 @@ jobs:
     phpunit:
         name: PHPUnit
         runs-on: ubuntu-latest
-        env:
-            APP_ENV: test
 
         steps:
             - name: Checkout
@@ -93,7 +89,7 @@ jobs:
                       ${{ runner.os }}-php-8.4-composer-
 
             - name: Install dependencies
-              run: composer install --no-interaction --prefer-dist --no-progress
+              run: composer install --no-interaction --prefer-dist --no-progress --no-scripts
 
             - name: PHPUnit
               run: vendor/bin/phpunit
