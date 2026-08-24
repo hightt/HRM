@@ -1,14 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Repository;
 
 use DateTime;
 use App\Entity\WorkLog;
-use App\Entity\Employee;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
+/**
+ * @extends ServiceEntityRepository<WorkLog>
+ */
 class WorkLogRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -16,8 +19,10 @@ class WorkLogRepository extends ServiceEntityRepository
         parent::__construct($registry, WorkLog::class);
     }
 
-
-    public function findEmployeeWorkLogsByCurrentMonth(int $employeeId)
+    /**
+     * @return array<int, WorkLog>
+     */
+    public function findEmployeeWorkLogsByCurrentMonth(int $employeeId): array
     {
         $firstDay = new DateTime('first day of this month');
         $lastDay = new DateTime('last day of this month');

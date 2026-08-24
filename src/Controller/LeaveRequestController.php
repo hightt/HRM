@@ -5,18 +5,19 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\LeaveRequest;
+use App\Entity\User;
 use App\Form\LeaveRequestDecideFormType;
 use App\Form\LeaveRequestFormType;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\LeaveRequestRepository;
+use App\Service\LeaveRequest\LeaveRequestService;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Service\LeaveRequest\LeaveRequestService;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
 
 #[Route('/leave_request')]
 final class LeaveRequestController extends AbstractController
@@ -124,12 +125,12 @@ final class LeaveRequestController extends AbstractController
     }
 
 
-    #[Route('/list', name: 'app_leave_request_list', methods: [REQUEST::METHOD_GET])]
+    #[Route('/list', name: 'app_leave_request_list', methods: [Request::METHOD_GET])]
     public function list(
         LeaveRequestRepository $leaveRequestRepository,
         Request                $request,
         TranslatorInterface    $translatorInterface,
-    ) {
+    ): JsonResponse {
         $draw = $request->query->getInt('draw');
         $start = $request->query->getInt('start', 0);
         $length = $request->query->getInt('length', 10);

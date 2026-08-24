@@ -22,6 +22,7 @@ class Department
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $location = null;
 
+    /** @var Collection<int, Employee> */
     #[ORM\OneToMany(targetEntity: Employee::class, mappedBy: 'department')]
     private Collection $employees;
 

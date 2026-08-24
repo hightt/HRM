@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types = 1);
 
 namespace App\Service\TimeSheet;
@@ -8,6 +9,8 @@ use IntlDateFormatter;
 
 class WorkDaysService
 {
+
+    /** @var list<string> */
     private array $holidays;
 
     public function __construct()
@@ -15,6 +18,9 @@ class WorkDaysService
         $this->holidays = ['01-01','01-06', '05-01', '05-03','08-15','11-01','11-11','12-25','12-26'];
     }
 
+    /**
+     * @return list<array{date: string, dayOfWeek: string, isWeekend: bool, isHoliday: bool}>
+     */
     public function getDaysOfMonth(int $year, int $month): array
     {
         $daysInMonth = (new DateTimeImmutable("$year-$month-01"))->format('t');

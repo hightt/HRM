@@ -15,6 +15,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Model\LeaveRequest\LeaveRequestType;
 
+/**
+ * @extends AbstractType<LeaveRequest>
+ */
 class LeaveRequestFormType extends AbstractType
 {
     public function __construct(

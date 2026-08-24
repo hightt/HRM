@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Service\LeaveRequest;
 
-use DateTimeImmutable;
 use App\Entity\Employee;
 use App\Entity\LeaveRequest;
-use App\Repository\DepartmentRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\LeaveRequestRepository;
-use Symfony\Bundle\SecurityBundle\Security;
+use App\Entity\User;
 use App\Model\LeaveRequest\LeaveRequestStatus;
-use App\Model\LeaveRequest\LeaveRequestType;
+use App\Repository\DepartmentRepository;
+use DateTimeImmutable;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class LeaveRequestService
 {
@@ -20,15 +19,14 @@ class LeaveRequestService
 
     public function __construct(
         private readonly EntityManagerInterface $entityManager, 
-        private readonly LeaveRequestRepository $leaveRequestRepository,
         private readonly Security               $security, 
         private readonly DepartmentRepository $departmentRepository,
     )
     {}
     
-    public function submit(LeaveRequest $leaveRequest)
+    public function submit(LeaveRequest $leaveRequest): void
     {
-        /** @var User  currentEmployee */
+        /** @var User currentEmployee */
         $currentEmployee = $this->security->getUser();
 
         $leaveRequest
@@ -43,7 +41,7 @@ class LeaveRequestService
 
     }
 
-    public function getAcceptingPerson(Employee $employee)
+    public function getAcceptingPerson(Employee $employee): ?Employee
     {
         $manager = $employee->getDepartment()?->getManager();
         if ($manager?->getId() === $employee->getId()) {

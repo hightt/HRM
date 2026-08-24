@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service\TimeSheet;
@@ -20,6 +21,9 @@ class EmployeeTimeSheetService
         private EntityManagerInterface $entityManagerInterface,
     ) {}
 
+    /**
+     * @return array<int, WorkLog>
+     */
     public function getEmployeeWorkLogsForCurrentMonth(Employee $employee): array
     {
         $currentDate = new Datetime();
@@ -56,7 +60,10 @@ class EmployeeTimeSheetService
         return $employeeWorkLogsInCurrentMonth;
     }
 
-    public function saveTimeSheet(array $workLogs)
+    /**
+     * @param array<int, WorkLog> $workLogs 
+     */
+    public function saveTimeSheet(array $workLogs): void
     {
         /** @var WorkLog $workLog */
         foreach ($workLogs as $workLog) {
@@ -80,7 +87,7 @@ class EmployeeTimeSheetService
         $this->entityManagerInterface->flush();
     }
 
-    private function resetWorkLogData(WorkLog $workLog)
+    private function resetWorkLogData(WorkLog $workLog): WorkLog
     {
         $workLog
             ->setHourStart(null)
@@ -115,6 +122,13 @@ class EmployeeTimeSheetService
         return new WorkReportModel($workedHours, $overtimeHours, $absentDays);
     }
 
+    /**
+     * @return array{
+     *     sumHoursNumber: int,
+     *     overtimeSum: int,
+     *     sumAbsenceDays: int
+     * }
+     */
     public function getEmployeeMonthlyWorkTimeSummary(int $employeeId)
     {
         $employeeWorkLogs = $this->workLogRepository->findEmployeeWorkLogsByCurrentMonth($employeeId);

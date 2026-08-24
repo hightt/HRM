@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types = 1);
 
 namespace App\Service\Department;
@@ -11,9 +12,15 @@ class DepartmentService
         private DepartmentRepository $departmentRepository,
     )
     {}
-    
-    public function getEmployeesInDepartmentsStatisitcs(): array
+
+    /**
+     * @return array{list<string>, list<int>}
+     */
+    public function getEmployeesInDepartmentsStatistics(): array
     {
+        $labels = [];
+        $employeeNumbers = [];
+
         foreach ($this->departmentRepository->findAll() as $department) {
             $activeEmployees = array_filter($department->getEmployees()->toArray(), function ($employee) {
                 return true === $employee->isStatus();
